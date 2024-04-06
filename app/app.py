@@ -29,9 +29,12 @@ def create_app():
     @app.route("/")
     def coin_list():
         new_coins_df = pd.read_csv(NEW_COINS)
+        if len(new_coins_df) > 0:
+            message = "New coins found!"
+        else:
+            message = "No new coins found"
         coins = new_coins_df.to_dict(
             'records') if not new_coins_df.empty else []
-        coins, message = fetch_and_compare_coins()
         return render_template("coins.html", coins=coins, message=message)
 
     @app.route("/log")
