@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 import requests
-from utils import fetch_and_compare_coins
+from utils import run_compare_coins
 
 
 def get_gmt_hour():
@@ -19,7 +19,7 @@ def get_gmt_hour():
 def job_that_runs_daily():
     """Fetches and compares coin data, then updates logs and new coins found."""
     print("Running scheduled job...")
-    fetch_and_compare_coins()  # Utilize the function from utils.py
+    run_compare_coins()  # Utilize the function from utils.py
 
 
 def check_and_schedule():
