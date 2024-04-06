@@ -5,8 +5,8 @@ import pandas as pd
 
 logger = logging.getLogger('scheduler')
 
-ALL_COINS = "coin_logs/all_coins.csv"
-NEW_COINS = "coin_logs/new_coins.csv"
+ALL_COINS = "all_coins.csv"
+NEW_COINS = "new_coins.csv"
 
 
 def run_compare_coins():
