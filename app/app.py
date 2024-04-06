@@ -15,7 +15,7 @@ logging.info("Running Cryptofinder")
 
 logger = logging.getLogger('cryptofinder')
 
-NEW_COINS = "../coin_logs/new_coins.csv"
+NEW_COINS = "coin_logs/new_coins.csv"
 
 
 def create_app():
