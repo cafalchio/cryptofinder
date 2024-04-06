@@ -3,7 +3,6 @@ from flask import Flask
 import logging
 from flask import app, render_template
 from scheduler import start_scheduler
-from utils import fetch_and_compare_coins
 import pandas as pd
 
 logging.basicConfig(filename="app.log",
