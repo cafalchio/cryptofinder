@@ -4,6 +4,7 @@ import logging
 from flask import app, render_template
 from scheduler import start_scheduler
 from utils import fetch_and_compare_coins
+import pandas as pd
 
 logging.basicConfig(filename="app.log",
                     filemode='a',
@@ -15,6 +16,8 @@ logging.info("Running Cryptofinder")
 
 logger = logging.getLogger('cryptofinder')
 
+NEW_COINS = "coin_logs/new_coins.csv"
+
 
 def create_app():
     app = Flask(__name__)
@@ -25,6 +28,9 @@ def create_app():
 
     @app.route("/")
     def coin_list():
+        new_coins_df = pd.read_csv(NEW_COINS)
+        coins = new_coins_df.to_dict(
+            'records') if not new_coins_df.empty else []
         coins, message = fetch_and_compare_coins()
         return render_template("coins.html", coins=coins, message=message)
 
@@ -43,8 +49,8 @@ def create_app():
 
 
 if __name__ == "__main__":
-    scheduler_thread = Thread(target=start_scheduler)
-    scheduler_thread.start()
+    # scheduler_thread = Thread(target=start_scheduler)
+    # scheduler_thread.start()
     create_app().run(debug=True)
 else:
     gunicorn_app = create_app()

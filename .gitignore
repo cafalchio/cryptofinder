@@ -5,6 +5,11 @@ __pycache__/
 
 # C extensions
 *.so
+# Logs and venv
+coin_logs
+.venv
+venv
+app.log
 
 # Distribution / packaging
 .Python
