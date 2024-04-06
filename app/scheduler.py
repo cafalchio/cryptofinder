@@ -2,7 +2,7 @@ import schedule
 import time
 from datetime import datetime
 import requests
-from .utils import fetch_and_compare_coins
+from utils import fetch_and_compare_coins
 
 
 def get_gmt_hour():
