@@ -2,6 +2,10 @@ from flask import Flask
 import logging
 from flask import render_template
 import pandas as pd
+import os
+
+dir_path = os.path.dirname(os.path.abspath(__file__))
+
 
 logging.basicConfig(
     filename="app.log",
@@ -15,16 +19,16 @@ logging.info("Running Cryptofinder")
 
 logger = logging.getLogger("cryptofinder")
 
-ALL_COINS = "/home/cafalchio/Projects/cryptofinder/app/all_coins.csv"
-NEW_COINS = "/home/cafalchio/Projects/cryptofinder/app/new_coins.csv"
-NEW_COINS_DETAILS = "/home/cafalchio/Projects/cryptofinder/app/new_coins_details.csv"
+ALL_COINS = os.path.join(dir_path, "all_coins.csv")
+NEW_COINS = os.path.join(dir_path, "new_coins.csv")
+NEW_COINS_DETAILS = os.path.join(dir_path, "new_coins_details.csv")
 
 
 def create_app():
     app = Flask(__name__)
 
     app.logger.setLevel(logging.INFO)
-    handler = logging.FileHandler("app.log")
+    handler = logging.FileHandler(os.path.join(dir_path, "app.log"))
     app.logger.addHandler(handler)
 
     @app.route("/")

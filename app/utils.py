@@ -2,13 +2,9 @@ import logging
 import requests
 import pandas as pd
 from datetime import datetime
-
+from .app import ALL_COINS, NEW_COINS, NEW_COINS_DETAILS
 
 logger = logging.getLogger("scheduler")
-
-ALL_COINS = "/home/cafalchio/Projects/cryptofinder/app/all_coins.csv"
-NEW_COINS = "/home/cafalchio/Projects/cryptofinder/app/new_coins.csv"
-NEW_COINS_DETAILS = "/home/cafalchio/Projects/cryptofinder/app/new_coins_details.csv"
 
 
 def run_compare_coins():
@@ -36,7 +32,7 @@ def fetch_new_coins():
         # Convert the JSON data to a DataFrame
         coins_df = pd.DataFrame(coins_data)
         # Get the current date and time
-        now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        now = datetime.now().strftime("%Y/%m/%d")
         # Assign the current date and time to each row in the new "Added at" column
         coins_df["added"] = now
     else:
@@ -66,7 +62,7 @@ def select_json_data(json_data):
         "Large": json_data.get("image", {}).get("large"),
     }
     # Add the 'Added at' column with the current date and time
-    data_to_load["added"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    data_to_load["added"] = datetime.now().strftime("%Y/%m/%d")
     # Create a DataFrame from the processed data
     return pd.DataFrame([data_to_load])
 
