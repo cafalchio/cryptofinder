@@ -15,7 +15,9 @@ logging.info("Running Cryptofinder")
 
 logger = logging.getLogger("cryptofinder")
 
+ALL_COINS = "all_coins.csv"
 NEW_COINS = "new_coins.csv"
+NEW_COINS_DETAILS = "new_coins_details.csv"
 
 
 def create_app():
@@ -37,11 +39,19 @@ def create_app():
 
     @app.route("/all_coins")
     def all_coins():
-        return render_template("all_coins.html")
+        all_coins_df = pd.read_csv(ALL_COINS)
+
+        all_coins = all_coins_df.to_dict("records") if not all_coins_df.empty else []
+
+        return render_template("all_coins.html", coins=all_coins)
 
     @app.route("/latest_coins")
     def latest_coins():
-        return render_template("latest_coins.html")
+        latest_coins_df = pd.read_csv(NEW_COINS_DETAILS)
+
+        coins = latest_coins_df.to_dict("records") if not latest_coins_df.empty else []
+
+        return render_template("latest_coins.html", coins=coins)
 
     @app.route("/shitcoins")
     def shitcoins():
