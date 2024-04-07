@@ -3,8 +3,8 @@ import os
 import requests
 import pandas as pd
 from datetime import datetime
+from app.app import logger
 
-logger = logging.getLogger("scheduler")
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
 ALL_COINS = os.path.join(dir_path, "all_coins.csv")
@@ -34,11 +34,8 @@ def fetch_new_coins():
     logger.info(f"Fetch data: from {url} : {response.status_code}")
     if response.status_code == 200:
         coins_data = response.json()
-        # Convert the JSON data to a DataFrame
         coins_df = pd.DataFrame(coins_data)
-        # Get the current date and time
         now = datetime.now().strftime("%Y/%m/%d")
-        # Assign the current date and time to each row in the new "Added at" column
         coins_df["added"] = now
     else:
         logger.error(
