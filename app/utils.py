@@ -2,7 +2,7 @@ import os
 import requests
 import pandas as pd
 from datetime import datetime
-from app.run import logger
+from run import logger
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
