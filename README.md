@@ -10,5 +10,6 @@ Automated scraper to find newly created crypto
 #### Fase 3
 * Run the pipeline daily and check manually the new coins.
 
-
+Running on Gunicorn command:
+gunicorn -w 4 'app:gunicorn_app'
 

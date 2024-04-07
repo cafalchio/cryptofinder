@@ -1,19 +1,19 @@
-from threading import Thread
 from flask import Flask
 import logging
-from flask import app, render_template
-from scheduler import start_scheduler
+from flask import render_template
 import pandas as pd
 
-logging.basicConfig(filename="app.log",
-                    filemode='a',
-                    format='%(asctime)s-%(name)s-%(levelname)s - %(message)s',
-                    datefmt='%H:%M:%S',
-                    level=logging.INFO)
+logging.basicConfig(
+    filename="app.log",
+    filemode="a",
+    format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+    datefmt="%H:%M:%S",
+    level=logging.INFO,
+)
 
 logging.info("Running Cryptofinder")
 
-logger = logging.getLogger('cryptofinder')
+logger = logging.getLogger("cryptofinder")
 
 NEW_COINS = "new_coins.csv"
 
@@ -26,15 +26,26 @@ def create_app():
     app.logger.addHandler(handler)
 
     @app.route("/")
-    def coin_list():
+    def new_coins_today():
         new_coins_df = pd.read_csv(NEW_COINS)
         if len(new_coins_df) > 0:
             message = "New coins found!"
         else:
             message = "No new coins found"
-        coins = new_coins_df.to_dict(
-            'records') if not new_coins_df.empty else []
-        return render_template("coins.html", coins=coins, message=message)
+        new_coins = new_coins_df.to_dict("records") if not new_coins_df.empty else []
+        return render_template("new_coins_today.html", coins=new_coins, message=message)
+
+    @app.route("/all_coins")
+    def all_coins():
+        return render_template("all_coins.html")
+
+    @app.route("/latest_coins")
+    def latest_coins():
+        return render_template("latest_coins.html")
+
+    @app.route("/shitcoins")
+    def shitcoins():
+        return render_template("shitcoins.html")
 
     @app.route("/log")
     def log():

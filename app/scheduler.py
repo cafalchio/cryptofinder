@@ -8,7 +8,7 @@ def get_gmt_hour():
     """Fetches the current hour in GMT from an API."""
     response = requests.get("http://worldtimeapi.org/api/timezone/Etc/GMT")
     if response.status_code == 200:
-        current_time = response.json()['datetime']
+        current_time = response.json()["datetime"]
         gmt_hour = datetime.fromisoformat(current_time).hour
         return gmt_hour
     else:
@@ -37,10 +37,12 @@ def check_and_schedule():
         else:
             # Calculate sleep time to wake up shortly before the target hour.
             hours_until_target = (target_hour - gmt_hour - 1) % 24
-            sleep_time = hours_until_target * 3600 + \
-                (60 - datetime.utcnow().minute) * 60
+            sleep_time = (
+                hours_until_target * 3600 + (60 - datetime.utcnow().minute) * 60
+            )
             print(
-                f"Sleeping for {sleep_time} seconds until it's close to the target hour.")
+                f"Sleeping for {sleep_time / 3600} hours until it's close to the target hour."
+            )
             time.sleep(sleep_time)
 
 
