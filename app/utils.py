@@ -1,10 +1,15 @@
 import logging
+import os
 import requests
 import pandas as pd
 from datetime import datetime
-from app.app import ALL_COINS, NEW_COINS, NEW_COINS_DETAILS
 
 logger = logging.getLogger("scheduler")
+dir_path = os.path.dirname(os.path.abspath(__file__))
+
+ALL_COINS = os.path.join(dir_path, "all_coins.csv")
+NEW_COINS = os.path.join(dir_path, "new_coins.csv")
+NEW_COINS_DETAILS = os.path.join(dir_path, "new_coins_details.csv")
 
 
 def run_compare_coins():
