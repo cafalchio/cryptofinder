@@ -1,8 +1,20 @@
+import logging
 import os
 import requests
 import pandas as pd
 from datetime import datetime
-from run import logger
+
+logging.basicConfig(
+    filename="app.log",
+    filemode="a",
+    format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+    datefmt="%H:%M:%S",
+    level=logging.INFO,
+)
+
+logging.info("Running Utils.py")
+
+logger = logging.getLogger("cryptofinder")
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
