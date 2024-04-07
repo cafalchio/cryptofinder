@@ -6,9 +6,9 @@ from datetime import datetime
 
 logger = logging.getLogger("scheduler")
 
-ALL_COINS = "all_coins.csv"
-NEW_COINS = "new_coins.csv"
-NEW_COINS_DETAILS = "new_coins_details.csv"
+ALL_COINS = "/home/cafalchio/Projects/cryptofinder/app/all_coins.csv"
+NEW_COINS = "/home/cafalchio/Projects/cryptofinder/app/new_coins.csv"
+NEW_COINS_DETAILS = "/home/cafalchio/Projects/cryptofinder/app/new_coins_details.csv"
 
 
 def run_compare_coins():
@@ -40,7 +40,8 @@ def fetch_new_coins():
         # Assign the current date and time to each row in the new "Added at" column
         coins_df["added"] = now
     else:
-        logger.error(f"Failed to get data from Coingecko: {response.status_code}")
+        logger.error(
+            f"Failed to get data from Coingecko: {response.status_code}")
         return pd.DataFrame([])
     return coins_df
 

@@ -15,9 +15,9 @@ logging.info("Running Cryptofinder")
 
 logger = logging.getLogger("cryptofinder")
 
-ALL_COINS = "all_coins.csv"
-NEW_COINS = "new_coins.csv"
-NEW_COINS_DETAILS = "new_coins_details.csv"
+ALL_COINS = "/home/cafalchio/Projects/cryptofinder/app/all_coins.csv"
+NEW_COINS = "/home/cafalchio/Projects/cryptofinder/app/new_coins.csv"
+NEW_COINS_DETAILS = "/home/cafalchio/Projects/cryptofinder/app/new_coins_details.csv"
 
 
 def create_app():
@@ -34,14 +34,16 @@ def create_app():
             message = "New coins found!"
         else:
             message = "No new coins found"
-        new_coins = new_coins_df.to_dict("records") if not new_coins_df.empty else []
+        new_coins = new_coins_df.to_dict(
+            "records") if not new_coins_df.empty else []
         return render_template("new_coins_today.html", coins=new_coins, message=message)
 
     @app.route("/all_coins")
     def all_coins():
         all_coins_df = pd.read_csv(ALL_COINS)
 
-        all_coins = all_coins_df.to_dict("records") if not all_coins_df.empty else []
+        all_coins = all_coins_df.to_dict(
+            "records") if not all_coins_df.empty else []
 
         return render_template("all_coins.html", coins=all_coins)
 
@@ -49,7 +51,8 @@ def create_app():
     def latest_coins():
         latest_coins_df = pd.read_csv(NEW_COINS_DETAILS)
 
-        coins = latest_coins_df.to_dict("records") if not latest_coins_df.empty else []
+        coins = latest_coins_df.to_dict(
+            "records") if not latest_coins_df.empty else []
 
         return render_template("latest_coins.html", coins=coins)
 
