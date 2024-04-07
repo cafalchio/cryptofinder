@@ -101,4 +101,5 @@ def fetch_new_coins_details():
 
 
 if __name__ == "__main__":
-    run_compare_coins()
+
+    print(run_compare_coins())
