@@ -2,7 +2,7 @@ import logging
 import requests
 import pandas as pd
 from datetime import datetime
-from .app import ALL_COINS, NEW_COINS, NEW_COINS_DETAILS
+from app.app import ALL_COINS, NEW_COINS, NEW_COINS_DETAILS
 
 logger = logging.getLogger("scheduler")
 
