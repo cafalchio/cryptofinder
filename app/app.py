@@ -3,6 +3,8 @@ import logging
 from flask import render_template
 import pandas as pd
 import os
+from pprint import pprint
+
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,6 +24,16 @@ logger = logging.getLogger("cryptofinder")
 ALL_COINS = os.path.join(dir_path, "all_coins.csv")
 NEW_COINS = os.path.join(dir_path, "new_coins.csv")
 NEW_COINS_DETAILS = os.path.join(dir_path, "new_coins_details.csv")
+
+
+# Precisa de um nome melhor
+def filter_shitcoins_by_contract(coins_df):
+    """
+    """
+    filtered_coins = coins_df[coins_df['contract_address'] != ""]
+    if len(filtered_coins) > 1:
+        filtered_coins = filtered_coins.to_dict()
+    return filtered_coins
 
 
 def create_app():
@@ -62,7 +74,9 @@ def create_app():
 
     @app.route("/shitcoins")
     def shitcoins():
-        return render_template("shitcoins.html")
+        latest_coins_df = pd.read_csv(NEW_COINS_DETAILS)
+        shitcoins = filter_shitcoins_by_contract(latest_coins_df)
+        return render_template("shitcoins.html", coins=shitcoins)
 
     @app.route("/log")
     def log():
@@ -81,6 +95,6 @@ def create_app():
 if __name__ == "__main__":
     # scheduler_thread = Thread(target=start_scheduler)
     # scheduler_thread.start()
-    create_app().run(debug=True)
+    create_app().run(debug=True, port=10000)
 else:
     gunicorn_app = create_app()
