@@ -87,6 +87,7 @@ def fetch_coins_details(ids):
         )
         logger.info(f"Fetching details of {id}")
         response = requests.get(url, timeout=5)
+        time.sleep(10)
         logger.info(f"Fetch data: from {id} : {response.status_code}")
         if response.status_code == 200:
             coin_data = response.json()
