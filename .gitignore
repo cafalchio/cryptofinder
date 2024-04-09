@@ -10,6 +10,7 @@ coin_logs
 .venv
 venv
 app.log
+*.csv
 
 # Distribution / packaging
 .Python
