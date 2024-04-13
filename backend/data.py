@@ -1,10 +1,7 @@
-import json
-import logging
 import time
 
 import pandas as pd
 import requests
-from requests import HTTPError
 
 
 def convert_df_dict(df):
@@ -13,29 +10,40 @@ def convert_df_dict(df):
     return {}
 
 
-def get_data(url):
-    response = requests.get(url, timeout=10)
-    response.raise_for_status()
-    return json.dumps(response.json())
+def fetch_data(url):
+    tries = 3
+    for i in range(0, tries):
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        if response.json():
+            return pd.DataFrame(response.json())
+        time.sleep(15)
+    return pd.DataFrame([])
 
 
-class Coingecko:
-    coins = None
-    BASE_URL = "https://api.coingecko.com/api/v3/coins/list"
-    ALL_COINS = ""
+def get_nested_data(nested_dict, key):
+    """I got help from gpt"""
+    if isinstance(nested_dict, dict):
+        if key in nested_dict:
+            return nested_dict[key]
+        for value in nested_dict.values():
+            result = get_nested_data(value, key)
+            if result is not None:
+                return result
+    elif isinstance(nested_dict, list):
+        for item in nested_dict:
+            result = get_nested_data(item, key)
+            if result is not None:
+                return result
+    return None
 
-    @property
-    def coins(self):
-        pass
 
-    def get_new_coins(self, fetched_coins_df):
-        new_coins = self.coins[~fetched_coins_df["id"].isin(self.coins["id"])]
-        self.coins = pd.concat([self.coins, fetched_coins_df], ignore_index=True)
-        self.coins.to_csv(self.ALL_COINS, index=False)
-        return new_coins
-
-    def parse_coins(self):
-        pass
-
-    def parse_details(self):
-        pass
+if __name__ == "__main__":
+    test_data = {
+        "detail_platforms": {
+        "": {
+            "decimal_place": None,
+            "contract_address": {"casa": [200]}}
+        }
+    }
+    print(get_data(test_data, "casa"))

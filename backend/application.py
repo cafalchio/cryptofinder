@@ -17,7 +17,34 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.get("/")
+@app.get("/all_coins")
+async def root():
+    coins = [
+        {
+            "id": "c1",
+            "name": "coin1",
+            "symbol": "C1",
+            "found": "24-04-08",
+            "is_shit": ""
+        },
+    ]
+    return coins
+
+
+@app.get("/new_coins")
+async def root():
+    coins = [
+        {
+            "id": "c1",
+            "name": "coin1",
+            "symbol": "C1",
+            "found": "24-04-08"
+        },
+    ]
+    return coins
+
+
+@app.get("/shitcoins")
 async def root():
     coins = [
         {
