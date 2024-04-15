@@ -3,6 +3,9 @@ import logging
 from fastapi import FastAPI
 import uvicorn
 from starlette.staticfiles import StaticFiles
+from coingecko import Coingecko
+
+logger = logging.getLogger(__name__)
 
 logging.basicConfig(
     filename="app.log",
@@ -12,7 +15,6 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-logging.info("Running Cryptofinder Backend")
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

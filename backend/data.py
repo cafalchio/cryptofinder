@@ -2,6 +2,9 @@ import time
 
 import pandas as pd
 import requests
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def convert_df_dict(df):
@@ -13,7 +16,10 @@ def convert_df_dict(df):
 def fetch_data(url):
     tries = 3
     for i in range(0, tries):
+        logger.info(f"Getting data for {url}")
+        time.sleep(10)
         response = requests.get(url, timeout=10)
+        logger.info(f"Response: {response.status_code}")
         response.raise_for_status()
         if response.json():
             return pd.DataFrame(response.json())
@@ -30,20 +36,6 @@ def get_nested_data(nested_dict, key):
             result = get_nested_data(value, key)
             if result is not None:
                 return result
-    elif isinstance(nested_dict, list):
-        for item in nested_dict:
-            result = get_nested_data(item, key)
-            if result is not None:
-                return result
     return None
 
 
-if __name__ == "__main__":
-    test_data = {
-        "detail_platforms": {
-        "": {
-            "decimal_place": None,
-            "contract_address": {"casa": [200]}}
-        }
-    }
-    print(get_data(test_data, "casa"))
