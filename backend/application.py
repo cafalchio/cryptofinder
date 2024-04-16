@@ -21,7 +21,6 @@ logging.basicConfig(
 
 app = FastAPI(debug=True)
 
-
 @app.get("/all_coins")
 async def root():
     coins = pd.read_csv(ALL_COINS)
