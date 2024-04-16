@@ -1,13 +1,10 @@
-import json
 import logging
 import pandas as pd
 from fastapi import FastAPI
 import uvicorn
 from starlette.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
 
-from data import convert_df_dict
 
 logger = logging.getLogger(__name__)
 ALL_COINS = "static/all_coins.csv"
@@ -15,7 +12,7 @@ NEW_COINS = "static/new_coins.csv"
 NEW_COINS_DETAILS = "static/new_coins_details.csv"
 
 logging.basicConfig(
-    filename="app.log",
+    # filename="app.log",
     filemode="a",
     format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
     datefmt="%H:%M:%S",
