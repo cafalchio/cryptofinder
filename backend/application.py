@@ -10,9 +10,9 @@ from fastapi.responses import JSONResponse
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 logger = logging.getLogger(__name__)
-ALL_COINS = os.path.join("current_dir", "datafiles", "all_coins.csv")
-NEW_COINS = os.path.join("current_dir", "datafiles", "new_coins.csv")
-NEW_COINS_DETAILS = os.path.join("current_dir", "datafiles", "new_coins_details.csv")
+ALL_COINS = os.path.join(current_dir, "datafiles", "all_coins.csv")
+NEW_COINS = os.path.join(current_dir, "datafiles", "new_coins.csv")
+NEW_COINS_DETAILS = os.path.join(current_dir, "datafiles", "new_coins_details.csv")
 
 logging.basicConfig(
     filename="app.log",
