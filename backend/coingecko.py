@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 class Coingecko:
     new_coins = None
     BASE_URL = "https://api.coingecko.com/api/v3/coins/list"
-    ALL_COINS = "static/all_coins.csv"
-    NEW_COINS = "static/new_coins.csv"
-    NEW_COINS_DETAILS = "static/new_coins_details.csv"
+    ALL_COINS = "datafiles/all_coins.csv"
+    NEW_COINS = "datafiles/new_coins.csv"
+    NEW_COINS_DETAILS = "datafiles/new_coins_details.csv"
 
     def run(self):
         logger.info("------ Running Coingecko -------")
