@@ -20,7 +20,6 @@ logging.basicConfig(
 )
 
 app = FastAPI(debug=True)
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/all_coins")
