@@ -1,15 +1,18 @@
 import logging
+import os
+
 import pandas as pd
 from fastapi import FastAPI
 import uvicorn
 from starlette.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 
+dir_path = os.path.dirname(os.path.abspath(__file__))
 
 logger = logging.getLogger(__name__)
-ALL_COINS = "static/all_coins.csv"
-NEW_COINS = "static/new_coins.csv"
-NEW_COINS_DETAILS = "static/new_coins_details.csv"
+ALL_COINS = "app/all_coins.csv"
+NEW_COINS = "app/new_coins.csv"
+NEW_COINS_DETAILS = "app/new_coins_details.csv"
 
 logging.basicConfig(
     filename="app.log",
