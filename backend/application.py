@@ -7,12 +7,12 @@ import uvicorn
 from starlette.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 
-dir_path = os.path.dirname(os.path.abspath(__file__))
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
 logger = logging.getLogger(__name__)
-ALL_COINS = "datafiles/all_coins.csv"
-NEW_COINS = "datafiles/new_coins.csv"
-NEW_COINS_DETAILS = "datafiles/new_coins_details.csv"
+ALL_COINS = os.path.join("current_dir", "datafiles", "all_coins.csv")
+NEW_COINS = os.path.join("current_dir", "datafiles", "new_coins.csv")
+NEW_COINS_DETAILS = os.path.join("current_dir", "datafiles", "new_coins_details.csv")
 
 logging.basicConfig(
     filename="app.log",
@@ -23,6 +23,7 @@ logging.basicConfig(
 )
 
 app = FastAPI(debug=True)
+
 
 @app.get("/all_coins")
 async def root():

@@ -5,6 +5,7 @@ from functools import cache
 import pandas as pd
 from data import fetch_data, get_nested_data
 import logging
+from application import ALL_COINS, NEW_COINS, NEW_COINS_DETAILS
 
 logger = logging.getLogger(__name__)
 
@@ -12,9 +13,6 @@ logger = logging.getLogger(__name__)
 class Coingecko:
     new_coins = None
     BASE_URL = "https://api.coingecko.com/api/v3/coins/list"
-    ALL_COINS = "datafiles/all_coins.csv"
-    NEW_COINS = "datafiles/new_coins.csv"
-    NEW_COINS_DETAILS = "datafiles/new_coins_details.csv"
 
     def run(self):
         logger.info("------ Running Coingecko -------")
@@ -29,15 +27,15 @@ class Coingecko:
     @property
     def all_saved_coins(self):
         try:
-            return pd.read_csv(self.ALL_COINS)
+            return pd.read_csv(ALL_COINS)
         except FileNotFoundError:
             return pd.DataFrame({"id": []})
 
     def get_new_coins(self):
         new_coins = self.fetch_coins[~self.fetch_coins['id'].isin(self.all_saved_coins['id'])]
-        new_coins.drop_duplicates(subset=['id']).to_csv(self.NEW_COINS, index=False)
+        new_coins.drop_duplicates(subset=['id']).to_csv(NEW_COINS, index=False)
         all_coins = pd.concat([self.all_saved_coins, self.fetch_coins], ignore_index=True)
-        all_coins.drop_duplicates(subset=['id']).sort_values(by="id").to_csv(self.ALL_COINS, index=False)
+        all_coins.drop_duplicates(subset=['id']).sort_values(by="id").to_csv(ALL_COINS, index=False)
 
     def get_details(self):
         if len(self.new_coins) == 0:
@@ -51,7 +49,7 @@ class Coingecko:
             time.sleep(10)
             coins.append(self.parse_coin_details(response))
         coins = pd.DataFrame(coins)
-        coins.sort_values(by="id").to_csv(self.NEW_COINS_DETAILS, index=False)
+        coins.sort_values(by="id").to_csv(NEW_COINS_DETAILS, index=False)
         return coins
 
     def parse_coin_details(self, details):
