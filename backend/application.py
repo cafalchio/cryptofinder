@@ -1,11 +1,18 @@
+import json
 import logging
-
+import pandas as pd
 from fastapi import FastAPI
 import uvicorn
 from starlette.staticfiles import StaticFiles
-from coingecko import Coingecko
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+
+from data import convert_df_dict
 
 logger = logging.getLogger(__name__)
+ALL_COINS = "static/all_coins.csv"
+NEW_COINS = "static/new_coins.csv"
+NEW_COINS_DETAILS = "static/new_coins_details.csv"
 
 logging.basicConfig(
     filename="app.log",
@@ -15,48 +22,26 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-app = FastAPI()
+app = FastAPI(debug=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/all_coins")
 async def root():
-    coins = [
-        {
-            "id": "c1",
-            "name": "coin1",
-            "symbol": "C1",
-            "found": "24-04-08",
-            "is_shit": ""
-        },
-    ]
-    return coins
+    coins = pd.read_csv(ALL_COINS)
+    return JSONResponse(content=coins.to_json(orient="records"), status_code=200)
 
 
 @app.get("/new_coins")
 async def root():
-    coins = [
-        {
-            "id": "c1",
-            "name": "coin1",
-            "symbol": "C1",
-            "found": "24-04-08"
-        },
-    ]
-    return coins
+    coins = pd.read_csv(NEW_COINS)
+    return JSONResponse(content=coins.to_json(orient="records"), status_code=200)
 
 
-@app.get("/shitcoins")
+@app.get("/new_coins_detail")
 async def root():
-    coins = [
-        {
-            "id": "c1",
-            "name": "coin1",
-            "symbol": "C1",
-            "found": "24-04-08"
-        },
-    ]
-    return coins
+    coins = pd.read_csv(NEW_COINS_DETAILS)
+    return JSONResponse(content=coins.to_json(orient="records"), status_code=200)
 
 
 if __name__ == "__main__":
