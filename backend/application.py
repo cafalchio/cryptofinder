@@ -12,7 +12,7 @@ NEW_COINS = "static/new_coins.csv"
 NEW_COINS_DETAILS = "static/new_coins_details.csv"
 
 logging.basicConfig(
-    # filename="app.log",
+    filename="app.log",
     filemode="a",
     format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
     datefmt="%H:%M:%S",
