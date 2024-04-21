@@ -97,4 +97,4 @@ if __name__ == "__main__":
     # scheduler_thread.start()
     create_app().run(debug=True, port=10000)
 else:
-    create_app()
+    app = create_app()
