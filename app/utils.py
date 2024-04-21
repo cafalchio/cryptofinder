@@ -30,7 +30,7 @@ def run_compare_coins():
     if len(new_coins_df) < 0:
         return new_coins_df, "No new coins!"
     save_all_coins(new_coins_df, all_coins_df)
-    fetch_coins_details(new_coins_df.id.to_list())
+    # fetch_coins_details(new_coins_df.id.to_list())
     return new_coins_df, f"{len(new_coins_df)} new coins found"
 
 
