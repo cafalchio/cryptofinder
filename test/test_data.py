@@ -2,7 +2,7 @@ import sys, os
 import unittest
 
 import pandas as pd
-from backend.data import convert_df_dict
+from backend.utils.utils import convert_df_dict
 sys.path.insert(0, os.path.dirname(__file__))
 
 

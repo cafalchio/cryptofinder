@@ -1,6 +1,6 @@
 import time
-
 import pandas as pd
+import numpy as np
 import requests
 import logging
 
@@ -14,11 +14,15 @@ def convert_df_dict(df):
 
 
 def fetch_data(url):
+    headers = {
+        "accept": "application/json",
+        "x-cg-demo-api-key": "CG-w4csxkgAMiBUnf4uy8DgpknE"
+    }
     tries = 3
     for i in range(0, tries):
         logger.info(f"Getting data for {url}")
         time.sleep(10)
-        response = requests.get(url, timeout=10)
+        response = requests.get(url=url, headers=headers, timeout=10)
         logger.info(f"Response: {response.status_code}")
         response.raise_for_status()
         if response.json():
