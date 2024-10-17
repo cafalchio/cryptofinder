@@ -2,14 +2,15 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.idea
+.idea.*
 # C extensions
 *.so
 # Logs and venv
 coin_logs
 .venv
 venv
-app.log
+backend/logs/app.log
 *.csv
 
 # Distribution / packaging
@@ -152,7 +153,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# pytype static type analyzer
+# pytype data type analyzer
 .pytype/
 
 # Cython debug symbols

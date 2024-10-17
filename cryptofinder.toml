@@ -1,0 +1,16 @@
+[project]
+version = "0.1"
+dynamic = ["version"]
+name = "cryptofinder"
+description = "Webfinder for new cryptocurrencies"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Matheus", email = "mcafalchio@gmail.com" },
+    { name = "Joao", email = "mcafalchio@gmail.com" },
+]
+# cryptofinder.toml
+[project.urls]
+base_url = "https://www.dev.cryptofinder.cafalchio.site"
+
