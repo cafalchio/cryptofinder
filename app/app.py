@@ -3,7 +3,7 @@ from flask import render_template
 import pandas as pd
 import os
 import logging
-from app.config_app import (
+from config_app import (
     NEW_COINS_DETAILS, ALL_COINS, NEW_COINS,
     TESTING, LOG_FILE
 )
