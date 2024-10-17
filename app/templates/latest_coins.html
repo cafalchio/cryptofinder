@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}Latest Coins{% endblock %} {% block
+{% extends 'base.html' %} {% block title %}Latest Coins {% endblock %} {% block
 content %}
 <style>
   .coin-card {
@@ -74,7 +74,7 @@ content %}
           <p><strong>Id:</strong> {{ coin['Id'] }}</p>
           <p><strong>Categories:</strong> {{ coin['Categories'] }}</p>
           <div class="description" id="desc-{{ loop.index }}">
-            {% comment %} <span>{{ coin['Description'][:150] }}</span>
+            <span>{{ coin['Description'][:150] }}</span>
             <span class="hidden" id="desc-{{ loop.index }}-overflow"
               >{{ coin['Description'][150:] }}</span
             >
@@ -91,7 +91,7 @@ content %}
               onclick="showLess('desc-{{ loop.index }}');"
               >less</a
             >
-            {% endif %} {% endcomment %}
+            {% endif %}
           </div>
         </div>
         <div class="coin-footer">Added on: {{ coin['added'] }}</div>

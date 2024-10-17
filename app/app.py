@@ -1,19 +1,11 @@
 from flask import Flask
-import logging
 from flask import render_template
 import pandas as pd
 import os
+from config_app import *
+
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
-
-logging.basicConfig(
-    filename="app.log",
-    filemode="a",
-    format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
-    datefmt="%H:%M:%S",
-    level=logging.INFO,
-)
-logger = logging.getLogger("cryptofinder")
 
 ALL_COINS = os.path.join(dir_path, "all_coins.csv")
 NEW_COINS = os.path.join(dir_path, "new_coins.csv")
@@ -59,10 +51,9 @@ class DataInterface:
 
 def create_app():
     app = Flask(__name__)
+    app.config["TESTING"] = os.environ.get("APP_TESTING", False) == "true"
     handler = logging.FileHandler(os.path.join(dir_path, "app.log"))
     app.logger.addHandler(handler)
-    logging.info("Running Cryptofinder")
-
     data_interface = DataInterface()
 
     @app.route("/")
