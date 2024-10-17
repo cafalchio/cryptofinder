@@ -1,2 +1,4 @@
-from app import app as application
-# to be tested
+from app import app
+
+if __name__ == "__main__":
+    app.app.run()
