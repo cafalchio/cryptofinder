@@ -2,7 +2,11 @@ from flask import Flask
 from flask import render_template
 import pandas as pd
 import os
-from config_app import *
+import logging
+from app.config_app import (
+    NEW_COINS_DETAILS, ALL_COINS, NEW_COINS,
+    TESTING
+)
 
 
 class DataInterface:
