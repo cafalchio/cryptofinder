@@ -5,13 +5,6 @@ import os
 from config_app import *
 
 
-dir_path = os.path.dirname(os.path.abspath(__file__))
-
-ALL_COINS = os.path.join(dir_path, "all_coins.csv")
-NEW_COINS = os.path.join(dir_path, "new_coins.csv")
-NEW_COINS_DETAILS = os.path.join(dir_path, "new_coins_details.csv")
-
-
 class DataInterface:
     def get_new_coins(self):
         new_coins_df = pd.read_csv(NEW_COINS)
@@ -51,9 +44,10 @@ class DataInterface:
 
 def create_app():
     app = Flask(__name__)
-    app.config["TESTING"] = os.environ.get("APP_TESTING", False) == "true"
-    handler = logging.FileHandler(os.path.join(dir_path, "app.log"))
-    app.logger.addHandler(handler)
+    app.config["TESTING"] = TESTING
+    if TESTING:
+        handler = logging.FileHandler(os.path.join(dir_path, "app.log"))
+        app.logger.addHandler(handler)
     data_interface = DataInterface()
 
     @app.route("/")
@@ -89,8 +83,6 @@ def create_app():
 
 
 if __name__ == "__main__":
-    # scheduler_thread = Thread(target=start_scheduler)
-    # scheduler_thread.start()
     create_app().run(debug=True, port=10000)
 else:
     app = create_app()
