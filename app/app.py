@@ -5,7 +5,7 @@ import os
 import logging
 from app.config_app import (
     NEW_COINS_DETAILS, ALL_COINS, NEW_COINS,
-    TESTING
+    TESTING, LOG_FILE
 )
 
 
@@ -50,7 +50,7 @@ def create_app():
     app = Flask(__name__)
     app.config["TESTING"] = TESTING
     if TESTING:
-        handler = logging.FileHandler(os.path.join(dir_path, "app.log"))
+        handler = logging.FileHandler(LOG_FILE)
         app.logger.addHandler(handler)
     data_interface = DataInterface()
 
