@@ -1,8 +1,9 @@
 import time
-import pandas as pd
-import numpy as np
 import requests
 import logging
+import json
+
+from app.config_app import COINGECKO_API
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +11,7 @@ logger = logging.getLogger(__name__)
 def fetch_data(url):
     headers = {
         "accept": "application/json",
-        "x-cg-demo-api-key": "CG-w4csxkgAMiBUnf4uy8DgpknE"
+        "x-cg-demo-api-key": COINGECKO_API
     }
     tries = 3
     for i in range(0, tries):
@@ -19,10 +20,7 @@ def fetch_data(url):
         response = requests.get(url=url, headers=headers, timeout=10)
         logger.info(f"Response: {response.status_code}")
         response.raise_for_status()
-        if response.json():
-            return pd.DataFrame(response.json())
-        time.sleep(15)
-    return pd.DataFrame([])
+        return json.loads(response)
 
 
 def get_nested_data(nested_dict, key):
@@ -37,3 +35,5 @@ def get_nested_data(nested_dict, key):
     return None
 
 
+if __name__ == "__main__":
+    fetch_data()
