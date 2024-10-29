@@ -7,12 +7,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def convert_df_dict(df):
-    if not df.empty:
-        return df.to_dict('records')
-    return {}
-
-
 def fetch_data(url):
     headers = {
         "accept": "application/json",

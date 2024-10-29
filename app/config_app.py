@@ -28,5 +28,3 @@ else:
         level=logging.INFO,
     )
 logger = logging.getLogger("cryptofinder")
-
-
