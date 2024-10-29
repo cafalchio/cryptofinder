@@ -14,9 +14,8 @@ class WebsiteError(Exception):
 
 
 class scrap_website_driver:
-    def __init__(self, website, element_xpath):
+    def __init__(self, website):
         self.website = website
-        self.element_xpath = element_xpath
 
     def __enter__(self):
         self.driver = webdriver.Chrome()
