@@ -1,18 +1,14 @@
-import time
 from datetime import datetime
-import requests
 import pandas as pd
-from fastapi import requests
-
-from utils import fetch_data, get_nested_data
+from app.config_app import NEW_COINS_DETAILS
 import logging
+from backend.utils.utils import fetch_data, get_nested_data
 
 logger = logging.getLogger(__name__)
 
 
 class Coingecko:
     new_coins = None
-
 
     def run(self):
         logger.info("------ Running Coingecko -------")
@@ -67,4 +63,4 @@ class Coingecko:
 
 if __name__ == "__main__":
     coingecko = Coingecko()
-    # coingecko.run_sequence()
+    coingecko.run()

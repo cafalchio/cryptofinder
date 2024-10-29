@@ -2,10 +2,9 @@ from backend.utils.scrappers import scrap_website_driver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-import time
 import logging
 
-logger = logging.getLogger("__name__")
+logger = logging.getLogger(__name__)
 
 
 def rplant():
@@ -21,7 +20,7 @@ def rplant():
         logger.info(name_elements)
 
         for name in name_elements:
-            print(f"name: {name.text}")
+            logger.info(f"name: {name.text}")
 
 
 if __name__ == "__main__":

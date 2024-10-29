@@ -7,6 +7,8 @@ import logging
 
 logger = logging.getLogger("__name__")
 
+# TODO: Create Abstract pool class that accepts json config to avoid these hard coded configs
+
 
 def mining_pool_stats():
     with scrap_website_driver("https://miningpoolstats.stream/newcoins") as driver:
@@ -28,7 +30,7 @@ def mining_pool_stats():
         logger.info(name_elements)
 
         for name, symbol in zip(name_elements, symbol_elements):
-            print(f"{name.text} : {symbol.text}")
+            logger.info(f"{name.text} : {symbol.text}")
 
 
 if __name__ == "__main__":
