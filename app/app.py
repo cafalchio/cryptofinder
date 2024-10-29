@@ -1,7 +1,6 @@
 from flask import Flask
 from flask import render_template
 import pandas as pd
-import os
 import logging
 from config_app import (
     NEW_COINS_DETAILS, ALL_COINS, NEW_COINS,
@@ -86,7 +85,7 @@ def create_app():
     return app
 
 
-if __name__ == "__main__":
-    create_app().run(debug=True, port=10000)
-else:
-    app = create_app()
+# if __name__ == "__main__":
+#     create_app().run(debug=True, port=10000)
+# else:
+app = create_app()
