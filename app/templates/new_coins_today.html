@@ -1,39 +1,30 @@
-{% extends 'base.html' %}
-
-{% block title %}New Coins Today{% endblock %}
-
-{% block content %}
-    <div class="container mt-5">
-        <h2>New Coins Found</h2>
-        {% if coins %}
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Symbol</th>
-                    <th>Name</th>
-                    <th>Added at</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for coin in coins %}
-                <tr>
-                    <td>{{ coin.id }}</td>
-                    <td>{{ coin.symbol }}</td>
-                    <td>{{ coin.name }}</td>
-                    <td>{{ coin.added }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <div class="alert alert-info" role="alert">
-            {% if message %}
-            {{ message }}
-            {% else %}
-            No new coins to display.
-            {% endif %}
-        </div>
-        {% endif %}
-    </div>
+{% extends 'base.html' %} {% block title %}New Coins Today{% endblock %} {%
+block content %}
+<div class="container mt-5">
+  <h2>New Coins Found</h2>
+  {% if coins %}
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Symbol</th>
+        <th>Name</th>
+        <th>Added at</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for coin in coins %}
+      <tr>
+        <td>{{ coin.id }}</td>
+        <td>{{ coin.symbol }}</td>
+        <td>{{ coin.name }}</td>
+        <td>{{ coin.added }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="alert alert-info" role="alert"></div>
+  {% endif %}
+</div>
 {% endblock %}
