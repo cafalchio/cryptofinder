@@ -20,7 +20,7 @@ def fetch_data(url):
         response = requests.get(url=url, headers=headers, timeout=10)
         logger.info(f"Response: {response.status_code}")
         response.raise_for_status()
-        return json.loads(response)
+        return response
 
 
 def get_nested_data(nested_dict, key):
@@ -33,7 +33,3 @@ def get_nested_data(nested_dict, key):
             if result is not None:
                 return result
     return None
-
-
-if __name__ == "__main__":
-    fetch_data()

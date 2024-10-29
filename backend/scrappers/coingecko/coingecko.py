@@ -1,8 +1,13 @@
 from datetime import datetime
 import pandas as pd
+from sqlalchemy.exc import SQLAlchemyError
 from app.config_app import NEW_COINS_DETAILS
+from app import app
 import logging
 from backend.utils.utils import fetch_data, get_nested_data
+from backend.models import NewCoins
+from app.app import db
+from app import app as application
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +18,6 @@ class Coingecko:
     def run(self):
         logger.info("------ Running Coingecko -------")
         self.get_coins()
-        # self.get_details()
 
     @staticmethod
     def fetch_coins(url):
@@ -21,8 +25,17 @@ class Coingecko:
 
     def get_coins(self):
         url = "https://api.coingecko.com/api/v3/coins/list?include_platform=true"
-        df = fetch_data(url)
-        return df[df.platforms == {}].drop("platforms", axis=1)
+        response = fetch_data(url)
+        data = response.json()
+        try:
+            new_coins = [NewCoins(id=coin['id'], symbol=coin['symbol'],
+                                  name=coin['name'], is_shit=False) for coin in data]
+            db.session.add_all(new_coins)
+            db.session.commit()
+            logger.info("Added coins in database")
+        except SQLAlchemyError as e:
+            db.session.rollback()  # Rollback if there's an error
+            logger.error(f"Database error: {e}")
 
     def get_details(self, coins):
         urls = [
@@ -62,5 +75,6 @@ class Coingecko:
 
 
 if __name__ == "__main__":
-    coingecko = Coingecko()
-    coingecko.run()
+    with application.app_context():
+        coingecko = Coingecko()
+        coingecko.get_coins()
