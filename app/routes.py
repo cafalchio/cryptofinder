@@ -1,5 +1,5 @@
 from flask import render_template
-from backend.models import AllCoins, NewCoins
+from backend.data.models import AllCoins, NewCoins
 
 
 def register_routes(app, db):

@@ -5,7 +5,7 @@ from app.config_app import NEW_COINS_DETAILS
 from app import app
 import logging
 from backend.utils.utils import fetch_data, get_nested_data
-from backend.models import NewCoins
+from backend.data.models import NewCoins
 from app.app import db
 from app import app as application
 
