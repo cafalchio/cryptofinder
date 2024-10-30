@@ -1,9 +1,10 @@
-from backend.utils.scrappers import scrap_website_driver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import logging
+
+from backend.scrappers.pools.tools import scrap_website_driver
 
 logger = logging.getLogger("__name__")
 

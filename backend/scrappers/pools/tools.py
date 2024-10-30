@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import logging
-import time
 
 logger = logging.getLogger(__name__)
 
