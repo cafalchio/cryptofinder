@@ -5,13 +5,13 @@ import time
 import logging
 
 from backend.scrappers.pools.tools import scrap_website_driver
+from backend.scrappers.run_scrappers import update_new_coins
 
 logger = logging.getLogger()
 
-# TODO: Create Abstract pool class that accepts json config to avoid these hard coded configs
-
 
 def mining_pool_stats():
+    new_coins = {}
     with scrap_website_driver("https://miningpoolstats.stream/newcoins") as driver:
         consent_button = "//button[@aria-label='Consent']"
         coins_page = "//*[@id='mainpage']"
@@ -29,9 +29,13 @@ def mining_pool_stats():
         name_elements = driver.find_elements(By.XPATH, '//div/a/b')
         symbol_elements = driver.find_elements(By.XPATH, '//div/small')
         logger.info(name_elements)
-
+        new_coins = []
         for name, symbol in zip(name_elements, symbol_elements):
-            logger.info(f"{name.text} : {symbol.text}")
+            if not name:
+                continue
+            new_coins.append({"id": name.text, "name": name.text,
+                              "symbol": symbol.text, "is_shit": False})
+    update_new_coins(new_coins)
 
 
 if __name__ == "__main__":
