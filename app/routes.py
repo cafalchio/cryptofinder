@@ -39,3 +39,4 @@ def register_routes(app, db):
             return "".join(logs)
         except FileNotFoundError:
             return "log file not found"
+        

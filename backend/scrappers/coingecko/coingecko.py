@@ -1,11 +1,9 @@
-from datetime import datetime
-import pandas as pd
-from sqlalchemy.exc import SQLAlchemyError
+from app.app import create_app
 from app.config_app import NEW_COINS_DETAILS
 import logging
-from backend.utils.utils import fetch_data, get_nested_data
+from backend.utils.utils import SaveDataError, fetch_data, get_nested_data
 from backend.data.models import NewCoins
-from app.app import db
+
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +21,17 @@ class Coingecko:
         data = response.json()
         new_coins = [NewCoins(id=coin['id'], symbol=coin['symbol'],
                               name=coin['name'], is_shit=False) for coin in data]
+
+        app = create_app()
+        with app.app_context():
+            print("App context initialized successfully.")
+            print(db.metadata)
+            db.session.add_all(new_coins)
+            try:
+                db.session.commit()
+            except SaveDataError:
+                db.session.rollback()
+
         return new_coins
 
     # def get_details(self, coins):
@@ -49,3 +58,8 @@ class Coingecko:
     #         "date": datetime.now().strftime("%Y/%m/%d")
     #     }
     #     return data_to_load
+
+
+if __name__ == "__main__":
+    coingecko = Coingecko()
+    coingecko.get_coins()

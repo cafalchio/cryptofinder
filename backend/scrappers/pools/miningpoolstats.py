@@ -6,7 +6,7 @@ import logging
 
 from backend.scrappers.pools.tools import scrap_website_driver
 
-logger = logging.getLogger("__name__")
+logger = logging.getLogger()
 
 # TODO: Create Abstract pool class that accepts json config to avoid these hard coded configs
 
