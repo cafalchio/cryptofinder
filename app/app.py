@@ -17,8 +17,9 @@ db = SQLAlchemy(model_class=Base)
 
 def create_app():
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/cafalchio/Projects/cryptofinder/backend/data/app.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config['TESTING'] = TESTING
     db.init_app(app)
 
     with app.app_context():
