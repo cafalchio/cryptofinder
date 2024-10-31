@@ -8,7 +8,9 @@ def coingecko():
     url = "https://api.coingecko.com/api/v3/coins/list?include_platform=true"
     response = fetch_data(url)
     data = response.json()
-    new_coins = [NewCoins(id=coin['id'], symbol=coin['symbol'],
-                          name=coin['name'], is_shit=False) for coin in data]
+    new_coins = {}
+    for coin in data:
+        new_coins[coin["id"]] = [NewCoins(id=coin['id'], symbol=coin['symbol'],
+                                          name=coin['name'], is_shit=False)]
 
     update_new_coins(new_coins)

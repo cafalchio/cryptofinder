@@ -12,8 +12,8 @@ def run_scrappers():
     expired_coins = get_expired_coins_by(hours=1)
     update_all_coins(expired_coins)
 
-    coingecko.coingecko()
-    # rplant_xyz.rplant()
+    # coingecko.coingecko()
+    rplant_xyz.rplant()
     miningpoolstats.mining_pool_stats()
 
 
@@ -42,15 +42,15 @@ def update_new_coins(coins):
             select(NewCoins)).scalars().all()}
         to_update = []
 
-        for coin in coins:
-            # Only add coins that are not in AllCoins
-            if coin.id not in existing_all_coins and coin.id not in existing_new_coins:
-                to_update.append(NewCoins(
-                    id=coin.id,
-                    symbol=coin.symbol,
-                    name=coin.name,
-                    is_shit=False
-                ))
+        for id, coin in coins.items():
+            if id in existing_all_coins or id in existing_new_coins:
+                continue
+            to_update.append(NewCoins(
+                id=coin.id,
+                symbol=coin.symbol,
+                name=coin.name,
+                is_shit=False
+            ))
         if to_update:
             db.session.bulk_save_objects(to_update)
             db.session.commit()

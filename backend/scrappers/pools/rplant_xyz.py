@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import logging
 
+from backend.data.models import NewCoins
 from backend.scrappers.pools.tools import scrap_website_driver
 from backend.scrappers.run_scrappers import update_new_coins
 
@@ -21,11 +22,15 @@ def rplant():
         name_elements = [
             td for td in name_elements if 'sorting_1' in td.get_attribute('class')]
         logger.info(name_elements)
-        new_coins = []
+        new_coins = {}
         for name in name_elements:
-            new_coins.append({"id": name.text, "name": name.text,
-                              "symbol": "", "is_shit": False})
-
+            new_coins[name.text] = NewCoins(
+                id=name.text,
+                symbol="",
+                name=name.text,
+                is_shit=False
+            )
+    logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from rplantxyz")
     update_new_coins(new_coins)
 
 
