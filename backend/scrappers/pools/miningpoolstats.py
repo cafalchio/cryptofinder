@@ -8,7 +8,7 @@ from backend.data.models import NewCoins
 from backend.scrappers.pools.tools import scrap_website_driver
 from backend.scrappers.run_scrappers import update_new_coins
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 def mining_pool_stats():
@@ -38,7 +38,8 @@ def mining_pool_stats():
                 name=name.text,
                 is_shit=False
             )
-    logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
+    logger.info(
+        f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
     update_new_coins(new_coins)
 
 
