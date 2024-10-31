@@ -1,5 +1,4 @@
-from sqlalchemy import Column, String, DateTime, Boolean, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, DateTime, Boolean
 from sqlalchemy.sql import func
 from app.app import db
 
@@ -24,4 +23,3 @@ class CoinsDetails(db.Model):
     added = Column(DateTime(timezone=True), server_default=func.now())
     description = Column(String(length=800))
     homepage = Column(String(length=200))
-    parent_id = Column(Integer, ForeignKey('new_coins.id'))
