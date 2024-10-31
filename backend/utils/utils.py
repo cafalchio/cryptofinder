@@ -1,8 +1,6 @@
 import time
 import requests
 import logging
-import json
-
 from app.config_app import COINGECKO_API
 
 logger = logging.getLogger(__name__)

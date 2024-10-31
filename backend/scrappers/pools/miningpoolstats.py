@@ -1,16 +1,18 @@
-from backend.utils.scrappers import scrap_website_driver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import logging
 
-logger = logging.getLogger("__name__")
+from backend.data.models import NewCoins
+from backend.scrappers.pools.tools import scrap_website_driver
+from backend.scrappers.run_scrappers import update_new_coins
 
-# TODO: Create Abstract pool class that accepts json config to avoid these hard coded configs
+logger = logging.getLogger(__name__)
 
 
 def mining_pool_stats():
+    new_coins = {}
     with scrap_website_driver("https://miningpoolstats.stream/newcoins") as driver:
         consent_button = "//button[@aria-label='Consent']"
         coins_page = "//*[@id='mainpage']"
@@ -19,7 +21,7 @@ def mining_pool_stats():
             EC.element_to_be_clickable((By.XPATH, consent_button))
         )
         logger.info(button)
-        time.sleep(1)
+        time.sleep(5)
         button.click()
 
         WebDriverWait(driver, 20).until(
@@ -28,9 +30,17 @@ def mining_pool_stats():
         name_elements = driver.find_elements(By.XPATH, '//div/a/b')
         symbol_elements = driver.find_elements(By.XPATH, '//div/small')
         logger.info(name_elements)
-
+        new_coins = {}
         for name, symbol in zip(name_elements, symbol_elements):
-            logger.info(f"{name.text} : {symbol.text}")
+            new_coins[name.text] = NewCoins(
+                id=name.text,
+                symbol=symbol.text,
+                name=name.text,
+                is_shit=False
+            )
+    logger.info(
+        f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
+    update_new_coins(new_coins)
 
 
 if __name__ == "__main__":
