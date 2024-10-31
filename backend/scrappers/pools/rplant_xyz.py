@@ -4,8 +4,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import logging
 
 from backend.data.models import NewCoins
-from backend.scrappers.pools.tools import scrap_website_driver
 from backend.scrappers.run_scrappers import update_new_coins
+from backend.utils.scrappers import scrap_website_driver
 
 logger = logging.getLogger(__name__)
 

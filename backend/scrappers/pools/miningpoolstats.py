@@ -21,7 +21,7 @@ def mining_pool_stats():
             EC.element_to_be_clickable((By.XPATH, consent_button))
         )
         logger.info(button)
-        time.sleep(1)
+        time.sleep(5)
         button.click()
 
         WebDriverWait(driver, 20).until(
