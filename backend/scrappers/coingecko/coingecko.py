@@ -1,4 +1,4 @@
-from backend.scrappers.run_scrappers import update_new_coins
+from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.utils import fetch_data
 from backend.data.models import AllCoins
 
@@ -13,4 +13,4 @@ def coingecko():
         new_coins[coin["id"]] = [AllCoins(id=coin['id'], symbol=coin['symbol'],
                                           name=coin['name'], is_shit=False)]
 
-    update_new_coins(new_coins)
+    update_all_coins(new_coins)

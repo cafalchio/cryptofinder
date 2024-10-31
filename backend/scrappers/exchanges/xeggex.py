@@ -1,5 +1,5 @@
 from backend.data.models import AllCoins
-from backend.scrappers.run_scrappers import update_new_coins
+from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_soup
 import logging
 import re
@@ -24,7 +24,7 @@ def xeggex():
                 is_shit=False
             )
     logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from rplantxyz")
-    update_new_coins(new_coins)
+    update_all_coins(new_coins)
 
 
 if __name__ == "__main__":

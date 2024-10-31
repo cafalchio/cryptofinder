@@ -7,3 +7,4 @@ setup(
     description='A tool to find new potential cryptos',
     author='Matheus Cafalchio',
 )
+
