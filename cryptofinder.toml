@@ -14,3 +14,7 @@ authors = [
 [project.urls]
 base_url = "https://www.dev.cryptofinder.cafalchio.site"
 
+
+[build-system]
+requires = ["setuptools >= 64"]
+build-backend = "setuptools.build_meta"

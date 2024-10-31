@@ -1,5 +1,5 @@
-from backend.data.models import NewCoins
-from backend.scrappers.run_scrappers import update_new_coins
+from backend.data.models import AllCoins
+from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_soup
 import logging
 import re
@@ -17,14 +17,14 @@ def xeggex():
             return
         for match in matches:
             name, symbol = match
-            new_coins[name] = NewCoins(
+            new_coins[name] = AllCoins(
                 id=name,
                 symbol=symbol,
                 name=name,
                 is_shit=False
             )
     logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from rplantxyz")
-    update_new_coins(new_coins)
+    update_all_coins(new_coins)
 
 
 if __name__ == "__main__":

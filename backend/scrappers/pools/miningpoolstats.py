@@ -4,9 +4,9 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import logging
 
-from backend.data.models import NewCoins
-from backend.scrappers.pools.tools import scrap_website_driver
-from backend.scrappers.run_scrappers import update_new_coins
+from backend.data.models import AllCoins
+from backend.scrappers.run_scrappers import update_all_coins
+from backend.utils.scrappers import scrap_website_driver
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ def mining_pool_stats():
         logger.info(name_elements)
         new_coins = {}
         for name, symbol in zip(name_elements, symbol_elements):
-            new_coins[name.text] = NewCoins(
+            new_coins[name.text] = AllCoins(
                 id=name.text,
                 symbol=symbol.text,
                 name=name.text,
@@ -40,7 +40,7 @@ def mining_pool_stats():
             )
     logger.info(
         f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
-    update_new_coins(new_coins)
+    update_all_coins(new_coins)
 
 
 if __name__ == "__main__":

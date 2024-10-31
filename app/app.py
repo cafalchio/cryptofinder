@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import logging
-from app.config_app import DATABASE, TESTING, LOG_FILE
+from app.config_app import DATABASE, TESTING
 from sqlalchemy.orm import DeclarativeBase
 
 logger = logging.getLogger
@@ -18,7 +18,7 @@ db = SQLAlchemy(model_class=Base)
 def create_app():
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = TESTING
     app.config['TESTING'] = TESTING
     db.init_app(app)
 

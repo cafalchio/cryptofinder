@@ -1,15 +1,20 @@
 from flask import render_template
-from backend.data.models import AllCoins, NewCoins
+from backend.data.models import AllCoins
+from datetime import datetime, timedelta
 
 
 def register_routes(app, db):
 
+    now = datetime.utcnow()
+    time_to_display = now - timedelta(days=1)
+
     @app.route("/")
     def new_coins_today():
         result = db.session.execute(
-            db.select(NewCoins).order_by(NewCoins.added)
+            db.select(AllCoins).filter(AllCoins.added >
+                                       time_to_display).order_by(AllCoins.added)
         )
-        new_coins = result.scalars().all()  # Get the list of NewCoins
+        new_coins = result.scalars().all()  # Get the list of AllCoins
         return render_template("new_coins_today.html", coins=new_coins)
 
     @app.route("/all_coins")
@@ -23,9 +28,9 @@ def register_routes(app, db):
     @app.route("/shitcoins")
     def shitcoins():
         result = db.session.execute(
-            db.select(NewCoins).filter(NewCoins.is_shit == True)
+            db.select(AllCoins).filter(AllCoins.is_shit == True)
         )
-        # Get the list of NewCoins that are "shitcoins"
+        # Get the list of AllCoins that are "shitcoins"
         shitcoins = result.scalars().all()
         return render_template("shitcoins.html", coins=shitcoins)
 
@@ -39,4 +44,3 @@ def register_routes(app, db):
             return "".join(logs)
         except FileNotFoundError:
             return "log file not found"
-        
