@@ -5,6 +5,9 @@ import logging
 load_dotenv()
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
+# Hours, days, weeks that the new coins will be showing before it stops to be displayed
+DAYS = 1
+
 TESTING = os.getenv("APP_TESTING") == "true"
 LOG_FILE = os.getenv('LOG_FILE')
 DATABASE = os.getenv('FLASK_DATABASE')

@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import logging
 
-from backend.data.models import NewCoins
+from backend.data.models import AllCoins
 from backend.scrappers.run_scrappers import update_new_coins
 from backend.utils.scrappers import scrap_website_driver
 
@@ -24,7 +24,7 @@ def rplant():
         logger.info(name_elements)
         new_coins = {}
         for name in name_elements:
-            new_coins[name.text] = NewCoins(
+            new_coins[name.text] = AllCoins(
                 id=name.text,
                 symbol="",
                 name=name.text,
