@@ -10,6 +10,29 @@ Automated scraper to find newly created crypto
 #### Fase 3
 * Run the pipeline daily and check manually the new coins.
 
+
+
+
+
+### How to run locally
+
+1. clone the git
+2. cd /cryptofinder
+3. pip install .
+If there is no database
+4. cd app
+5. flask db init
+6. flask db migrate
+ 
+ To run scrappers
+ cd /backend/scrappers
+ python run scrappers
+
+ run the server
+ in /cryptofinder
+ python run.py
+
+
 using sqlite local:
 inside /app 
     flask db init
