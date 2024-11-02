@@ -15,9 +15,9 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 
-def create_app():
+def create_app(database):
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
+    app.config["SQLALCHEMY_DATABASE_URI"] = database
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = TESTING
     app.config['TESTING'] = TESTING
     db.init_app(app)
@@ -34,4 +34,4 @@ def create_app():
 
 
 if __name__ == "__main__":
-    create_app().run(debug=True, port=10000)
+    create_app(DATABASE).run(debug=True, port=10000)

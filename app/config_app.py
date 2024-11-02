@@ -17,18 +17,20 @@ ALL_COINS = os.path.join(dir_path, "all_coins.csv")
 NEW_COINS = os.path.join(dir_path, "new_coins.csv")
 NEW_COINS_DETAILS = os.path.join(dir_path, "new_coins_details.csv")
 
-if TESTING:
-    logging.basicConfig(
-        format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
-        datefmt="%H:%M:%S",
-        level=logging.DEBUG,
-    )
-else:
-    logging.basicConfig(
-        filename=LOG_FILE,
-        filemode="a",
-        format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
-        datefmt="%H:%M:%S",
-        level=logging.INFO,
-    )
-logger = logging.getLogger("cryptofinder")
+
+def get_logger(testing=TESTING):
+    if testing:
+        logging.basicConfig(
+            format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
+            level=logging.INFO,
+        )
+    else:
+        logging.basicConfig(
+            filename=LOG_FILE,
+            filemode="a",
+            format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
+            level=logging.INFO,
+        )
+    return logging.getLogger("cryptofinder")
