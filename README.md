@@ -47,3 +47,7 @@ Running on Gunicorn command:
 gunicorn -w 4 'app:gunicorn_app'
 
 
+### Docker
+
+sudo docker build -t cryptofinder .
+sudo docker run -d -p 8000:80 cryptofinder
