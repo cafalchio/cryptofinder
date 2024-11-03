@@ -4,7 +4,7 @@ from app.app import db
 
 
 class AllCoins(db.Model):
-    __tablename__ = 'all_coins'
+    __tablename__ = "all_coins"
 
     id = Column(String, primary_key=True)
     symbol = Column(String(length=100))
@@ -15,7 +15,7 @@ class AllCoins(db.Model):
 
 
 class CoinsDetails(db.Model):
-    __tablename__ = 'coins_details'
+    __tablename__ = "coins_details"
 
     id = Column(String, primary_key=True)
     symbol = Column(String(length=100))

@@ -17,12 +17,7 @@ def xeggex():
             return
         for match in matches:
             name, symbol = match
-            new_coins[name] = AllCoins(
-                id=name,
-                symbol=symbol,
-                name=name,
-                is_shit=False
-            )
+            new_coins[name] = AllCoins(id=name, symbol=symbol, name=name, is_shit=False)
     logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from rplantxyz")
     update_all_coins(new_coins)
 

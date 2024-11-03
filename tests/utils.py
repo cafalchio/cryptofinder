@@ -1,6 +1,4 @@
 import unittest
-from unittest.mock import patch
-from sqlalchemy import create_engine
 from app.app import create_app, db
 from app.config_app import get_logger
 
@@ -21,4 +19,4 @@ class BaseTestCase(unittest.TestCase):
         with self.app.app_context():
             db.session.remove()
             db.drop_all()
-        logger.info(f"Clearned app and db")
+        logger.info("Clearned app and db")

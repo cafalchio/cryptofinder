@@ -9,10 +9,10 @@ dir_path = os.path.dirname(os.path.abspath(__file__))
 DAYS = 1
 
 TESTING = os.getenv("APP_TESTING") == "true"
-LOG_FILE = os.getenv('LOG_FILE')
-DATABASE = os.getenv('FLASK_DATABASE')
-SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
-COINGECKO_API = os.getenv('COINGECKO_API')
+LOG_FILE = os.getenv("LOG_FILE")
+DATABASE = os.getenv("FLASK_DATABASE")
+SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
+COINGECKO_API = os.getenv("COINGECKO_API")
 ALL_COINS = os.path.join(dir_path, "all_coins.csv")
 NEW_COINS = os.path.join(dir_path, "new_coins.csv")
 NEW_COINS_DETAILS = os.path.join(dir_path, "new_coins_details.csv")

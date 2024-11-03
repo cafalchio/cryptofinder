@@ -7,10 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def fetch_data(url):
-    headers = {
-        "accept": "application/json",
-        "x-cg-demo-api-key": COINGECKO_API
-    }
+    headers = {"accept": "application/json", "x-cg-demo-api-key": COINGECKO_API}
     tries = 3
     for i in range(0, tries):
         logger.info(f"Getting data for {url}")

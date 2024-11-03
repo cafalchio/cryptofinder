@@ -18,17 +18,15 @@ def rplant():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, coins_page))
         )
-        name_elements = driver.find_elements(By.XPATH, '//tbody/tr/td')
+        name_elements = driver.find_elements(By.XPATH, "//tbody/tr/td")
         name_elements = [
-            td for td in name_elements if 'sorting_1' in td.get_attribute('class')]
+            td for td in name_elements if "sorting_1" in td.get_attribute("class")
+        ]
         logger.info(name_elements)
         new_coins = {}
         for name in name_elements:
             new_coins[name.text] = AllCoins(
-                id=name.text,
-                symbol="",
-                name=name.text,
-                is_shit=False
+                id=name.text, symbol="", name=name.text, is_shit=False
             )
     logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from rplantxyz")
     update_all_coins(new_coins)

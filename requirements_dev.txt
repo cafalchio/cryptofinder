@@ -1,0 +1,4 @@
+ruff==0.7.2
+tox==4.23.2
+pytest==8.1.1
+pytest-cov==6.0.0

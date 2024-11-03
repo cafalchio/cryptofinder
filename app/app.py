@@ -19,7 +19,7 @@ def create_app(database):
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = database
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = TESTING
-    app.config['TESTING'] = TESTING
+    app.config["TESTING"] = TESTING
     db.init_app(app)
 
     with app.app_context():
@@ -28,7 +28,7 @@ def create_app(database):
 
     register_routes(app, db)
 
-    migrate = Migrate(app, db)
+    Migrate(app, db)
 
     return app
 

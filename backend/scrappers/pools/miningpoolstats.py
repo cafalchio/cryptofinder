@@ -27,19 +27,15 @@ def mining_pool_stats():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, coins_page))
         )
-        name_elements = driver.find_elements(By.XPATH, '//div/a/b')
-        symbol_elements = driver.find_elements(By.XPATH, '//div/small')
+        name_elements = driver.find_elements(By.XPATH, "//div/a/b")
+        symbol_elements = driver.find_elements(By.XPATH, "//div/small")
         logger.info(name_elements)
         new_coins = {}
         for name, symbol in zip(name_elements, symbol_elements):
             new_coins[name.text] = AllCoins(
-                id=name.text,
-                symbol=symbol.text,
-                name=name.text,
-                is_shit=False
+                id=name.text, symbol=symbol.text, name=name.text, is_shit=False
             )
-    logger.info(
-        f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
+    logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
     update_all_coins(new_coins)
 
 

@@ -10,7 +10,8 @@ def coingecko():
     data = response.json()
     new_coins = {}
     for coin in data:
-        new_coins[coin["id"]] = AllCoins(id=coin['id'], symbol=coin['symbol'],
-                                         name=coin['name'], is_shit=False)
+        new_coins[coin["id"]] = AllCoins(
+            id=coin["id"], symbol=coin["symbol"], name=coin["name"], is_shit=False
+        )
 
     update_all_coins(new_coins)

@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import logging
-from pprint import pprint
 
 from backend.utils.scrappers import scrap_website_driver
 
@@ -12,10 +11,6 @@ from backend.utils.scrappers import scrap_website_driver
 logger = logging.getLogger("__name__")
 
 DEBUG = True
-
-
-def extract_name(line):
-    name = line.strip(":")
 
 
 def btc_talk():
@@ -28,7 +23,7 @@ def btc_talk():
         time.sleep(3)
         alts.click()
         time.sleep(3)
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        soup = BeautifulSoup(driver.page_source, "html.parser")
         trs = soup.find_all("tr")
         for tr in trs:
             if "Today" in tr.text:

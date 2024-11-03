@@ -1,6 +1,4 @@
 import requests
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import logging
@@ -28,7 +26,7 @@ class scrap_website_driver:
 
 class scrap_website_soup:
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
     }
 
     def __init__(self, website):
@@ -38,9 +36,10 @@ class scrap_website_soup:
         page = requests.get(self.website, headers=self.headers)
         if page.status_code != 200:
             raise WebsiteError(
-                f"Failed to retrieve website. Status code: {page.status_code}")
+                f"Failed to retrieve website. Status code: {page.status_code}"
+            )
         logger.info(f"Open: {self.website}")
-        return BeautifulSoup(page.text, 'html.parser')
+        return BeautifulSoup(page.text, "html.parser")
 
     def __exit__(self, type, value, traceback):
         pass
