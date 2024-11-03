@@ -3,10 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from app.config_app import DATABASE, TESTING
 from sqlalchemy.orm import DeclarativeBase
-from config_app import get_logger
+import logging
 
-
-logger = get_logger()
+logger = logging.getLogger(__name__)
 
 
 class Base(DeclarativeBase):
