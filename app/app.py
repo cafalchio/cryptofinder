@@ -28,7 +28,8 @@ def create_app(database):
 
     register_routes(app, db)
 
-    Migrate(app, db)
+    migrate = Migrate(app, db)
+    logger.info(migrate)
 
     return app
 
