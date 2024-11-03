@@ -8,6 +8,7 @@ blinker==1.7.0
 certifi==2024.2.2
 charset-normalizer==3.3.2
 click==8.1.7
+gunicorn==23.0.0
 -e git+https://github.com/cafalchio/cryptofinder@639cffcd47e0a460d446038991d8bdff882de5fe#egg=cryptofinder
 decorator==5.1.1
 dnspython==2.6.1
