@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-import logging
 from app.config_app import DATABASE, TESTING
 from sqlalchemy.orm import DeclarativeBase
+from config_app import get_logger
 
-logger = logging.getLogger
+
+logger = get_logger()
 
 
 class Base(DeclarativeBase):
