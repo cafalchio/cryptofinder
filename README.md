@@ -1,5 +1,9 @@
 # Cryptofinder 
+
+### Tests
+[![Lint](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml)
 [![Tests](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml)
+
 Automated scraper to find newly created crypto
 
 #### Fase 1:
