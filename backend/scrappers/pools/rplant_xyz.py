@@ -1,3 +1,4 @@
+import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -18,11 +19,11 @@ def rplant():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, coins_page))
         )
+        time.sleep(2)
         name_elements = driver.find_elements(By.XPATH, "//tbody/tr/td")
         name_elements = [
             td for td in name_elements if "sorting_1" in td.get_attribute("class")
         ]
-        logger.info(name_elements)
         new_coins = {}
         for name in name_elements:
             new_coins[name.text] = AllCoins(
