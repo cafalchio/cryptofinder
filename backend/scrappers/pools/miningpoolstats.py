@@ -35,8 +35,7 @@ def mining_pool_stats():
             new_coins[name.text] = AllCoins(
                 id=name.text, symbol=symbol.text, name=name.text, is_shit=False
             )
-    logger.info(
-        f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
+    logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
     update_all_coins(new_coins)
 
 

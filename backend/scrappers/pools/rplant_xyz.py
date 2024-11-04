@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 def rplant():
-    new_coins = []
     with scrap_website_driver("https://pool.rplant.xyz/") as driver:
         coins_page = "//*[@id='tbs-table']"
 

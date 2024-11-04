@@ -4,7 +4,6 @@ from backend.data.models import AllCoins
 
 
 def coingecko():
-    new_coins = []
     url = "https://api.coingecko.com/api/v3/coins/list?include_platform=true"
     response = fetch_data(url)
     data = response.json()

@@ -6,9 +6,11 @@ logger = get_logger(testing=True)
 
 
 class BaseTestCase(unittest.TestCase):
+    db_connection = "sqlite:///:memory:"
+
     def setUp(self):
         """Set up the test client and database before each test."""
-        self.app = create_app("sqlite:///:memory:")
+        self.app = create_app(self.db_connection)
         self.client = self.app.test_client()
         with self.app.app_context():
             db.create_all()
@@ -19,6 +21,8 @@ class BaseTestCase(unittest.TestCase):
         with self.app.app_context():
             db.session.remove()
             db.drop_all()
+            db.session.rollback()
+            db.session.remove()
         logger.info("Clearned app and db")
 
     def add_coins_to_db(self, coins):
