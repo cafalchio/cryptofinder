@@ -20,3 +20,12 @@ class BaseTestCase(unittest.TestCase):
             db.session.remove()
             db.drop_all()
         logger.info("Clearned app and db")
+
+    def add_coins_to_db(self, coins):
+        with self.app.app_context():
+            for coin in coins:
+                db.session.add(coin)
+            db.session.commit()
+
+    def get_response(self, endpoint):
+        return self.client.get(endpoint)

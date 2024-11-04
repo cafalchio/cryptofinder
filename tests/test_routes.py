@@ -1,23 +1,21 @@
 import unittest
 from backend.data.models import AllCoins
 from tests.utils import BaseTestCase
-from app.app import db
 from bs4 import BeautifulSoup
 
 
 class TestRoutes(BaseTestCase):
+
     def test_new_coins_today(self):
-        coin = {
-            "id": "dummy",
-            "symbol": "dummySymbol",
-            "name": "dummy",
-        }
+
+        endpoint = "/"
         expected = "dummySymbol"
-        dummy_coin = AllCoins(id=coin["id"], symbol=coin["symbol"], name=coin["name"])
-        with self.app.app_context():
-            db.session.add(dummy_coin)
-            db.session.commit()
-            response = self.client.get("/")
+
+        self.add_coins_to_db(
+            [AllCoins(id="id", symbol="dummySymbol", name="dummy")]
+        )
+
+        response = self.get_response(endpoint)
         soup = BeautifulSoup(response.data, "html.parser")
         actual = [td.text for td in soup.findAll("td")]
         self.assertIn(expected, actual)
