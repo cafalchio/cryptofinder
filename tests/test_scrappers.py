@@ -1,7 +1,4 @@
 import unittest
-from unittest.mock import patch
-from backend.data.models import AllCoins
-from app.app import db
 from backend.scrappers.run_scrappers import update_all_coins
 from tests.utils import BaseTestCase
 
