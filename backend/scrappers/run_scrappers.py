@@ -32,8 +32,7 @@ def update_all_coins(coins):
             if id in existing_all_coins:
                 continue
             to_update.append(
-                AllCoins(id=coin.id, symbol=coin.symbol,
-                         name=coin.name, is_shit=False)
+                AllCoins(id=coin.id, symbol=coin.symbol, name=coin.name, is_shit=False)
             )
         if to_update:
             db.session.bulk_save_objects(to_update)

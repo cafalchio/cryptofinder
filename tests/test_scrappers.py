@@ -1,4 +1,3 @@
-
 import unittest
 from unittest.mock import patch
 from backend.data.models import AllCoins
@@ -8,7 +7,6 @@ from tests.utils import BaseTestCase
 
 
 class TestScrappers(BaseTestCase):
-
     def test_update_all_coins_no_coins(self):
         expected = None
         actual = update_all_coins([])
