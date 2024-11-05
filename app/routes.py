@@ -18,15 +18,13 @@ def register_routes(app, db):
 
     @app.route("/all_coins")
     def all_coins():
-        result = db.session.execute(
-            db.select(AllCoins).order_by(AllCoins.added))
+        result = db.session.execute(db.select(AllCoins).order_by(AllCoins.added))
         all_coins = result.scalars().all()  # Get the list of AllCoins
         return render_template("all_coins.html", coins=all_coins)
 
     @app.route("/shitcoins")
     def shitcoins():
-        result = db.session.execute(
-            db.select(AllCoins).filter(AllCoins.is_shit))
+        result = db.session.execute(db.select(AllCoins).filter(AllCoins.is_shit))
         # Get the list of AllCoins that are "shitcoins"
         shitcoins = result.scalars().all()
         return render_template("shitcoins.html", coins=shitcoins)
