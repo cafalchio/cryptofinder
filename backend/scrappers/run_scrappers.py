@@ -6,6 +6,7 @@ from app.config_app import DATABASE
 
 def run_scrappers():
     # Avoid circular import
+    from btc_talk import btc_talk
     from coingecko import coingecko
     from backend.scrappers.exchanges import xeggex
     from pools import rplant_xyz, miningpoolstats
@@ -15,7 +16,7 @@ def run_scrappers():
     coingecko.coingecko()
     miningpoolstats.mining_pool_stats()
     xeggex.xeggex()
-    rplant_xyz.rplant()
+    btc_talk.btc_talk()
 
 
 def update_all_coins(coins):
