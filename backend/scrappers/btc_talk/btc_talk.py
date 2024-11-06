@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import logging
 
+from backend.data.models import AllCoins
+from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_driver
 
 
@@ -13,8 +15,20 @@ logger = logging.getLogger("__name__")
 DEBUG = True
 
 
+def extract_name(line):
+    line = line[6:]
+    if ":" in line:
+        name = line.split(":")[0]
+    elif "-" in line:
+        name = line.split("-")[0]
+    else:
+        name = line.split(" ")[0]
+    return name
+
+
 def btc_talk():
     today_lines = []
+
     with scrap_website_driver("https://bitcointalk.org/") as driver:
         coins_page = "//a[text()='Announcements (Altcoins)']"
         alts = WebDriverWait(driver, 20).until(
@@ -25,12 +39,17 @@ def btc_talk():
         time.sleep(3)
         soup = BeautifulSoup(driver.page_source, "html.parser")
         trs = soup.find_all("tr")
+        new_coins = {}
         for tr in trs:
             if "Today" in tr.text:
                 line = [td.text.strip() for td in tr.find_all("td")][2]
                 if "[ANN] " in line and "»" not in line:
+                    name = extract_name(line)
+                    new_coins[name] = AllCoins(
+                        id=name, symbol="", name=name, is_shit=False
+                    )
                     today_lines.append(line.split("[ANN] ")[1].strip())
-
+        update_all_coins(new_coins)
     return today_lines
 
 
