@@ -17,13 +17,15 @@ DEBUG = True
 
 def extract_name(line):
     line = line[6:]
+    symbol = ""
     if ":" in line:
         name = line.split(":")[0]
     elif "-" in line:
         name = line.split("-")[0]
     else:
         name = line.split(" ")[0]
-    return name
+        symbol = line.split(" ")[1]
+    return name, symbol
 
 
 def btc_talk():
@@ -44,9 +46,9 @@ def btc_talk():
             if "Today" in tr.text:
                 line = [td.text.strip() for td in tr.find_all("td")][2]
                 if "[ANN] " in line and "»" not in line:
-                    name = extract_name(line)
+                    name, symbol = extract_name(line)
                     new_coins[name] = AllCoins(
-                        id=name, symbol="", name=name, is_shit=False
+                        id=name, symbol=symbol, name=name, is_shit=False
                     )
                     today_lines.append(line.split("[ANN] ")[1].strip())
         update_all_coins(new_coins)
@@ -57,4 +59,5 @@ if __name__ == "__main__":
     todays = btc_talk()
     with open("btc_text", "a") as f:
         for line in todays:
+            print(line)
             f.write(line + "\n")
