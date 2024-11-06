@@ -1,5 +1,6 @@
 import requests
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import logging
 
@@ -15,7 +16,9 @@ class scrap_website_driver:
         self.website = website
 
     def __enter__(self):
-        self.driver = webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get(self.website)
         logger.info(f"Open: {self.website}")
         return self.driver
