@@ -1,8 +1,9 @@
 from backend.data.models import AllCoins
-from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_soup
 import logging
 import re
+
+from backend.utils.utils import update_all_coins
 
 logger = logging.getLogger(__name__)
 

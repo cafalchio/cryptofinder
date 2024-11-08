@@ -1,6 +1,3 @@
-from app.app import create_app, db
-from backend.data.models import AllCoins
-from sqlalchemy import select
 from app.config_app import get_logger
 
 logger = get_logger()
