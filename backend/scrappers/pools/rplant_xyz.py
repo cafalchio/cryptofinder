@@ -5,8 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from app.config_app import get_logger
 from backend.data.models import AllCoins
-from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_driver
+from backend.utils.utils import update_all_coins
 
 logger = get_logger()
 

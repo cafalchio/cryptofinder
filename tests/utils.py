@@ -10,7 +10,7 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         """Set up the test client and database before each test."""
-        self.app = create_app(self.db_connection)
+        self.app = create_app()
         self.client = self.app.test_client()
         with self.app.app_context():
             db.create_all()

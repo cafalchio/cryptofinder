@@ -1,6 +1,8 @@
-from backend.scrappers.run_scrappers import update_all_coins
-from backend.utils.utils import fetch_data
+from app.config_app import get_logger
+from backend.utils.utils import fetch_data, update_all_coins
 from backend.data.models import AllCoins
+
+logger = get_logger()
 
 
 def coingecko():

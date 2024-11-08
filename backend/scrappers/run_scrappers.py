@@ -1,7 +1,9 @@
 from app.app import create_app, db
 from backend.data.models import AllCoins
 from sqlalchemy import select
-from app.config_app import DATABASE
+from app.config_app import get_logger
+
+logger = get_logger()
 
 
 def run_scrappers():
@@ -12,6 +14,7 @@ def run_scrappers():
     from pools import rplant_xyz, miningpoolstats
 
     # For now, add the list of functions here
+    logger.info("Running Scrappers ..")
     rplant_xyz.rplant()
     coingecko.coingecko()
     miningpoolstats.mining_pool_stats()
@@ -19,25 +22,6 @@ def run_scrappers():
     btc_talk.btc_talk()
 
 
-def update_all_coins(coins):
-    if not coins:
-        return
-    app = create_app(DATABASE)
-    with app.app_context():
-        existing_all_coins = {
-            coin.id for coin in db.session.execute(select(AllCoins)).scalars().all()
-        }
-        to_update = []
-
-        for id, coin in coins.items():
-            if id in existing_all_coins:
-                continue
-            to_update.append(
-                AllCoins(id=coin.id, symbol=coin.symbol, name=coin.name, is_shit=False)
-            )
-        if to_update:
-            db.session.bulk_save_objects(to_update)
-            db.session.commit()
 
 
 if __name__ == "__main__":

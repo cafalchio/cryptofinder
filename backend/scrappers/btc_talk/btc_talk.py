@@ -3,16 +3,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
-import logging
 
+from app.config_app import get_logger
 from backend.data.models import AllCoins
-from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_driver
+from backend.utils.utils import update_all_coins
 
-
-logger = logging.getLogger("__name__")
-
-DEBUG = True
+logger = get_logger()
 
 
 def extract_name(line):
@@ -50,7 +47,10 @@ def btc_talk():
                     new_coins[name] = AllCoins(
                         id=name, symbol=symbol, name=name, is_shit=False
                     )
-                    today_lines.append(line.split("[ANN] ")[1].strip())
+                    line = line.split("[ANN] ")[1].strip()
+                    today_lines.append(line)
+                    logger.info(line)
+        logger.info(f"-Got {len(new_coins.keys())} coins from rplantxyz")
         update_all_coins(new_coins)
     return today_lines
 

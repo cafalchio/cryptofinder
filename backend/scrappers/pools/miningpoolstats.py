@@ -2,13 +2,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
-import logging
 
+from app.config_app import get_logger
 from backend.data.models import AllCoins
-from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_driver
+from backend.utils.utils import update_all_coins
 
-logger = logging.getLogger(__name__)
+logger = get_logger()
 
 
 def mining_pool_stats():
@@ -35,7 +35,8 @@ def mining_pool_stats():
             new_coins[name.text] = AllCoins(
                 id=name.text, symbol=symbol.text, name=name.text, is_shit=False
             )
-    logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from miningpoolstatszn")
+    logger.info(f"-Got {len(new_coins.keys())} coins from miningpoolstats")
+
     update_all_coins(new_coins)
 
 

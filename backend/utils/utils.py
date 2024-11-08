@@ -1,7 +1,11 @@
 import time
 import requests
 import logging
+
+from sqlalchemy import select
+from app.app import create_app, db
 from app.config_app import COINGECKO_API
+from backend.data.models import AllCoins
 
 logger = logging.getLogger(__name__)
 
@@ -28,3 +32,24 @@ def get_nested_data(nested_dict, key):
             if result is not None:
                 return result
     return None
+
+def update_all_coins(coins):
+    if not coins:
+        return
+    app = create_app()
+    with app.app_context():
+        existing_all_coins = {
+            coin.id for coin in db.session.execute(select(AllCoins)).scalars().all()
+        }
+        to_update = []
+
+        for id, coin in coins.items():
+            if id in existing_all_coins:
+                continue
+            logger.info("Found coin: {id}")
+            to_update.append(
+                AllCoins(id=coin.id, symbol=coin.symbol, name=coin.name, is_shit=False)
+            )
+        if to_update:
+            db.session.bulk_save_objects(to_update)
+            db.session.commit()
