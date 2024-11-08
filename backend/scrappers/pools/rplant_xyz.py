@@ -2,13 +2,13 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-import logging
 
+from app.config_app import get_logger
 from backend.data.models import AllCoins
 from backend.scrappers.run_scrappers import update_all_coins
 from backend.utils.scrappers import scrap_website_driver
 
-logger = logging.getLogger(__name__)
+logger = get_logger()
 
 
 def rplant():
@@ -28,7 +28,7 @@ def rplant():
             new_coins[name.text] = AllCoins(
                 id=name.text, symbol="", name=name.text, is_shit=False
             )
-    logger.info(f"{'-'*30}\nGot {len(new_coins.keys())} coind from rplantxyz")
+    logger.info(f"-Got {len(new_coins.keys())} coins from rplantxyz")
     update_all_coins(new_coins)
 
 
