@@ -33,6 +33,7 @@ def get_nested_data(nested_dict, key):
                 return result
     return None
 
+
 def update_all_coins(coins):
     if not coins:
         return

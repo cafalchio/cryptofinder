@@ -9,7 +9,6 @@ logger = get_logger()
 flask_app = create_app()
 
 if __name__ == "__main__":
-    bar = {'-'*30}
+    bar = {"-" * 30}
     logger.info(f"{bar}\nRunning Server: {HOST}:{PORT} Debug: {DEBUG}\n{bar}")
     flask_app.run(host=HOST, debug=DEBUG, port=PORT)
-    

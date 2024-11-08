@@ -19,7 +19,5 @@ def run_scrappers():
     btc_talk.btc_talk()
 
 
-
-
 if __name__ == "__main__":
     run_scrappers()

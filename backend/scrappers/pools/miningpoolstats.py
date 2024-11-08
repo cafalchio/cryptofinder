@@ -33,7 +33,11 @@ def mining_pool_stats():
         new_coins = {}
         for name, symbol in zip(name_elements, symbol_elements):
             new_coins[name.text] = AllCoins(
-                id=name.text, symbol=symbol.text, name=name.text, source="pool", is_shit=False
+                id=name.text,
+                symbol=symbol.text,
+                name=name.text,
+                source="pool",
+                is_shit=False,
             )
     logger.info(f"-Got {len(new_coins.keys())} coins from miningpoolstats")
 

@@ -12,7 +12,11 @@ def coingecko():
     new_coins = {}
     for coin in data:
         new_coins[coin["id"]] = AllCoins(
-            id=coin["id"], symbol=coin["symbol"], name=coin["name"], source="coinbase", is_shit=False
+            id=coin["id"],
+            symbol=coin["symbol"],
+            name=coin["name"],
+            source="coinbase",
+            is_shit=False,
         )
 
     update_all_coins(new_coins)
