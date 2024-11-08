@@ -45,7 +45,7 @@ def btc_talk():
                 if "[ANN] " in line and "»" not in line:
                     name, symbol = extract_name(line)
                     new_coins[name] = AllCoins(
-                        id=name, symbol=symbol, name=name, is_shit=False
+                        id=name, symbol=symbol, name=name, source="btc talk", is_shit=False
                     )
                     line = line.split("[ANN] ")[1].strip()
                     today_lines.append(line)

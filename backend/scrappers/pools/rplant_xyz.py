@@ -26,7 +26,7 @@ def rplant():
         new_coins = {}
         for name in name_elements:
             new_coins[name.text] = AllCoins(
-                id=name.text, symbol="", name=name.text, is_shit=False
+                id=name.text, symbol="", name=name.text, source="pool", is_shit=False
             )
     logger.info(f"-Got {len(new_coins.keys())} coins from rplantxyz")
     update_all_coins(new_coins)
