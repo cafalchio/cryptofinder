@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import logging
 
-load_dotenv(".env")
+load_dotenv("./prod.env")
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
 # Hours, days, weeks that the new coins w# Get the list of AllCoinsill be showing before it stops to be displayed
