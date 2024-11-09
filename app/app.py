@@ -19,7 +19,7 @@ def create_app(database=None):
     if database is None:
         database = os.getenv("FLASK_SECRET_KEY")
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("FLASK_DATABASE_PROD")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = TESTING
     app.config["TESTING"] = TESTING
     db.init_app(app)

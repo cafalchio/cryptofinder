@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import logging
 
-load_dotenv()
+load_dotenv(".env")
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
 # Hours, days, weeks that the new coins w# Get the list of AllCoinsill be showing before it stops to be displayed
@@ -10,7 +10,7 @@ DAYS = 1
 
 TESTING = os.getenv("APP_TESTING") == "true"
 LOG_FILE = os.getenv("LOG_FILE")
-DATABASE = os.getenv("FLASK_DATABASE_PROD")
+DATABASE = os.getenv("DATABASE")
 SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 COINGECKO_API = os.getenv("COINGECKO_API")
 ALL_COINS = os.path.join(dir_path, "all_coins.csv")
