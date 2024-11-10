@@ -4,7 +4,7 @@ from backend.scrappers import scrapper_runner
 
 
 if __name__ == "__main__":
-    config = ConfigApp("PROD")
+    config = ConfigApp(environment="PROD", config_file="environments.json")
 
     if len(sys.argv) > 1:
         if sys.argv[2] == "prod":
