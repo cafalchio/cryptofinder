@@ -14,7 +14,7 @@ class Rplant(BaseScrapper):
     def __init__(self):
         self.website = self.config["rplant"]
 
-    def rplant(self):
+    def run(self):
         with scrap_website_driver(self.website.url) as driver:
             coins_page = self.website.XPATHS[0]
 

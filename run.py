@@ -18,12 +18,10 @@ class ConfigApp:
 
 if __name__ == "__main__":
     args = sys.argv
-    config = ConfigApp("DEV")
+    config = ConfigApp()
     env = "Development" if config.testing else "Production"
-    print(f"------ Starting {env} ----------")
-
+    print(f"\n------ Starting {env} ----------\n")
     what_to_run = "app"
-
     if len(args) > 1 and what_to_run == "scrappers":
         what_to_run = "scrappers"
     if what_to_run == "app":
