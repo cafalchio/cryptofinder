@@ -6,10 +6,11 @@ from app.config_app import get_logger
 from backend.data.models import AllCoins
 from backend.utils.scrappers import BaseScrapper, scrap_website_driver
 from selenium.common.exceptions import TimeoutException
+
 logger = get_logger()
 
-class MiningPoolStats(BaseScrapper):
 
+class MiningPoolStats(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["miningpoolstats"]
         with scrap_website_driver(scrap_config["url"]) as driver:
@@ -19,7 +20,7 @@ class MiningPoolStats(BaseScrapper):
                 )
                 button.click()
             except TimeoutException:
-                pass 
+                pass
 
             WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.presence_of_element_located((By.XPATH, scrap_config["XPATHS"][1]))
@@ -38,5 +39,3 @@ class MiningPoolStats(BaseScrapper):
                     is_shit=False,
                 )
         self.update_all_coins(new_coins)
-
-    

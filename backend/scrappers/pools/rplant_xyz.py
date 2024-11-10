@@ -11,7 +11,6 @@ logger = get_logger()
 
 
 class Rplant(BaseScrapper):
-
     def run(self):
         scrap_config = self.config.scrappers["rplant"]
 
@@ -29,7 +28,11 @@ class Rplant(BaseScrapper):
             new_coins = {}
             for name in name_elements:
                 new_coins[name.text] = AllCoins(
-                    id=name.text, symbol="", name=name.text, source="pool", is_shit=False
+                    id=name.text,
+                    symbol="",
+                    name=name.text,
+                    source="pool",
+                    is_shit=False,
                 )
         breakpoint()
         self.update_all_coins(new_coins)

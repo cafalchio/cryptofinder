@@ -19,7 +19,6 @@ class WebsiteError(Exception):
     pass
 
 
-
 class BaseScrapper:
     def __init__(self, config):
         self.config = config
@@ -42,19 +41,22 @@ class BaseScrapper:
                     continue
                 logger.info(f"Found coin: {id}")
                 to_update.append(
-                    AllCoins(id=coin.id, symbol=coin.symbol, name=coin.name, is_shit=False)
+                    AllCoins(
+                        id=coin.id, symbol=coin.symbol, name=coin.name, is_shit=False
+                    )
                 )
             if to_update:
                 db.session.bulk_save_objects(to_update)
                 db.session.commit()
-
 
     def fetch_data(self, config):
         tries = 3
         for i in range(0, tries):
             time.sleep(5)
             breakpoint()
-            response = requests.get(url=config["url"], headers=config["headers"], timeout=config["timeout"])
+            response = requests.get(
+                url=config["url"], headers=config["headers"], timeout=config["timeout"]
+            )
             logger.info(f"Response: {response.status_code}")
             response.raise_for_status()
             return response

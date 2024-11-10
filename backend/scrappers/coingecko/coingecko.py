@@ -4,8 +4,8 @@ from backend.utils.scrappers import BaseScrapper
 
 logger = get_logger()
 
-class Coinbase(BaseScrapper):
 
+class Coinbase(BaseScrapper):
     def run(self):
         breakpoint()
         scrap_config = self.config.scrappers["coinbase"]
@@ -21,6 +21,3 @@ class Coinbase(BaseScrapper):
                 is_shit=False,
             )
         self.update_all_coins(new_coins)
-
-
-

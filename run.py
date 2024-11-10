@@ -12,7 +12,7 @@ class ConfigApp:
         with open("environments.json", "rb") as f:
             env = json.loads(f.read())[environment]
             for key, value in env.items():
-                setattr(self, key, value )
+                setattr(self, key, value)
 
 
 if __name__ == "__main__":
