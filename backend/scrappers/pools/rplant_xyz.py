@@ -11,18 +11,18 @@ logger = get_logger()
 
 
 class Rplant(BaseScrapper):
-    def __init__(self):
-        self.website = self.config["rplant"]
 
     def run(self):
-        with scrap_website_driver(self.website.url) as driver:
-            coins_page = self.website.XPATHS[0]
+        scrap_config = self.config.scrappers["rplant"]
 
-            WebDriverWait(driver, self.website.timeout).until(
+        with scrap_website_driver(scrap_config["url"]) as driver:
+            coins_page = scrap_config["XPATHS"][0]
+
+            WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.presence_of_element_located((By.XPATH, coins_page))
             )
             time.sleep(2)
-            name_elements = driver.find_elements(By.XPATH, self.website.XPATS[1])
+            name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][1])
             name_elements = [
                 td for td in name_elements if "sorting_1" in td.get_attribute("class")
             ]
@@ -31,5 +31,5 @@ class Rplant(BaseScrapper):
                 new_coins[name.text] = AllCoins(
                     id=name.text, symbol="", name=name.text, source="pool", is_shit=False
                 )
-        logger.info(f"-Got {len(new_coins.keys())} coins from rplantxyz")
+        logger.info(f"-Got {len(new_coins.keys())} coins from rplant")
         self.update_all_coins(new_coins)

@@ -40,7 +40,7 @@ class BaseScrapper:
             for id, coin in coins.items():
                 if id in existing_all_coins:
                     continue
-                logger.info("Found coin: {id}")
+                logger.info(f"Found coin: {id}")
                 to_update.append(
                     AllCoins(id=coin.id, symbol=coin.symbol, name=coin.name, is_shit=False)
                 )

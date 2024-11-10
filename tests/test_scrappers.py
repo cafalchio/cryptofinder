@@ -1,5 +1,5 @@
 import unittest
-from backend.scrappers.run_scrappers import update_all_coins
+from backend.scrappers.scrapper_runner import update_all_coins
 from tests.utils import BaseTestCase
 
 

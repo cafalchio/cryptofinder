@@ -5,11 +5,11 @@ logger = get_logger()
 
 
 def run_scrappers(config):
-        
     _scrappers = {
         "rplant": Rplant,
     }
-    for scrapper_config in config.scrappers:
-        scrapper = _scrappers[scrapper_config.name]
-        scrapper(scrapper_config).run()
+    for name, scrap_class in _scrappers.items():
+        logger.info(f"Running scrapper {name}")
+        scrapper = scrap_class(config)
+        scrapper.run()
    
