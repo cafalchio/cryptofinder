@@ -1,9 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from app.config_app import get_logger
-
-logger = get_logger()
+import logging
 
 
 db = SQLAlchemy()
@@ -23,6 +21,25 @@ def create_app(config):
     register_routes(app, db, config)
 
     migrate = Migrate(app, db)
+    logger = get_logger(config.testing)
     logger.info(migrate)
 
     return app
+
+
+def get_logger(testing=False):
+    if testing:
+        logging.basicConfig(
+            format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
+            level=logging.INFO,
+        )
+    else:
+        logging.basicConfig(
+            filename="app.log",
+            filemode="a",
+            format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
+            level=logging.INFO,
+        )
+    return logging.getLogger("cryptofinder")

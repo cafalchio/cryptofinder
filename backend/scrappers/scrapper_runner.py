@@ -1,4 +1,4 @@
-from app.config_app import get_logger
+from app.app import get_logger
 from backend.scrappers.btc_talk.btc_talk import BtcTalk
 from backend.scrappers.coingecko.coingecko import Coinbase
 from backend.scrappers.exchanges.xeggex import Xeggex

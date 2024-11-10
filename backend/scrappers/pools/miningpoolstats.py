@@ -2,7 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from app.config_app import get_logger
+from app.app import get_logger
 from backend.data.models import AllCoins
 from backend.utils.scrappers import BaseScrapper, scrap_website_driver
 from selenium.common.exceptions import TimeoutException

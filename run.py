@@ -1,10 +1,8 @@
 from flask import json
 from app.app import create_app
-from app.config_app import get_logger
 import sys
 from backend.scrappers import scrapper_runner
 
-logger = get_logger()
 
 
 class ConfigApp:

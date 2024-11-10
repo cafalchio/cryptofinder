@@ -1,4 +1,4 @@
-from app.config_app import get_logger
+from app.app import get_logger
 from backend.data.models import AllCoins
 from backend.utils.scrappers import BaseScrapper
 
