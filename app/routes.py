@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from sqlalchemy import desc
 
 
-def register_routes(app, db):
-    time_to_display = datetime.now() - timedelta(hours=24)
+def register_routes(app, db, config):
+    time_to_display = datetime.now() - timedelta(config.NEW_COINS_INTERVAL)
 
     @app.route("/")
     def new_coins_today():
@@ -15,15 +15,17 @@ def register_routes(app, db):
             .order_by(desc(AllCoins.added))
         )
         new_coins = result.scalars().all()
+        for coin in new_coins:
+            coin.added = coin.added.strftime("%Y-%b-%d")
 
         return render_template("new_coins_today.html", coins=new_coins)
 
     @app.route("/all_coins")
     def all_coins():
         result = db.session.execute(db.select(AllCoins).order_by(AllCoins.added))
-        all_coins = result.scalars().all() 
+        all_coins = result.scalars().all()
         for coin in all_coins:
-            coin.date = coin.date.strftime('%Y-%m-%d')  
+            coin.added = coin.added.strftime("%Y-%m-%d")
         return render_template("all_coins.html", coins=all_coins)
 
     @app.route("/shitcoins")

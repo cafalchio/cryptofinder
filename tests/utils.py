@@ -1,6 +1,5 @@
 import unittest
-from app.app import create_app, db
-from app.config_app import get_logger
+from app.app import create_app, db, get_logger
 
 logger = get_logger(testing=True)
 

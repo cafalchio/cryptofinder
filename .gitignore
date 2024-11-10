@@ -13,6 +13,7 @@ venv
 backend/logs/app.log
 *.csv
 *.vscode/
+environments.json
 
 # Distribution / packaging
 .Python

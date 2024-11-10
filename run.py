@@ -1,14 +1,20 @@
-from app.app import create_app
-from app.config_app import get_logger
+from app.app import create_app, ConfigApp
+import sys
+from backend.scrappers import scrapper_runner
 
-PORT = 10000
-DEBUG = False
-HOST = "0.0.0.0"
-
-logger = get_logger()
-flask_app = create_app()
 
 if __name__ == "__main__":
-    bar = {"-" * 30}
-    logger.info(f"{bar}\nRunning Server: {HOST}:{PORT} Debug: {DEBUG}\n{bar}")
-    flask_app.run(host=HOST, debug=DEBUG, port=PORT)
+    config = ConfigApp("PROD")
+
+    if len(sys.argv) > 1:
+        if sys.argv[2] == "prod":
+            config = ConfigApp("PROD")
+
+    env = "Development" if config.testing else "Production"
+    print(f"\n---------- Starting {env} ----------\n")
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "scrappers":
+            scrapper_runner.run_scrappers(config)
+    else:
+        flask_app = create_app(config)
+        flask_app.run(host=config.HOST, debug=config.DEBUG, port=config.PORT)

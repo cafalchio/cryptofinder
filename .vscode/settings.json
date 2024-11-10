@@ -1,3 +1,4 @@
 {
-  "path-intellisense.showHiddenFiles": true
+  "path-intellisense.showHiddenFiles": true,
+  "python.defaultInterpreterPath": "/home/matheus/Projects/cryptofinder/.venv/bin/python"
 }

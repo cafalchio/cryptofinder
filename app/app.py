@@ -1,40 +1,56 @@
-import os
+import json
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from app.config_app import DATABASE, TESTING, get_logger
-from sqlalchemy.orm import DeclarativeBase
-
-logger = get_logger()
+import logging
 
 
-class Base(DeclarativeBase):
-    pass
+db = SQLAlchemy()
+migrate = Migrate()
 
-
-db = SQLAlchemy(model_class=Base)
-
-
-def create_app(database=None):
-    if database is None:
-        database = DATABASE
+def create_app(config=None):
+    if config is None:
+        config = ConfigApp("DEV", "../environments.json")
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = database
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = TESTING
-    app.config["TESTING"] = TESTING
+    app.config["SQLALCHEMY_DATABASE_URI"] = config.DATABASE
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.testing
+    app.config["TESTING"] = config.testing
     db.init_app(app)
 
     with app.app_context():
         db.create_all()
     from app.routes import register_routes
 
-    register_routes(app, db)
+    register_routes(app, db, config)
 
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)
+    logger = get_logger(config.testing)
     logger.info(migrate)
 
     return app
 
 
-if __name__ == "__main__":
-    create_app().run(debug=True, port=10000)
+class ConfigApp:
+    def __init__(self, environment="DEV", config_file="environments.json"):
+        with open(config_file, "rb") as f:
+            env = json.loads(f.read())[environment]
+            for key, value in env.items():
+                setattr(self, key, value)
+
+
+def get_logger(testing=False):
+    if testing:
+        logging.basicConfig(
+            format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
+            level=logging.INFO,
+        )
+    else:
+        logging.basicConfig(
+            filename="app.log",
+            filemode="a",
+            format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
+            level=logging.INFO,
+        )
+    return logging.getLogger("cryptofinder")
