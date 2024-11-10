@@ -3,18 +3,20 @@ import sys
 from backend.scrappers import scrapper_runner
 
 
-if __name__ == "__main__":
-    config = ConfigApp(environment="PROD", config_file="environments.json")
+config = ConfigApp(environment="PROD", config_file="environments.json")
 
-    if len(sys.argv) > 1:
-        if sys.argv[2] == "prod":
-            config = ConfigApp("PROD")
+flask_app = create_app(config)
+
+
+if __name__ == "__main__":
+    if "prod" in sys.argv:
+        config = ConfigApp("PROD")
+    else:
+        config = ConfigApp("DEV")
 
     env = "Development" if config.testing else "Production"
     print(f"\n---------- Starting {env} ----------\n")
-    if len(sys.argv) > 1:
-        if sys.argv[1] == "scrappers":
-            scrapper_runner.run_scrappers(config)
-    else:
-        flask_app = create_app(config)
-        flask_app.run(host=config.HOST, debug=config.DEBUG, port=config.PORT)
+
+    if "scrappers" in sys.argv:
+        scrapper_runner.run_scrappers(config)
+    flask_app.run(host=config.HOST, debug=config.DEBUG, port=config.PORT)

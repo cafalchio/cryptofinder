@@ -8,6 +8,7 @@ import logging
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def create_app(config=None):
     if config is None:
         config = ConfigApp("DEV", "../environments.json")
