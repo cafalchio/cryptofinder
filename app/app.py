@@ -12,8 +12,8 @@ db = SQLAlchemy()
 def create_app(config):
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = config.DATABASE
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.is_prod
-    app.config["TESTING"] = config.is_prod
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.testing
+    app.config["TESTING"] = config.testing
     db.init_app(app)
 
     with app.app_context():
