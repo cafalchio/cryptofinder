@@ -1,27 +1,20 @@
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from app.config_app import DATABASE, TESTING, get_logger
+from app.config_app import get_logger
 from sqlalchemy.orm import DeclarativeBase
 
 logger = get_logger()
 
 
-class Base(DeclarativeBase):
-    pass
+db = SQLAlchemy()
 
 
-db = SQLAlchemy(model_class=Base)
-
-
-def create_app(database=None):
-    if database is None:
-        database = DATABASE
+def create_app(config):
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = database
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = TESTING
-    app.config["TESTING"] = TESTING
+    app.config["SQLALCHEMY_DATABASE_URI"] = config.DATABASE
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.TESTING
+    app.config["TESTING"] = config.TESTING
     db.init_app(app)
 
     with app.app_context():
@@ -34,7 +27,3 @@ def create_app(database=None):
     logger.info(migrate)
 
     return app
-
-
-if __name__ == "__main__":
-    create_app().run(debug=True, port=10000)

@@ -21,9 +21,9 @@ def register_routes(app, db):
     @app.route("/all_coins")
     def all_coins():
         result = db.session.execute(db.select(AllCoins).order_by(AllCoins.added))
-        all_coins = result.scalars().all() 
+        all_coins = result.scalars().all()
         for coin in all_coins:
-            coin.date = coin.date.strftime('%Y-%m-%d')  
+            coin.date = coin.date.strftime("%Y-%m-%d")
         return render_template("all_coins.html", coins=all_coins)
 
     @app.route("/shitcoins")
