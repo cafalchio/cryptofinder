@@ -15,6 +15,8 @@ def register_routes(app, db, config):
             .order_by(desc(AllCoins.added))
         )
         new_coins = result.scalars().all()
+        for coin in new_coins:
+            coin.added = coin.added.strftime("%Y-%b-%d")
 
         return render_template("new_coins_today.html", coins=new_coins)
 
@@ -23,7 +25,7 @@ def register_routes(app, db, config):
         result = db.session.execute(db.select(AllCoins).order_by(AllCoins.added))
         all_coins = result.scalars().all()
         for coin in all_coins:
-            coin.date = coin.date.strftime("%Y-%m-%d")
+            coin.added = coin.added.strftime("%Y-%m-%d")
         return render_template("all_coins.html", coins=all_coins)
 
     @app.route("/shitcoins")
