@@ -12,8 +12,10 @@ HOST = "0.0.0.0"
 
 class ConfigApp:
     def __init__(self, environment="DEV"):
-        with open("environment.json") as f:
-            self.config = json.loads(f)[environment]
+        with open("environments.json", "rb") as f:
+            self.config = json.loads(f.read())[environment]
+            for key, value in self.config.items():
+                setattr(self, key, value )
 
 
 logger = get_logger()
