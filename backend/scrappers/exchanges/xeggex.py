@@ -8,7 +8,7 @@ from backend.utils.utils import update_all_coins
 logger = logging.getLogger(__name__)
 
 
-def xeggex(self):
+def Xeggex(self):
     scrap_config = self.config.scrappers["xeggex"]
 
     new_coins = {}
@@ -23,6 +23,3 @@ def xeggex(self):
             new_coins[name] = AllCoins(id=name, symbol=symbol, name=name, is_shit=False)
     self.update_all_coins(new_coins)
 
-
-if __name__ == "__main__":
-    xeggex()
