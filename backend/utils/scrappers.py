@@ -52,8 +52,8 @@ class BaseScrapper:
     def fetch_data(self, config):
         tries = 3
         for i in range(0, tries):
+            time.sleep(5)
             breakpoint()
-            time.sleep(10)
             response = requests.get(url=config["url"], headers=config["headers"], timeout=config["timeout"])
             logger.info(f"Response: {response.status_code}")
             response.raise_for_status()
@@ -66,7 +66,7 @@ class scrap_website_driver:
 
     def __enter__(self):
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--headless")
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get(self.website)
         logger.info(f"Open: {self.website}")

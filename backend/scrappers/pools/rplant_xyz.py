@@ -21,7 +21,7 @@ class Rplant(BaseScrapper):
             WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.presence_of_element_located((By.XPATH, coins_page))
             )
-            time.sleep(2)
+            time.sleep(4)
             name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][1])
             name_elements = [
                 td for td in name_elements if "sorting_1" in td.get_attribute("class")
@@ -31,5 +31,5 @@ class Rplant(BaseScrapper):
                 new_coins[name.text] = AllCoins(
                     id=name.text, symbol="", name=name.text, source="pool", is_shit=False
                 )
-        logger.info(f"-Got {len(new_coins.keys())} coins from rplant")
+        breakpoint()
         self.update_all_coins(new_coins)
