@@ -14,7 +14,7 @@ def run_scrappers(config):
         "coinbase": Coinbase,
         "miningpoolstats": MiningPoolStats,
         "btc_talk": BtcTalk,
-        "xeggex": Xeggex
+        "xeggex": Xeggex,
     }
     for name, scrap_class in _scrappers.items():
         logger.info(f"Running scrapper {name}")
