@@ -1,16 +1,6 @@
-from flask import json
-from app.app import create_app
+from app.app import create_app, ConfigApp
 import sys
 from backend.scrappers import scrapper_runner
-
-
-
-class ConfigApp:
-    def __init__(self, environment="DEV"):
-        with open("environments.json", "rb") as f:
-            env = json.loads(f.read())[environment]
-            for key, value in env.items():
-                setattr(self, key, value)
 
 
 if __name__ == "__main__":

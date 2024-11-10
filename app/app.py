@@ -1,3 +1,4 @@
+import json
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -7,7 +8,9 @@ import logging
 db = SQLAlchemy()
 
 
-def create_app(config):
+def create_app(config=None):
+    if config is None:
+        config = ConfigApp("DEV", "../environments.json")
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = config.DATABASE
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = config.testing
@@ -25,6 +28,14 @@ def create_app(config):
     logger.info(migrate)
 
     return app
+
+
+class ConfigApp:
+    def __init__(self, environment="DEV", config_file="environments.json"):
+        with open(config_file, "rb") as f:
+            env = json.loads(f.read())[environment]
+            for key, value in env.items():
+                setattr(self, key, value)
 
 
 def get_logger(testing=False):

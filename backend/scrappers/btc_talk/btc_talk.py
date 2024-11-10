@@ -38,7 +38,6 @@ class BtcTalk(BaseScrapper):
                             is_shit=False,
                         )
                         line = line.split("[ANN] ")[1].strip()
-                        print(line)
                         today_lines.append(line)
                         logger.info(line)
             self.update_all_coins(new_coins)
