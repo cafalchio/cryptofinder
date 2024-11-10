@@ -6,7 +6,7 @@ import logging
 
 
 db = SQLAlchemy()
-
+migrate = Migrate()
 
 def create_app(config=None):
     if config is None:
@@ -23,7 +23,7 @@ def create_app(config=None):
 
     register_routes(app, db, config)
 
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)
     logger = get_logger(config.testing)
     logger.info(migrate)
 
