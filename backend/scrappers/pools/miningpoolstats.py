@@ -28,7 +28,6 @@ class MiningPoolStats(BaseScrapper):
 
             name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][2])
             symbol_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][3])
-            logger.info(name_elements)
             new_coins = {}
             for name, symbol in zip(name_elements, symbol_elements):
                 new_coins[name.text] = AllCoins(

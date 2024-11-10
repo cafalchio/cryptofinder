@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from sqlalchemy import desc
 
 
-def register_routes(app, db):
-    time_to_display = datetime.now() - timedelta(hours=24)
+def register_routes(app, db, config):
+    time_to_display = datetime.now() - timedelta(config.NEW_COINS_INTERVAL)
 
     @app.route("/")
     def new_coins_today():

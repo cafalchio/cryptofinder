@@ -20,7 +20,7 @@ def create_app(config):
         db.create_all()
     from app.routes import register_routes
 
-    register_routes(app, db)
+    register_routes(app, db, config)
 
     migrate = Migrate(app, db)
     logger.info(migrate)

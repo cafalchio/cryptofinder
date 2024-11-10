@@ -16,7 +16,12 @@ class ConfigApp:
 
 
 if __name__ == "__main__":
-    config = ConfigApp()
+    if len(sys.argv) > 1:
+        if sys.argv[2] == "prod":
+            config = ConfigApp("PROD")
+        else:
+            config = ConfigApp("DEV")
+            
     env = "Development" if config.testing else "Production"
     print(f"\n------ Starting {env} ----------\n")
     if len(sys.argv) > 1:
