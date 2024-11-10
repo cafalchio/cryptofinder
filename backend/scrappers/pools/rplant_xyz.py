@@ -34,5 +34,4 @@ class Rplant(BaseScrapper):
                     source="pool",
                     is_shit=False,
                 )
-        breakpoint()
         self.update_all_coins(new_coins)

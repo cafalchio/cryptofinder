@@ -7,7 +7,6 @@ logger = get_logger()
 
 class Coinbase(BaseScrapper):
     def run(self):
-        breakpoint()
         scrap_config = self.config.scrappers["coinbase"]
         response = self.fetch_data(scrap_config)
         data = response.json()

@@ -53,7 +53,6 @@ class BaseScrapper:
         tries = 3
         for i in range(0, tries):
             time.sleep(5)
-            breakpoint()
             response = requests.get(
                 url=config["url"], headers=config["headers"], timeout=config["timeout"]
             )
