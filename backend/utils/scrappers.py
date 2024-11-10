@@ -49,12 +49,12 @@ class BaseScrapper:
                 db.session.commit()
 
 
-    def fetch_data(self, website):
+    def fetch_data(self, config):
         tries = 3
         for i in range(0, tries):
-            logger.info(f"Getting data for {website.url}")
+            breakpoint()
             time.sleep(10)
-            response = requests.get(url=website.url, headers=website.headers, timeout=website.timeout)
+            response = requests.get(url=config["url"], headers=config["headers"], timeout=config["timeout"])
             logger.info(f"Response: {response.status_code}")
             response.raise_for_status()
             return response
