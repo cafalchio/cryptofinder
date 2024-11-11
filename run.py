@@ -15,8 +15,10 @@ if __name__ == "__main__":
         config = ConfigApp("DEV")
 
     env = "Development" if config.testing else "Production"
-    print(f"\n---------- Starting {env} ----------\n")
+    print(f"\n---------- Starting on {env} ----------\n")
 
     if "scrappers" in sys.argv:
+        print(f"\n---------- Running Scrapper ----------\n")
+
         scrapper_runner.run_scrappers(config)
     flask_app.run(host=config.HOST, debug=config.DEBUG, port=config.PORT)
