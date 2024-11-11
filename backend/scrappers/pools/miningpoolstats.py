@@ -34,7 +34,7 @@ class MiningPoolStats(BaseScrapper):
                     id=name.text,
                     symbol=symbol.text,
                     name=name.text,
-                    source="pool",
+                    source="miningpool",
                     is_shit=False,
                 )
         self.update_all_coins(new_coins)

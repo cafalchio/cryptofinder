@@ -21,6 +21,6 @@ class Xeggex(BaseScrapper):
             for match in matches:
                 name, symbol = match
                 new_coins[name] = AllCoins(
-                    id=name, symbol=symbol, name=name, is_shit=False
+                    id=name, symbol=symbol, name=name, source="xeggex", is_shit=False
                 )
         self.update_all_coins(new_coins)

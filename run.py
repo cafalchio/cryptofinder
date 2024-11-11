@@ -19,6 +19,6 @@ if __name__ == "__main__":
 
     if "scrappers" in sys.argv:
         print(f"\n---------- Running Scrapper ----------\n")
-
         scrapper_runner.run_scrappers(config)
+    
     flask_app.run(host=config.HOST, debug=config.DEBUG, port=config.PORT)
