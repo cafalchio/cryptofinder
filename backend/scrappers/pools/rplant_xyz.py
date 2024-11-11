@@ -31,7 +31,7 @@ class Rplant(BaseScrapper):
                     id=name.text,
                     symbol="",
                     name=name.text,
-                    source="pool",
+                    source="rplant",
                     is_shit=False,
                 )
         self.update_all_coins(new_coins)

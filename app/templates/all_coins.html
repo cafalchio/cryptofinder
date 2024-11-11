@@ -6,18 +6,18 @@
   <table class="table table-bordered">
     <thead class="table-dark">
       <tr>
-        <th>ID</th>
-        <th>Symbol</th>
         <th>Name</th>
+        <th>Symbol</th>
+        <th>Source</th>
         <th>Added at</th>
       </tr>
     </thead>
     <tbody>
       {% for coin in coins %}
       <tr>
-        <td>{{ coin.id }}</td>
-        <td>{{ coin.symbol }}</td>
         <td>{{ coin.name }}</td>
+        <td>{{ coin.symbol }}</td>
+        <td>{{ coin.source }}</td>
         <td>{{ coin.added }}</td>
       </tr>
       {% endfor %}
