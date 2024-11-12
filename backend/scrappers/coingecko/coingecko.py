@@ -16,7 +16,7 @@ class Coinbase(BaseScrapper):
                 id=coin["id"],
                 symbol=coin["symbol"],
                 name=coin["name"],
-                source="coinbase",
+                source="coingecko",
                 is_shit=False,
             )
         self.update_all_coins(new_coins)
