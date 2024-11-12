@@ -39,7 +39,7 @@ class BaseScrapper:
                 logger.info(f"Found coin: {id}")
                 to_update.append(
                     AllCoins(
-                        id=coin.id, symbol=coin.symbol, name=coin.name, is_shit=False
+                        id=coin.id, symbol=coin.symbol, name=coin.name, source=coin.source, is_shit=False
                     )
                 )
             if to_update:
@@ -64,7 +64,7 @@ class scrap_website_driver:
 
     def __enter__(self):
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--headless")
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get(self.website)
         logger.info(f"Open: {self.website}")
