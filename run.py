@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
 
     if "scrappers" in sys.argv:
-        print(f"\n---------- Running Scrapper ----------\n")
+        print("\n---------- Running Scrapper ----------\n")
         scrapper_runner.run_scrappers(config)
     
     env = "Development" if config.testing else "Production"
