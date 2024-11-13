@@ -13,9 +13,10 @@ logger = get_logger()
 class BtcTalk(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["btc_talk"]
-
+        if not scrap_config["enabled"]:
+            return
+        
         today_lines = []
-
         with scrap_website_driver(scrap_config["url"]) as driver:
             alts = WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.element_to_be_clickable((By.XPATH, scrap_config["XPATHS"][0]))

@@ -8,6 +8,8 @@ logger = get_logger()
 class Coinbase(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["coinbase"]
+        if not scrap_config["enabled"]:
+            return
         response = self.fetch_data(scrap_config)
         data = response.json()
         new_coins = {}

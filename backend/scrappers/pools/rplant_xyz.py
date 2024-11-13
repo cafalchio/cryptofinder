@@ -13,6 +13,8 @@ logger = get_logger()
 class Rplant(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["rplant"]
+        if not scrap_config["enabled"]:
+            return
 
         with scrap_website_driver(scrap_config["url"]) as driver:
             coins_page = scrap_config["XPATHS"][0]

@@ -13,6 +13,8 @@ logger = get_logger()
 class MiningPoolStats(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["miningpoolstats"]
+        if not scrap_config["enabled"]:
+            return
         with scrap_website_driver(scrap_config["url"]) as driver:
             try:
                 button = WebDriverWait(driver, scrap_config["timeout"]).until(
