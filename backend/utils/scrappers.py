@@ -26,6 +26,7 @@ class BaseScrapper:
     def update_all_coins(self, coins):
         if not coins:
             return
+
         app = create_app(self.config)
         with app.app_context():
             existing_all_coins = {

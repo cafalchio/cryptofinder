@@ -17,19 +17,20 @@ class F2pool(BaseScrapper):
             return
 
         with scrap_website_driver(scrap_config["url"]) as driver:
-            name_elements = scrap_config["XPATHS"][0]
-            WebDriverWait(driver, scrap_config["timeout"]).until(EC.presence_of_element_located((By.XPATH, name_elements)))
+            name_elements = WebDriverWait(driver, scrap_config["timeout"]).until(
+                EC.presence_of_all_elements_located((By.XPATH, scrap_config["XPATHS"][0]))
+            )
             time.sleep(2)
-            breakpoint()
             new_coins = {}
             for name in name_elements:
-                breakpoint()
-
-                new_coins[name.title] = AllCoins(
-                    id=name.title,
-                    symbol=name.text,
-                    name=name.title,
+                coin_name = name.get_property("title")
+                coin_id = name.text.split("\n")[0]
+                new_coins[coin_name] = AllCoins(
+                    id=coin_name,
+                    symbol=coin_id,
+                    name=coin_name,
                     source="f2pool",
                     is_shit=False,
                 )
+            
         self.update_all_coins(new_coins)
