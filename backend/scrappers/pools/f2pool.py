@@ -20,7 +20,6 @@ class F2pool(BaseScrapper):
             name_elements = WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.presence_of_all_elements_located((By.XPATH, scrap_config["XPATHS"][0]))
             )
-            time.sleep(2)
             new_coins = {}
             for name in name_elements:
                 coin_name = name.get_property("title")

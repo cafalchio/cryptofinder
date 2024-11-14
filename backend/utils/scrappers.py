@@ -50,7 +50,7 @@ class BaseScrapper:
     def fetch_data(self, config):
         tries = 3
         for i in range(0, tries):
-            time.sleep(5)
+            time.sleep(4)
             response = requests.get(
                 url=config["url"], headers=config["headers"], timeout=config["timeout"]
             )

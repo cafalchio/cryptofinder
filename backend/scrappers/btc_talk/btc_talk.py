@@ -22,7 +22,6 @@ class BtcTalk(BaseScrapper):
                 EC.element_to_be_clickable((By.XPATH, scrap_config["XPATHS"][0]))
             )
             alts.click()
-            time.sleep(3)
             soup = BeautifulSoup(driver.page_source, "html.parser")
             trs = soup.find_all("tr")
             new_coins = {}
