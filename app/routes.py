@@ -5,16 +5,17 @@ from sqlalchemy import desc
 
 
 def register_routes(app, db, config):
-    time_to_display = datetime.now() - timedelta(config.NEW_COINS_INTERVAL)
+    today = datetime.now().date()
 
     @app.route("/")
     def new_coins_today():
         result = db.session.execute(
             db.select(AllCoins)
-            .filter(AllCoins.added > time_to_display)
+            .filter(AllCoins.added > today)
             .order_by(desc(AllCoins.added))
         )
         new_coins = result.scalars().all()
+
         for coin in new_coins:
             coin.added = coin.added.strftime("%Y-%b-%d")
 
