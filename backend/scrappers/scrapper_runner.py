@@ -2,6 +2,7 @@ from app.app import get_logger
 from backend.scrappers.btc_talk.btc_talk import BtcTalk
 from backend.scrappers.coingecko.coingecko import Coinbase
 from backend.scrappers.exchanges.xeggex import Xeggex
+from backend.scrappers.pools.f2pool import F2pool
 from backend.scrappers.pools.miningpoolstats import MiningPoolStats
 from backend.scrappers.pools.rplant_xyz import Rplant
 
@@ -15,6 +16,7 @@ def run_scrappers(config):
         "miningpoolstats": MiningPoolStats,
         "btc_talk": BtcTalk,
         "xeggex": Xeggex,
+        "f2pool": F2pool,
     }
     for name, scrap_class in _scrappers.items():
         logger.info(f"Running scrapper {name}")

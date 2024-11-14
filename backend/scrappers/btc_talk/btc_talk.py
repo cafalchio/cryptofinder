@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-import time
 from app.app import get_logger
 from backend.data.models import AllCoins
 from backend.utils.scrappers import BaseScrapper, scrap_website_driver
@@ -13,15 +12,15 @@ logger = get_logger()
 class BtcTalk(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["btc_talk"]
+        if not scrap_config["enabled"]:
+            return
 
         today_lines = []
-
         with scrap_website_driver(scrap_config["url"]) as driver:
             alts = WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.element_to_be_clickable((By.XPATH, scrap_config["XPATHS"][0]))
             )
             alts.click()
-            time.sleep(3)
             soup = BeautifulSoup(driver.page_source, "html.parser")
             trs = soup.find_all("tr")
             new_coins = {}

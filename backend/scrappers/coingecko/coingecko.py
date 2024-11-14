@@ -8,6 +8,8 @@ logger = get_logger()
 class Coinbase(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["coinbase"]
+        if not scrap_config["enabled"]:
+            return
         response = self.fetch_data(scrap_config)
         data = response.json()
         new_coins = {}
@@ -20,5 +22,6 @@ class Coinbase(BaseScrapper):
                 is_shit=False,
             )
         self.update_all_coins(new_coins)
+
 
 # TODO: Filter coingecko coins based on details

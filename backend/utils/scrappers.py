@@ -26,6 +26,7 @@ class BaseScrapper:
     def update_all_coins(self, coins):
         if not coins:
             return
+
         app = create_app(self.config)
         with app.app_context():
             existing_all_coins = {
@@ -34,12 +35,21 @@ class BaseScrapper:
             to_update = []
 
             for id, coin in coins.items():
-                if id in existing_all_coins:
+                if (
+                    id in existing_all_coins
+                    or id.lower() in existing_all_coins
+                    or id.upper() in existing_all_coins
+                    or id.capitalize() in existing_all_coins
+                ):
                     continue
                 logger.info(f"Found coin: {id}")
                 to_update.append(
                     AllCoins(
-                        id=coin.id, symbol=coin.symbol, name=coin.name, source=coin.source, is_shit=False
+                        id=coin.id,
+                        symbol=coin.symbol,
+                        name=coin.name,
+                        source=coin.source,
+                        is_shit=False,
                     )
                 )
             if to_update:
@@ -49,7 +59,7 @@ class BaseScrapper:
     def fetch_data(self, config):
         tries = 3
         for i in range(0, tries):
-            time.sleep(5)
+            time.sleep(4)
             response = requests.get(
                 url=config["url"], headers=config["headers"], timeout=config["timeout"]
             )

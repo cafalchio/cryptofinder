@@ -1,4 +1,3 @@
-import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -13,6 +12,8 @@ logger = get_logger()
 class Rplant(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["rplant"]
+        if not scrap_config["enabled"]:
+            return
 
         with scrap_website_driver(scrap_config["url"]) as driver:
             coins_page = scrap_config["XPATHS"][0]
@@ -20,7 +21,6 @@ class Rplant(BaseScrapper):
             WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.presence_of_element_located((By.XPATH, coins_page))
             )
-            time.sleep(4)
             name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][1])
             name_elements = [
                 td for td in name_elements if "sorting_1" in td.get_attribute("class")
