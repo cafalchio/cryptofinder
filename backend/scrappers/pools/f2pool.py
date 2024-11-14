@@ -1,4 +1,3 @@
-import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -18,7 +17,9 @@ class F2pool(BaseScrapper):
 
         with scrap_website_driver(scrap_config["url"]) as driver:
             name_elements = WebDriverWait(driver, scrap_config["timeout"]).until(
-                EC.presence_of_all_elements_located((By.XPATH, scrap_config["XPATHS"][0]))
+                EC.presence_of_all_elements_located(
+                    (By.XPATH, scrap_config["XPATHS"][0])
+                )
             )
             new_coins = {}
             for name in name_elements:
@@ -31,5 +32,5 @@ class F2pool(BaseScrapper):
                     source="f2pool",
                     is_shit=False,
                 )
-            
+
         self.update_all_coins(new_coins)

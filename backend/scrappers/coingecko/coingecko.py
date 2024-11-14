@@ -23,4 +23,5 @@ class Coinbase(BaseScrapper):
             )
         self.update_all_coins(new_coins)
 
+
 # TODO: Filter coingecko coins based on details

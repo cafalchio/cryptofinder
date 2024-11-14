@@ -11,7 +11,7 @@ class Xeggex(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["xeggex"]
         if not scrap_config["enabled"]:
-            return        
+            return
         new_coins = {}
         pattern = re.compile(r"Announcing the New Listing of (.*) \((.*)\)")
 

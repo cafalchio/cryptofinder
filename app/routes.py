@@ -1,6 +1,6 @@
 from flask import render_template
 from backend.data.models import AllCoins
-from datetime import datetime, timedelta
+from datetime import datetime
 from sqlalchemy import desc
 
 

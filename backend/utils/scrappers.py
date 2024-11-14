@@ -35,12 +35,21 @@ class BaseScrapper:
             to_update = []
 
             for id, coin in coins.items():
-                if id in existing_all_coins:
+                if (
+                    id in existing_all_coins
+                    or id.lower() in existing_all_coins
+                    or id.upper() in existing_all_coins
+                    or id.capitalize() in existing_all_coins
+                ):
                     continue
                 logger.info(f"Found coin: {id}")
                 to_update.append(
                     AllCoins(
-                        id=coin.id, symbol=coin.symbol, name=coin.name, source=coin.source, is_shit=False
+                        id=coin.id,
+                        symbol=coin.symbol,
+                        name=coin.name,
+                        source=coin.source,
+                        is_shit=False,
                     )
                 )
             if to_update:
