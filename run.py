@@ -16,7 +16,7 @@ if __name__ == "__main__":
         config = ConfigApp("DEV")
         env = "Development"
 
-    if "scrappers" in sys.argv:
+    if "scrappers" in sys.argv or "scrapper" in sys.argv:
         print(f"\n---------- Running Scrapper {env} ----------\n")
         scrapper_runner.run_scrappers(config)
 
