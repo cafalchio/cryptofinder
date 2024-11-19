@@ -30,7 +30,7 @@ class BtcTalk(BaseScrapper):
                     if "[ANN] " in line and "»" not in line:
                         name, symbol = self.extract_name(line)
                         new_coins[name] = AllCoins(
-                            id=name,
+                            id=name.lower(),
                             symbol=symbol,
                             name=name,
                             source="btc talk",

@@ -26,7 +26,7 @@ class CoinFoundry(BaseScrapper):
                 coin_name, coin_id = name.text.split("(")
                 coin_id = coin_id[:-1]
                 new_coins[coin_name] = AllCoins(
-                    id=coin_name,
+                    id=coin_name.lower(),
                     symbol=coin_id,
                     name=coin_name,
                     source=self.name,

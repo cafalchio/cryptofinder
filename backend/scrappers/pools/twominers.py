@@ -25,7 +25,7 @@ class TwoMiners(BaseScrapper):
             for name in name_elements:
                 coin_name = name.get_property("title").replace("SOLO", "")
                 new_coins[coin_name] = AllCoins(
-                    id=coin_name,
+                    id=coin_name.lower(),
                     symbol="",
                     name=coin_name,
                     source=self.name,

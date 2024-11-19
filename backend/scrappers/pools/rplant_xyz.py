@@ -23,8 +23,7 @@ class Rplant(BaseScrapper):
                 EC.presence_of_element_located((By.XPATH, coins_page))
             )
             time.sleep(4)
-            name_elements = driver.find_elements(
-                By.XPATH, scrap_config["XPATHS"][1])
+            name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][1])
             name_elements = [
                 td for td in name_elements if "sorting_1" in td.get_attribute("class")
             ]

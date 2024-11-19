@@ -19,7 +19,7 @@ if __name__ == "__main__":
         flask_app, config = config_app("DEV")
 
     if "scrappers" in sys.argv or "scrapper" in sys.argv:
-        print(f"\n---------- Running Scrapper ----------\n")
+        print("\n---------- Running Scrapper ----------\n")
         for scrapper_name in config.scrappers.keys():
             scrapper_class = getattr(scrappers, scrapper_name)
             if config.scrappers[scrapper_name]["enabled"]:

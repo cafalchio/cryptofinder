@@ -18,22 +18,18 @@ class MiningPoolStats(BaseScrapper):
         with scrap_website_driver(scrap_config["url"]) as driver:
             try:
                 button = WebDriverWait(driver, scrap_config["timeout"]).until(
-                    EC.element_to_be_clickable(
-                        (By.XPATH, scrap_config["XPATHS"][0]))
+                    EC.element_to_be_clickable((By.XPATH, scrap_config["XPATHS"][0]))
                 )
                 button.click()
             except TimeoutException:
                 pass
 
             WebDriverWait(driver, scrap_config["timeout"]).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, scrap_config["XPATHS"][1]))
+                EC.presence_of_element_located((By.XPATH, scrap_config["XPATHS"][1]))
             )
 
-            name_elements = driver.find_elements(
-                By.XPATH, scrap_config["XPATHS"][2])
-            symbol_elements = driver.find_elements(
-                By.XPATH, scrap_config["XPATHS"][3])
+            name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][2])
+            symbol_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][3])
             new_coins = {}
             for name, symbol in zip(name_elements, symbol_elements):
                 new_coins[name.text] = AllCoins(

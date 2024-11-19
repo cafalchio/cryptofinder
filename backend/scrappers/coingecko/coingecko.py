@@ -15,7 +15,7 @@ class Coingecko(BaseScrapper):
         new_coins = {}
         for coin in data:
             new_coins[coin["id"]] = AllCoins(
-                id=coin["id"],
+                id=coin["name"].lower(),
                 symbol=coin["symbol"],
                 name=coin["name"],
                 source=self.name,

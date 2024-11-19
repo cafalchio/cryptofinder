@@ -23,15 +23,14 @@ class Tradeogre(BaseScrapper):
                 EC.presence_of_element_located((By.XPATH, coins_page))
             )
             time.sleep(4)
-            name_elements = driver.find_elements(
-                By.XPATH, scrap_config["XPATHS"][1])
+            name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][1])
             name_elements = [
                 td for td in name_elements if "sorting_1" in td.get_attribute("class")
             ]
             new_coins = {}
             for name in name_elements:
                 new_coins[name.text] = AllCoins(
-                    id=name.text,
+                    id=name.text.lower(),
                     symbol="",
                     name=name.text,
                     source=self.name,

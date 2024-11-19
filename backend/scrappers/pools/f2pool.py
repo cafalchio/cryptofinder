@@ -26,7 +26,7 @@ class F2pool(BaseScrapper):
                 coin_name = name.get_property("title")
                 coin_id = name.text.split("\n")[0]
                 new_coins[coin_name] = AllCoins(
-                    id=coin_name,
+                    id=coin_name.lower(),
                     symbol=coin_id,
                     name=coin_name,
                     source=self.name,
