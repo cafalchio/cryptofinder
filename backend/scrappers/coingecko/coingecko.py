@@ -7,7 +7,7 @@ logger = get_logger()
 
 class Coingecko(BaseScrapper):
     def run(self):
-        scrap_config = self.config.scrappers["coinbase"]
+        scrap_config = self.config.scrappers[self.name]
         if not scrap_config["enabled"]:
             return
         response = self.fetch_data(scrap_config)
@@ -18,7 +18,7 @@ class Coingecko(BaseScrapper):
                 id=coin["id"],
                 symbol=coin["symbol"],
                 name=coin["name"],
-                source="coingecko",
+                source=self.name,
                 is_shit=False,
             )
         self.update_all_coins(new_coins)

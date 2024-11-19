@@ -3,26 +3,29 @@ import sys
 from backend import scrappers
 
 
-config = ConfigApp(environment="PROD", config_file="environments.json")
+CONFIG_FILE = "environments.json"
 
-flask_app = create_app(config)
+
+def config_app(env):
+    config = ConfigApp(environment=env, config_file=CONFIG_FILE)
+    flask_app = create_app(config)
+    return flask_app, config
+
 
 if __name__ == "__main__":
     if "prod" in sys.argv:
-        config = ConfigApp("PROD")
-        env = "Production"
+        flask_app, config = config_app("DEV")
     else:
-        config = ConfigApp("DEV")
-        env = "Development"
+        flask_app, config = config_app("DEV")
 
     if "scrappers" in sys.argv or "scrapper" in sys.argv:
-        print(f"\n---------- Running Scrapper {env} ----------\n")
+        print(f"\n---------- Running Scrapper ----------\n")
         for scrapper_name in config.scrappers.keys():
             scrapper_class = getattr(scrappers, scrapper_name)
-            print(f"Running: {scrapper_class.__name__}")
-            scrapper = scrapper_class(config)
-            scrapper.run()
+            if config.scrappers[scrapper_name]["enabled"]:
+                print(f"Running: {scrapper_class.__name__}")
+                scrapper = scrapper_class(config)
+                scrapper.run()
 
-    print(f"\n---------- Starting {env} Server----------\n")
     print(f"{config.HOST}:{config.PORT} - DEBUG: {config.DEBUG}")
     flask_app.run(host=config.HOST, debug=config.DEBUG, port=config.PORT)
