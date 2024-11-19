@@ -9,7 +9,7 @@ from backend.utils.scrappers import BaseScrapper, scrap_website_driver
 logger = get_logger()
 
 
-class F2pool(BaseScrapper):
+class TwoMiners(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers[self.name]
         if not scrap_config["enabled"]:
@@ -24,10 +24,10 @@ class F2pool(BaseScrapper):
             new_coins = {}
             for name in name_elements:
                 coin_name = name.get_property("title")
-                coin_id = name.text.split("\n")[0]
+                breakpoint()
                 new_coins[coin_name] = AllCoins(
                     id=coin_name,
-                    symbol=coin_id,
+                    symbol="",
                     name=coin_name,
                     source=self.name,
                     is_shit=False,

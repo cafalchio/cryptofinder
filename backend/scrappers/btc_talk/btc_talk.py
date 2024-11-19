@@ -11,7 +11,7 @@ logger = get_logger()
 
 class BtcTalk(BaseScrapper):
     def run(self):
-        scrap_config = self.config.scrappers["btc_talk"]
+        scrap_config = self.config.scrappers[self.name]
         if not scrap_config["enabled"]:
             return
 

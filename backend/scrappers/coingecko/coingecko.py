@@ -5,7 +5,7 @@ from backend.utils.scrappers import BaseScrapper
 logger = get_logger()
 
 
-class Coinbase(BaseScrapper):
+class Coingecko(BaseScrapper):
     def run(self):
         scrap_config = self.config.scrappers["coinbase"]
         if not scrap_config["enabled"]:

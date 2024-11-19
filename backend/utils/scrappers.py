@@ -18,8 +18,12 @@ class WebsiteError(Exception):
 
 
 class BaseScrapper:
+
+    name = NotImplementedError
+
     def __init__(self, config):
         self.config = config
+        self.name = self.__class__.__name__.lower()
 
     def scrap(self):
         raise NotImplementedError

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 class Xeggex(BaseScrapper):
     def run(self):
-        scrap_config = self.config.scrappers["xeggex"]
+        scrap_config = self.config.scrappers[self.name]
         if not scrap_config["enabled"]:
             return
         new_coins = {}
@@ -22,6 +22,6 @@ class Xeggex(BaseScrapper):
             for match in matches:
                 name, symbol = match
                 new_coins[name] = AllCoins(
-                    id=name, symbol=symbol, name=name, source="xeggex", is_shit=False
+                    id=name, symbol=symbol, name=name, source=self.name, is_shit=False
                 )
         self.update_all_coins(new_coins)

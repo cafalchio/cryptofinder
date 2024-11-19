@@ -12,7 +12,7 @@ logger = get_logger()
 
 class Rplant(BaseScrapper):
     def run(self):
-        scrap_config = self.config.scrappers["rplant"]
+        scrap_config = self.config.scrappers[self.name]
         if not scrap_config["enabled"]:
             return
 
@@ -23,7 +23,8 @@ class Rplant(BaseScrapper):
                 EC.presence_of_element_located((By.XPATH, coins_page))
             )
             time.sleep(4)
-            name_elements = driver.find_elements(By.XPATH, scrap_config["XPATHS"][1])
+            name_elements = driver.find_elements(
+                By.XPATH, scrap_config["XPATHS"][1])
             name_elements = [
                 td for td in name_elements if "sorting_1" in td.get_attribute("class")
             ]
@@ -33,7 +34,7 @@ class Rplant(BaseScrapper):
                     id=name.text,
                     symbol="",
                     name=name.text,
-                    source="rplant",
+                    source=self.name,
                     is_shit=False,
                 )
         self.update_all_coins(new_coins)
