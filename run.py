@@ -14,7 +14,7 @@ def config_app(env):
 
 if __name__ == "__main__":
     if "prod" in sys.argv:
-        flask_app, config = config_app("DEV")
+        flask_app, config = config_app("PROD")
     else:
         flask_app, config = config_app("DEV")
 
