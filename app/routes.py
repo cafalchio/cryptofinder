@@ -1,17 +1,19 @@
 from flask import render_template
 from backend.data.models import AllCoins
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import desc
 
 
 def register_routes(app, db, config):
+    time_delta = timedelta(days=2)
     today = datetime.now().date()
+    cut_off_days = today - time_delta
 
     @app.route("/")
     def new_coins_today():
         result = db.session.execute(
             db.select(AllCoins)
-            .filter(AllCoins.added > today)
+            .filter(AllCoins.added > cut_off_days)
             .order_by(desc(AllCoins.added))
         )
         new_coins = result.scalars().all()
@@ -23,7 +25,8 @@ def register_routes(app, db, config):
 
     @app.route("/all_coins")
     def all_coins():
-        result = db.session.execute(db.select(AllCoins).order_by(AllCoins.added))
+        result = db.session.execute(
+            db.select(AllCoins).order_by(AllCoins.added))
         all_coins = result.scalars().all()
         for coin in all_coins:
             coin.added = coin.added.strftime("%Y-%m-%d")
@@ -31,7 +34,8 @@ def register_routes(app, db, config):
 
     @app.route("/shitcoins")
     def shitcoins():
-        result = db.session.execute(db.select(AllCoins).filter(AllCoins.is_shit))
+        result = db.session.execute(
+            db.select(AllCoins).filter(AllCoins.is_shit))
         # Get the list of AllCoins that are "shitcoins"
         shitcoins = result.scalars().all()
         return render_template("shitcoins.html", coins=shitcoins)
