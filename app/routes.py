@@ -5,7 +5,7 @@ from sqlalchemy import desc
 
 
 def register_routes(app, db, config):
-    time_delta = timedelta(days=2)
+    time_delta = timedelta(days=config.NEW_COINS_INTERVAL)
     today = datetime.now().date()
     cut_off_days = today - time_delta
 
