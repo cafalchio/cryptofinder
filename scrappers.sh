@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
-source ./venv/bin/activate
+# shellcheck disable=SC1091
+source /home/cafalchio/cryptofinder/venv/bin/activate
 python scrappers.py
 echo Running Scrappers
