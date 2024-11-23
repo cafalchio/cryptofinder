@@ -1,6 +1,5 @@
 from app.app import create_app, ConfigApp
 import sys
-from backend import scrappers
 
 CONFIG_FILE = "environments.json"
 

@@ -2,9 +2,6 @@ import random
 import time
 import requests
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from sqlalchemy import select
 import logging
@@ -80,18 +77,17 @@ class scrap_website_driver:
 
     def __enter__(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')  # Run without GUI
+        options.add_argument("--headless")  # Run without GUI
         # Overcome limited resource problems
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--no-sandbox')  # Bypass OS security model
-        options.add_argument('--disable-gpu')  # Applicable for headless mode
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")  # Bypass OS security model
+        options.add_argument("--disable-gpu")  # Applicable for headless mode
 
         selenium_server_url = "http://192.168.193.161:4444/wd/hub"
 
         # Initialize the WebDriver
         self.driver = webdriver.Remote(
-            command_executor=selenium_server_url,
-            options=options
+            command_executor=selenium_server_url, options=options
         )
         # self.driver = driver = webdriver.Chrome(service=Service(
         #     ChromeDriverManager().install()), options=chrome_options)
