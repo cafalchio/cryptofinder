@@ -1,6 +1,5 @@
 #!/usr/bin/bash
 
-# shellcheck disable=SC1091
+# Activate the virtual environment and run the Python script
 source /home/cafalchio/cryptofinder/.venv/bin/activate
-python scrappers.py
-echo Running Scrappers
+/home/cafalchio/cryptofinder/.venv/bin/python /home/cafalchio/cryptofinder/scrappers.py
