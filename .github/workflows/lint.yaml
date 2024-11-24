@@ -3,7 +3,7 @@ name: Lint
 on:
   push:
     branches:
-      - main  # Adjust to the branch(es) you want to monitor
+      - main  
   pull_request:
 
 jobs:
@@ -22,4 +22,4 @@ jobs:
         pip install tox tox-gh-actions
     - name: Lint with ruff
       run: |
-        tox -e ruff
+        ruff check

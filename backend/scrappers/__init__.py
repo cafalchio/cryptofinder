@@ -6,5 +6,5 @@ from backend.scrappers.pools.f2pool import F2pool as F2pool
 from backend.scrappers.pools.miningpoolstats import MiningPoolStats as MiningPoolStats
 from backend.scrappers.pools.rplant_xyz import Rplant as Rplant
 from backend.scrappers.pools.twominers import TwoMiners as TwoMiners
-from backend.scrappers.cryptoslate.cryptoslate import Cryptoslate
-from backend.scrappers.coinranking.coinranking import Coinranking
+from backend.scrappers.cryptoslate.cryptoslate import Cryptoslate as Cryptoslate
+from backend.scrappers.coinranking.coinranking import Coinranking as Coinranking
