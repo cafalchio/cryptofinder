@@ -7,3 +7,4 @@ from backend.scrappers.pools.miningpoolstats import MiningPoolStats as MiningPoo
 from backend.scrappers.pools.rplant_xyz import Rplant as Rplant
 from backend.scrappers.pools.twominers import TwoMiners as TwoMiners
 from backend.scrappers.cryptoslate.cryptoslate import Cryptoslate
+from backend.scrappers.coinranking.coinranking import Coinranking
