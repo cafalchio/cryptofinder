@@ -5,4 +5,4 @@ COPY . /cryptofinder/
 RUN pip3 install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 RUN pip install .
 EXPOSE 80
-CMD ["gunicorn", "run:app", "-b", "0.0.0.0:80", "-w", "2"]
+CMD ["gunicorn", "run:app", "-b", "0.0.0.0:80", "-w", "4"]
