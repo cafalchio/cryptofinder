@@ -1,22 +1,29 @@
-# Cryptofinder 
-
-### Tests
 [![Lint](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml)
 [![Tests](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml)
+
+# Cryptofinder 
+
+    https://www.dev.cryptofinder.cafalchio.site/
+
+
 
 Automated scraper to find newly created crypto
 
 #### Fase 1:
-* The Initial idea is to create a Database with the maximum ammount of crypto projects already created.
+* The Initial idea is to create a Database with the maximum ammount of crypto projects already created. Ok
 
 #### Fase 2
-*  Create scrapers and api pipeline to get as many coins as possible to the database.
+*  Create scrapers and api pipeline to get as many coins as possible to the database. Ok
   
 #### Fase 3
-* Run the pipeline daily and check manually the new coins.
+* Run the pipeline daily and check manually the new coins. Ok
 
-
-
+Todo:
+    - Automate the deployment from dev to prod every 2 days without any time out.
+    - Improve scrappers to extract more information
+    - Improve tests and logs
+    - Add automated emails
+    - Lastly, maybe never - Redo the front end
 
 
 ### How to run locally
