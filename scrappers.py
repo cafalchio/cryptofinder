@@ -1,8 +1,14 @@
-from app.app import create_app, ConfigApp
+from app.app import create_app, ConfigApp, get_logger
 import sys
 from backend import scrappers
 
 CONFIG_FILE = "environments.json"
+
+logger = get_logger()
+
+
+class ScrapError(Exception):
+    pass
 
 
 def config_app(env):
@@ -18,7 +24,10 @@ def run_scrappers(config):
         if config.scrappers[scrapper_name]["enabled"]:
             print(f"Running: {scrapper_class.__name__}")
             scrapper = scrapper_class(config)
-            scrapper.run()
+            try:
+                scrapper.run()
+            except ScrapError:
+                logger.error(f"ERROR on: {scrapper_name}")
 
 
 env = "DEV" if "dev" in sys.argv else "PROD"
