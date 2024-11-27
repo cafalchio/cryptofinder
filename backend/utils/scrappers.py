@@ -16,6 +16,10 @@ class WebsiteError(Exception):
     pass
 
 
+def prGreen(skk, end=None):
+    print("\033[92m {}\033[00m".format(skk), end=end)
+
+
 class BaseScrapper:
     name = NotImplementedError
 
@@ -56,8 +60,13 @@ class BaseScrapper:
                     )
                 )
             if to_update:
+                prGreen("Ok", end="...")
+                print(f"{len(to_update)} new")
                 db.session.bulk_save_objects(to_update)
                 db.session.commit()
+                to_update = []
+            else:
+                prGreen("Ok")
 
     def fetch_data(self, config):
         tries = 3
@@ -69,6 +78,9 @@ class BaseScrapper:
             logger.info(f"Response: {response.status_code}")
             response.raise_for_status()
             return response
+
+    def run():
+        raise NotImplementedError
 
 
 class scrap_website_driver:

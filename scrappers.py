@@ -22,7 +22,7 @@ def run_scrappers(config):
     for scrapper_name in config.scrappers.keys():
         scrapper_class = getattr(scrappers, scrapper_name)
         if config.scrappers[scrapper_name]["enabled"]:
-            print(f"Running: {scrapper_class.__name__}")
+            print(f"Running: {scrapper_class.__name__} ", end="...")
             scrapper = scrapper_class(config)
             try:
                 scrapper.run()
@@ -40,5 +40,5 @@ else:
 
 
 if __name__ == "__main__":
+    print(f"Running {env} config")
     run_scrappers(config)
-    print(f"Running {env}")

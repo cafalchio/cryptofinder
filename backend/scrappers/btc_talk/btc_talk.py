@@ -18,7 +18,8 @@ class BtcTalk(BaseScrapper):
         today_lines = []
         with scrap_website_driver(scrap_config["url"]) as driver:
             alts = WebDriverWait(driver, scrap_config["timeout"]).until(
-                EC.element_to_be_clickable((By.XPATH, scrap_config["XPATHS"][0]))
+                EC.element_to_be_clickable(
+                    (By.XPATH, scrap_config["XPATHS"][0]))
             )
             alts.click()
             soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -27,7 +28,7 @@ class BtcTalk(BaseScrapper):
             for tr in trs:
                 if "Today" in tr.text:
                     line = [td.text.strip() for td in tr.find_all("td")][2]
-                    if "[ANN] " in line and "»" not in line:
+                    if "[ANN]" in line and "»" not in line:
                         name, symbol = self.extract_name(line)
                         new_coins[name] = AllCoins(
                             id=name.lower(),
@@ -36,7 +37,7 @@ class BtcTalk(BaseScrapper):
                             source="btc talk",
                             is_shit=False,
                         )
-                        line = line.split("[ANN] ")[1].strip()
+                        line = line.split("ANN]")[1].strip()
                         today_lines.append(line)
                         logger.info(line)
             self.update_all_coins(new_coins)

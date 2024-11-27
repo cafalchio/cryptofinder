@@ -1,5 +1,3 @@
-
-
 from backend.data.models import AllCoins
 from backend.utils.scrappers import BaseScrapper, scrap_website_soup
 import logging
@@ -21,7 +19,7 @@ class Cryptoslate(BaseScrapper):
                 for h3 in h3s:
                     try:
                         name = h3.find("a", title=True)["title"]
-                        symbol = h3.find('span', class_='ticker').text.strip()
+                        symbol = h3.find("span", class_="ticker").text.strip()
                     except TypeError:
                         continue
                     new_coins[name] = AllCoins(
