@@ -59,11 +59,12 @@ class BaseScrapper:
                 })
             if to_insert:
                 prGreen("Ok", end="...")
-                print(f"{len(to_insert)} new")
                 stmt = insert(AllCoins).values(
                     to_insert).on_conflict_do_nothing()
                 db.session.execute(stmt)
                 db.session.commit()
+                print(f"{len(to_insert)} new")
+
             else:
                 prGreen("Ok")
 
