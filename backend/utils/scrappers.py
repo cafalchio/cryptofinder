@@ -5,7 +5,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from sqlalchemy import select
 import logging
-
+from sqlalchemy.dialects.postgresql import insert
 from app.app import create_app, db
 from backend.data.models import AllCoins
 
@@ -17,7 +17,7 @@ class WebsiteError(Exception):
 
 
 def prGreen(skk, end=None):
-    print("\033[92m {}\033[00m".format(skk), end=end)
+    print("\033[92m {}\033[00m" .format(skk), end=end)
 
 
 class BaseScrapper:
@@ -39,7 +39,7 @@ class BaseScrapper:
             existing_all_coins = {
                 coin.id for coin in db.session.execute(select(AllCoins)).scalars().all()
             }
-            to_update = []
+            to_insert = []
 
             for id, coin in coins.items():
                 if (
@@ -50,21 +50,20 @@ class BaseScrapper:
                 ):
                     continue
                 logger.info(f"Found coin: {id}")
-                to_update.append(
-                    AllCoins(
-                        id=coin.id,
-                        symbol=coin.symbol,
-                        name=coin.name,
-                        source=coin.source,
-                        is_shit=False,
-                    )
-                )
-            if to_update:
+                to_insert.append({
+                    "id": coin.id.strip().lower(),
+                    "symbol": coin.symbol,
+                    "name": coin.name,
+                    "source": coin.source,
+                    "is_shit": False,  # Explicit boolean
+                })
+            if to_insert:
                 prGreen("Ok", end="...")
-                print(f"{len(to_update)} new")
-                db.session.bulk_save_objects(to_update)
+                print(f"{len(to_insert)} new")
+                stmt = insert(AllCoins).values(
+                    to_insert).on_conflict_do_nothing()
+                db.session.execute(stmt)
                 db.session.commit()
-                to_update = []
             else:
                 prGreen("Ok")
 

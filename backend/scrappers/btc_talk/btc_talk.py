@@ -28,6 +28,8 @@ class BtcTalk(BaseScrapper):
             for tr in trs:
                 if "Today" in tr.text:
                     line = [td.text.strip() for td in tr.find_all("td")][2]
+                    with open("btc_talk_data", "a") as f:
+                        f.write(line)
                     if "[ANN]" in line and "»" not in line:
                         name, symbol = self.extract_name(line)
                         new_coins[name] = AllCoins(
