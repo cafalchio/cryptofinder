@@ -27,7 +27,7 @@ class BaseScrapper:
         self.config = config
         self.name = self.__class__.__name__
 
-    def scrap(self):
+    def run(self):
         raise NotImplementedError
 
     def update_all_coins(self, coins):
@@ -54,7 +54,7 @@ class BaseScrapper:
                     AllCoins(
                         id=coin.id,
                         symbol=coin.symbol,
-                        name=coin.name, 
+                        name=coin.name,
                         source=coin.source,
                         is_shit=False,
                     )

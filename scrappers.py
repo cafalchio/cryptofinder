@@ -28,6 +28,7 @@ def run_scrappers(config):
                 scrapper.run()
             except ScrapError:
                 logger.error(f"ERROR on: {scrapper_name}")
+                continue
 
 
 env = "DEV" if "dev" in sys.argv else "PROD"
