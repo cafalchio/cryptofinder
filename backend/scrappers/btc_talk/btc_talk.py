@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from app.app import get_logger
 from backend.data.models import AllCoins
-from backend.utils.scrappers import BaseScrapper, scrap_website_driver
+from backend.utils.scrappers import BaseScrapper, ScrapperError, scrap_website_driver
 import re
 
 logger = get_logger()
@@ -40,7 +40,7 @@ class BtcTalk(BaseScrapper):
                     name = name.replace(symbol, "")
                     try:
                         name = " ".join(name.split(" ")[0:3])
-                    except:
+                    except ScrapperError:
                         name = line
                     new_coins[name] = AllCoins(
                         id=name.lower(),
