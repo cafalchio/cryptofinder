@@ -18,8 +18,7 @@ class Coinranking(BaseScrapper):
                 profiles = soup.find_all("span", class_="profile__name")
                 for profile in profiles:
                     try:
-                        name = profile.find(
-                            "a", class_="profile__link").text.strip()
+                        name = profile.find("a", class_="profile__link").text.strip()
                         symbol = profile.find(
                             "span", class_="profile__subtitle-name"
                         ).text.strip()

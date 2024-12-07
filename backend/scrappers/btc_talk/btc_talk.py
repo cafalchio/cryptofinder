@@ -20,8 +20,7 @@ class BtcTalk(BaseScrapper):
 
         with scrap_website_driver(scrap_config["url"]) as driver:
             alts = WebDriverWait(driver, scrap_config["timeout"]).until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, scrap_config["XPATHS"][0]))
+                EC.element_to_be_clickable((By.XPATH, scrap_config["XPATHS"][0]))
             )
             alts.click()
             soup = BeautifulSoup(driver.page_source, "html.parser")
