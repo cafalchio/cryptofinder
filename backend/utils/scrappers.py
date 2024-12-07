@@ -1,6 +1,6 @@
 import random
 import time
-import requests
+from requests import request
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from sqlalchemy import select
@@ -15,8 +15,10 @@ logger = logging.getLogger(__name__)
 class WebsiteError(Exception):
     pass
 
+
 class ScrapperError(Exception):
     pass
+
 
 def prGreen(skk, end=None):
     print("\033[92m {}\033[00m".format(skk), end=end)
@@ -74,8 +76,12 @@ class BaseScrapper:
         tries = 3
         for i in range(0, tries):
             time.sleep(4)
-            response = requests.get(
-                url=config["url"], headers=config["headers"], timeout=config["timeout"]
+            response = request(
+                method=config["method"],
+                url=config["url"],
+                headers=config["headers"],
+                timeout=config["timeout"],
+                data=config["payload"],
             )
             logger.info(f"Response: {response.status_code}")
             response.raise_for_status()
