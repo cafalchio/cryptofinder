@@ -18,7 +18,6 @@ class BtcTalk(BaseScrapper):
         if not scrap_config["enabled"]:
             return
 
-        today_lines = []
         with scrap_website_driver(scrap_config["url"]) as driver:
             alts = WebDriverWait(driver, scrap_config["timeout"]).until(
                 EC.element_to_be_clickable(
@@ -46,18 +45,17 @@ class BtcTalk(BaseScrapper):
                         id=name.lower(),
                         symbol=symbol,
                         name=name,
-                        source="btc talk",
+                        source=self.name,
                         is_shit=False,
                     )
             self.update_all_coins(new_coins)
-        return today_lines
 
 
 def clean_text(text):
     for word in EXCLUDE:
         text = text.replace(word, " ")
-    text = re.sub(r'[^\x00-\x7F]', '', text)
-    text = re.sub(r'[^a-zA-Z\s]', '', text)
+    text = re.sub(r"[^\x00-\x7F]", "", text)
+    text = re.sub(r"[^a-zA-Z\s]", "", text)
     text = text.replace("  ", " ").strip().lstrip()
     return text
 
@@ -65,7 +63,7 @@ def clean_text(text):
 def extract(line):
     name = ""
     symbol = ""
-    symbol_re = r'\b[A-Z]{3,5}\b'
+    symbol_re = r"\b[A-Z]{3,5}\b"
     group = re.findall(symbol_re, line)
     symbol = next((g for g in group if g not in EXCLUDE), "")
     name = line.replace(symbol, "")

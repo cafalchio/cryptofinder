@@ -1,14 +1,15 @@
 from app.app import create_app, ConfigApp, get_logger
 import sys
 from backend import scrappers
+from concurrent.futures import ProcessPoolExecutor
 
 CONFIG_FILE = "environments.json"
 
 logger = get_logger()
 
 
-class ScrapError(Exception):
-    pass
+def prRed(text, end=None):
+    print(f"\033[31m {text}\033[00m", end=end)
 
 
 def config_app(env):
@@ -17,18 +18,25 @@ def config_app(env):
     return flask_app, config
 
 
+def run_scrapper(scrapper_name):
+    scrapper_class = getattr(scrappers, scrapper_name)
+    if config.scrappers[scrapper_name]["enabled"]:
+        print(f"Running: {scrapper_class.__name__} ", end="...")
+        scrapper = scrapper_class(config)
+        try:
+            scrapper.run()
+        except Exception as e:
+            prRed(f"Fail {e}")
+            logger.error(f"ERROR on: {scrapper_name} ")
+            logger.error(f"Exception:\n{e}")
+            return
+    return
+
+
 def run_scrappers(config):
-    print("\n---------- Running Scrapper ----------\n")
-    for scrapper_name in config.scrappers.keys():
-        scrapper_class = getattr(scrappers, scrapper_name)
-        if config.scrappers[scrapper_name]["enabled"]:
-            print(f"Running: {scrapper_class.__name__} ", end="...")
-            scrapper = scrapper_class(config)
-            try:
-                scrapper.run()
-            except ScrapError:
-                logger.error(f"ERROR on: {scrapper_name}")
-                continue
+    print("\n---------- Running Scrappers ----------\n")
+    with ProcessPoolExecutor() as executor:
+        executor.map(run_scrapper, config.scrappers.keys())
 
 
 env = "DEV" if "dev" in sys.argv else "PROD"

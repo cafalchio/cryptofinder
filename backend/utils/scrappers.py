@@ -20,8 +20,8 @@ class ScrapperError(Exception):
     pass
 
 
-def prGreen(skk, end=None):
-    print("\033[92m {}\033[00m".format(skk), end=end)
+def prGreen(text, end=None):
+    print(f"\033[92m {text}\033[00m", end=end)
 
 
 class BaseScrapper:
@@ -36,6 +36,7 @@ class BaseScrapper:
 
     def update_all_coins(self, coins):
         if not coins:
+            prGreen("Ok")
             return
 
         app = create_app(self.config)
