@@ -1,6 +1,6 @@
 import random
 import time
-from requests import request
+import requests
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from sqlalchemy import select
@@ -76,7 +76,7 @@ class BaseScrapper:
         tries = 3
         for i in range(0, tries):
             time.sleep(4)
-            response = request(
+            response = requests.request(
                 method=config["method"],
                 url=config["url"],
                 headers=config["headers"],
