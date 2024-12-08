@@ -10,3 +10,4 @@ from backend.scrappers.cryptoslate.cryptoslate import Cryptoslate as Cryptoslate
 from backend.scrappers.coinranking.coinranking import Coinranking as Coinranking
 from backend.scrappers.livecoinwatch.livecoinwatch import LiveCoinWatch as LiveCoinWatch
 from backend.scrappers.coincarp.coincarp import CoinCarp as CoinCarp
+from backend.scrappers.coinmarketcap.coinmarketcap import CoinMarketCap as CoinMarketCap
