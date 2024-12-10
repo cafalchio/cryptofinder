@@ -13,14 +13,15 @@ class CoinMarketCap(BaseScrapper):
             return
         new_coins = {}
         with scrap_website_soup(scrap_config["url"]) as soup:
-            rows = soup.find_all('tr', style="cursor:pointer")
+            rows = soup.find_all("tr", style="cursor:pointer")
             for row in rows:
-                tds = row.find_all('td')
+                tds = row.find_all("td")
                 if len(tds) >= 2 and tds[-2].text == "Own Blockchain":
                     for sp in row.find_all():
-                        name_tag = sp.find('p', class_='sc-71024e3e-0 ehyBa-d')
+                        name_tag = sp.find("p", class_="sc-71024e3e-0 ehyBa-d")
                         symbol_tag = sp.find(
-                            'p', class_='sc-71024e3e-0 OqPKt coin-item-symbol')
+                            "p", class_="sc-71024e3e-0 OqPKt coin-item-symbol"
+                        )
                         if name_tag and symbol_tag:
                             name = name_tag.text.strip()
                             symbol = symbol_tag.text.strip()
