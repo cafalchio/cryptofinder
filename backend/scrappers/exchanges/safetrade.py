@@ -13,17 +13,14 @@ class SafeTrade(BaseScrapper):
             return
         new_coins = {}
         for url in scrap_config["url"]:
-            print(url)
             with scrap_website_driver(url) as driver:
                 WebDriverWait(driver, scrap_config["timeout"]).until(
                     lambda d: d.execute_script(
                         "return document.readyState") == "complete"
                 )
                 soup = BeautifulSoup(driver.page_source, "html.parser")
-                print(soup)
                 elements = soup.find_all("div", class_="z-table-row")
                 for element in elements:
-                    print(element)
                     try:
                         name = element.find("span", class_="name").text.strip()
                         symbol = element.find(
