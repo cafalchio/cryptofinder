@@ -97,6 +97,8 @@ class scrap_website_driver:
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")  # Run without GUI
         # Overcome limited resource problems
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("start-maximized")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--no-sandbox")  # Bypass OS security model
         options.add_argument("--disable-gpu")  # Applicable for headless mode
