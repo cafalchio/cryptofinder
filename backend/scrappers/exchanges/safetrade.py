@@ -1,9 +1,7 @@
 from backend.data.models import AllCoins
 from bs4 import BeautifulSoup
-from backend.utils.scrappers import BaseScrapper, scrap_website_driver, scrap_website_soup
+from backend.utils.scrappers import BaseScrapper, scrap_website_driver
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class SafeTrade(BaseScrapper):
