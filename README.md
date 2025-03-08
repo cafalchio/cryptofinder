@@ -1,7 +1,7 @@
 [![Lint](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml)
 [![Tests](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml)
 
-# Cryptofinder 
+# Cryptofinder (dev version)
 
     https://www.dev.cryptofinder.cafalchio.site/
 
