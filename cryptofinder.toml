@@ -1,5 +1,5 @@
 [project]
-version = "0.1"
+version = "0.1.1"
 dynamic = ["version"]
 name = "cryptofinder"
 description = "Webfinder for new cryptocurrencies"
