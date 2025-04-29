@@ -15,7 +15,7 @@ block content %}
     <tbody>
       {% for coin in coins %}
       <tr>
-        <td><a href="https://google.com/search?q={{ (coin.name ~ ' crypto') | urlencode }}">{{ coin.name }}</a></td>
+        <td><a href="https://google.com/search?q={{ (coin.name ~ ' crypto') | urlencode }}" target="_blank">{{ coin.name }}</a></td>
         <td>{{ coin.symbol }}</td>
         <td>{{ coin.source }}</td>
         <td>{{ coin.added }}</td>
