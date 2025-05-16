@@ -3,7 +3,7 @@
 
 # Cryptofinder (dev version, hosted at home)
     // Not working at the moment as I need to get a domain
-    https://www.dev.cryptofinder.cafalchio.site/
+    www.cryptofinder.cafalchio.com.br
 
 
 
