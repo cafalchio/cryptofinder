@@ -5,11 +5,17 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from sqlalchemy import select
 import logging
-
+from sqlalchemy.dialects.postgresql import insert
 from app.app import create_app, db
 from backend.data.models import AllCoins
 
+
 logger = logging.getLogger(__name__)
+
+import unicodedata
+
+def normalize_id(s):
+    return unicodedata.normalize("NFKC", s).strip().lower()
 
 
 class WebsiteError(Exception):
@@ -34,6 +40,7 @@ class BaseScrapper:
     def run(self):
         raise NotImplementedError
 
+
     def update_all_coins(self, coins):
         if not coins:
             prGreen("Ok")
@@ -42,19 +49,13 @@ class BaseScrapper:
         app = create_app(self.config)
         with app.app_context():
             existing_all_coins = {
-                coin.id for coin in db.session.execute(select(AllCoins)).scalars().all()
+                normalize_id(coin.id) for coin in db.session.execute(select(AllCoins)).scalars()
             }
             to_update = []
 
             for id, coin in coins.items():
-                if (
-                    id in existing_all_coins
-                    or id.lower() in existing_all_coins
-                    or id.upper() in existing_all_coins
-                    or id.capitalize() in existing_all_coins
-                ):
+                if normalize_id(id) in existing_all_coins:
                     continue
-                logger.info(f"Found coin: {id}")
                 to_update.append(
                     AllCoins(
                         id=coin.id,
@@ -67,7 +68,12 @@ class BaseScrapper:
             if to_update:
                 prGreen("Ok", end="...")
                 print(f"{len(to_update)} new")
-                db.session.bulk_save_objects(to_update)
+                stmt = insert(AllCoins).values([
+                    {"id": coin.id, "symbol": coin.symbol, "name": coin.name, "source": coin.source, "is_shit": False}
+                    for coin in coins.values()
+                ])
+                stmt = stmt.on_conflict_do_nothing(index_elements=["id"])
+                db.session.execute(stmt)
                 db.session.commit()
                 to_update = []
             else:

@@ -14,7 +14,7 @@ class Coingecko(BaseScrapper):
         data = response.json()
         new_coins = {}
         for coin in data:
-            new_coins[coin["id"]] = AllCoins(
+            new_coins[coin["id"].lower().strip()] = AllCoins(
                 id=coin["name"].lower(),
                 symbol=coin["symbol"],
                 name=coin["name"],
@@ -24,4 +24,4 @@ class Coingecko(BaseScrapper):
         self.update_all_coins(new_coins)
 
 
-# TODO: Filter coingecko coins based on details
+
