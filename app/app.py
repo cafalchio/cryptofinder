@@ -45,6 +45,7 @@ def get_logger(testing=False):
             format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
             datefmt="%H:%M:%S",
             level=logging.INFO,
+            force=True
         )
     else:
         logging.basicConfig(

@@ -103,7 +103,7 @@ class scrap_website_driver:
         options.add_argument("--no-sandbox")  # Bypass OS security model
         options.add_argument("--disable-gpu")  # Applicable for headless mode
 
-        selenium_server_url = "http://192.168.193.161:4444/wd/hub"
+        selenium_server_url = "http://192.168.0.75:4444/wd/hub"
 
         # Initialize the WebDriver
         self.driver = webdriver.Remote(
