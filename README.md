@@ -4,7 +4,7 @@
 # Cryptofinder (dev version, hosted at home)
     // Not working at the moment as I need to get a domain
 
-    www.cryptofinder.cafalchio.com.br
+    https://www.crypto.cafalchio.com.br
     
 
 Automated scraper to find newly created crypto
