@@ -1,9 +1,10 @@
 [![Lint](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/lint.yaml)
 [![Tests](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml/badge.svg)](https://github.com/cafalchio/cryptofinder/actions/workflows/tests.yaml)
 
+### Hosted at my homeserver
 
-    https://www.crypto.cafalchio.com.br
-    ](https://www.crypto.cafalchio.com.br)
+https://www.crypto.cafalchio.com.br
+
 
 Automated scraper to find newly created crypto
 
