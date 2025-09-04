@@ -1,5 +1,4 @@
 import unittest
-from backend.scrappers.
 from tests.utils import BaseTestCase
 
 
