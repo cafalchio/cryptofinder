@@ -35,10 +35,8 @@ def run_scrapper(scrapper_name):
 
 def run_scrappers(config):
     print("\n---------- Running Scrappers ----------\n")
-    for key in config.scrappers.keys():
-        run_scrapper(key)
-    # with ProcessPoolExecutor() as executor:
-    #     executor.map(run_scrapper, config.scrappers.keys())
+    with ProcessPoolExecutor() as executor:
+        executor.map(run_scrapper, config.scrappers.keys())
 
 
 env = "DEV" if "dev" in sys.argv else "PROD"

@@ -8,11 +8,11 @@ import logging
 from sqlalchemy.dialects.postgresql import insert
 from app.app import create_app, db
 from backend.data.models import AllCoins
-
+import unicodedata
 
 logger = logging.getLogger(__name__)
 
-import unicodedata
+
 
 def normalize_id(s):
     return unicodedata.normalize("NFKC", s).strip().lower()
