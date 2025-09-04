@@ -31,5 +31,5 @@ jobs:
           uv-${{ runner.os }}-${{ matrix.python-version }}-
     - name: Install dependencies
       run: uv pip install --system tox tox-gh-actions
-    - name: Test with tox
-      run: tox
+    - name: Test with pytest
+      run: pytest -v

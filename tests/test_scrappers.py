@@ -1,12 +1,12 @@
 import unittest
-from backend.scrappers.scrapper_runner import update_all_coins
+from backend.scrappers.
 from tests.utils import BaseTestCase
 
 
 class TestScrappers(BaseTestCase):
     def test_update_all_coins_no_coins(self):
         expected = None
-        actual = update_all_coins([])
+        actual = self.update_all_coins([])
         self.assertEqual(expected, actual)
 
     # @patch("app.app.create_app")
