@@ -29,7 +29,9 @@ jobs:
         key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           uv-${{ runner.os }}-${{ matrix.python-version }}-
-    - name: Install dependencies
-      run: uv pip install --system tox tox-gh-actions
+    - name: Install main dependencies
+      run: uv pip install --system -r requirements.txt
+    - name: Install dev dependencies
+      run: uv pip install --system -r dev-requirements.txt
     - name: Test with pytest
       run: pytest -v
