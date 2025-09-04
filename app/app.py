@@ -49,8 +49,8 @@ def get_logger(testing=False):
         )
     else:
         logging.basicConfig(
-            filename="app.log",
-            filemode="a",
+            # filename="app.log",
+            # filemode="a",
             format="%(asctime)s-%(name)s-%(levelname)s - %(message)s",
             datefmt="%H:%M:%S",
             level=logging.INFO,

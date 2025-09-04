@@ -88,3 +88,8 @@ dependencies = [
     "werkzeug==3.0.2",
     "wsproto==1.2.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.1.2",
+]

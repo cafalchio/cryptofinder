@@ -5,7 +5,7 @@ from sqlalchemy import desc
 
 
 def register_routes(app, db, config):
-    time_delta = timedelta(hours= 24 * int(config.NEW_COINS_INTERVAL))
+    time_delta = timedelta(hours=20 * int(config.NEW_COINS_INTERVAL))
     today = datetime.now().date()
     cut_off_days = today - time_delta
 
@@ -30,13 +30,6 @@ def register_routes(app, db, config):
         for coin in all_coins:
             coin.added = coin.added.strftime("%Y-%m-%d")
         return render_template("all_coins.html", coins=all_coins)
-
-    @app.route("/shitcoins")
-    def shitcoins():
-        result = db.session.execute(db.select(AllCoins).filter(AllCoins.is_shit))
-        # Get the list of AllCoins that are "shitcoins"
-        shitcoins = result.scalars().all()
-        return render_template("shitcoins.html", coins=shitcoins)
 
     @app.route("/log")
     def log():

@@ -49,11 +49,6 @@ class TestRoutes(BaseTestCase):
         actual = [td.text for td in soup.findAll("td")]
         self.assertIn(expected, actual)
 
-    def test_shitcoins(self):
-        endpoint = "/shitcoins"
-        response = self.get_response(endpoint)
-        self.assertEqual(response.status_code, 200)
-
     def test_log(self):
         response = self.client.get("/log")
         self.assertEqual(response.status_code, 200)

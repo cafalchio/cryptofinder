@@ -17,7 +17,7 @@ if env == "PROD":
     flask_app, config = config_app("PROD")
 else:
     flask_app, config = config_app("DEV")
-    print(f"{config.HOST}:{config.PORT} - DEBUG: {config.DEBUG}")
+    print(f"{config.HOST}:{config.DEVPORT} - DEBUG: {config.DEBUG}")
 
 app = flask_app
 
