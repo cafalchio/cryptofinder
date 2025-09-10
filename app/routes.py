@@ -6,14 +6,13 @@ from sqlalchemy import desc
 
 def register_routes(app, db, config):
     time_delta = timedelta(hours=20 * int(config.NEW_COINS_INTERVAL))
-    today = datetime.now().date()
-    cut_off_days = today - time_delta
+    cutoff = datetime.now() - time_delta  
 
     @app.route("/")
     def new_coins_today():
         result = db.session.execute(
             db.select(AllCoins)
-            .filter(AllCoins.added > cut_off_days)
+            .filter(AllCoins.added >= cutoff)
             .order_by(desc(AllCoins.added))
         )
         new_coins = result.scalars().all()
