@@ -5,7 +5,7 @@ from sqlalchemy import desc
 
 
 def register_routes(app, db, config):
-    time_delta = timedelta(hours=20 * int(config.NEW_COINS_INTERVAL))
+    time_delta = timedelta(days=int(config.NEW_COINS_INTERVAL))
     cutoff = datetime.now() - time_delta  
 
     @app.route("/")
