@@ -1,279 +1,304 @@
 {% extends 'base.html' %}
 
-{% block title %}New Coins Today - CryptoFinder{% endblock %}
+{% block title %}Recent Coins - CryptoFinder{% endblock %}
+
+{% block nav_recent %}active{% endblock %}
 
 {% block content %}
 <style>
-  /* ===== New Coins Today Page Styles ===== */
-  .new-coins-header {
-    margin-bottom: var(--space-3xl);
+  /* ===== Recent Coins Page ===== */
+  .page-header {
+    margin-bottom: var(--space-xl);
   }
 
-  .new-coins-header h1 {
+  .page-title-group {
     display: flex;
     align-items: center;
     gap: var(--space-md);
     flex-wrap: wrap;
+    margin-bottom: var(--space-sm);
   }
 
-  .new-today-badge {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-    color: var(--color-white);
-    padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-full);
-    font-size: 0.95rem;
-    font-weight: 600;
-    min-width: 60px;
-    text-align: center;
-    animation: pulse 2s infinite;
-    box-shadow: var(--shadow-md);
-  }
-
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.85;
-    }
-  }
-
-  .coins-table-container {
-    background: var(--color-white);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--color-gray-200);
-  }
-
-  .table-header-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: var(--space-lg);
-    padding: var(--space-lg);
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-    color: var(--color-white);
-    font-weight: 600;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .table-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: var(--space-lg);
-    padding: var(--space-lg);
-    border-bottom: 1px solid var(--color-gray-200);
+  .page-title-group h1 {
+    margin-bottom: 0;
+    font-size: 2rem;
+    display: flex;
     align-items: center;
-    transition: all 0.2s ease;
+    gap: var(--space-md);
   }
 
-  .table-row:last-child {
-    border-bottom: none;
+  /* Live pulse indicator */
+  .live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    animation: live-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
   }
 
-  .table-row:hover {
-    background-color: var(--color-gray-50);
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
   }
 
+  /* ===== Table Columns ===== */
+  .recent-coins-grid {
+    grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.4fr);
+  }
+
+  /* ===== Link Style for coin names ===== */
   .coin-name-link {
     font-weight: 600;
-    color: var(--color-primary);
-    transition: all 0.2s ease;
+    color: var(--color-dark);
+    transition: color 0.15s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: inline-flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
+    max-width: 100%;
+    font-size: 0.95rem;
   }
 
   .coin-name-link:hover {
-    color: var(--color-primary-dark);
+    color: var(--color-primary);
     text-decoration: none;
-    transform: translateX(4px);
   }
 
-  .coin-name-link:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-    border-radius: var(--radius-sm);
-  }
-
-  .coin-name-link::before {
-    content: '🔗';
+  .coin-name-link .link-icon {
     opacity: 0;
-    transition: opacity 0.2s ease;
-    font-size: 0.9rem;
+    font-size: 0.65rem;
+    color: var(--color-primary);
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
   }
 
-  .coin-name-link:hover::before {
+  .coin-name-link:hover .link-icon {
     opacity: 1;
   }
 
-  .coin-symbol {
-    background-color: rgba(14, 165, 233, 0.15);
-    color: var(--color-primary);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-md);
-    font-weight: 700;
-    font-size: 0.75rem;
-    display: inline-block;
+  /* ===== Scroll container ===== */
+  #recent-coins-list {
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-300) transparent;
   }
 
-  .coin-source {
-    display: inline-block;
-    background-color: rgba(139, 92, 246, 0.15);
-    color: var(--color-secondary);
-    padding: var(--space-xs) var(--space-md);
+  #recent-coins-list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  #recent-coins-list::-webkit-scrollbar-track { background: transparent; }
+
+  #recent-coins-list::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
     border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 500;
   }
 
-  .coin-date {
-    color: var(--color-gray-600);
-    font-size: 0.9rem;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: var(--space-3xl);
-    color: var(--color-gray-600);
-    background: var(--color-white);
-    border-radius: var(--radius-lg);
-    border: 1px dashed var(--color-gray-200);
-  }
-
-  .empty-state-icon {
-    font-size: 3.5rem;
-    margin-bottom: var(--space-lg);
-    opacity: 0.6;
-  }
-
-  .empty-state h3 {
-    color: var(--color-gray-700);
-    margin-bottom: var(--space-md);
-  }
-
-  /* Responsive Design */
-  @media (max-width: 1024px) {
-    .table-row,
-    .table-header-row {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-md);
-    }
-
-    .table-row {
-      padding: var(--space-md);
-    }
-
-    .table-header-row {
-      padding: var(--space-md);
-    }
-  }
-
+  /* ===== Responsive ===== */
   @media (max-width: 768px) {
-    .new-coins-header h1 {
+    .page-title-group h1 {
       font-size: 1.5rem;
     }
 
-    .new-today-badge {
-      font-size: 0.8rem;
-      padding: var(--space-xs) var(--space-md);
-      min-width: auto;
+    .recent-coins-grid {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
     }
 
-    .table-header-row {
+    .col-source-header,
+    .col-source-cell {
       display: none;
     }
 
-    .coins-table-container {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
+    #recent-coins-list {
+      max-height: 75vh;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .recent-coins-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, auto) minmax(0, auto);
     }
 
-    /* Compact single-line row: Name | Source | Date */
-    .table-row {
-      grid-template-columns: 1fr auto auto;
-      gap: var(--space-sm);
-      padding: 0.6rem var(--space-md);
-      align-items: center;
-    }
-
-    /* Hide Symbol column on mobile */
-    .table-row [data-label="Symbol"] {
+    .col-symbol-header,
+    .col-symbol-cell {
       display: none;
-    }
-
-    .coin-name-link {
-      font-size: 0.9rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 160px;
-      display: block;
-    }
-
-    .coin-name-link::before {
-      display: none;
-    }
-
-    .coin-source {
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      white-space: nowrap;
-    }
-
-    .coin-date {
-      font-size: 0.75rem;
-      white-space: nowrap;
-      color: var(--color-gray-500);
     }
   }
 </style>
 
 <div class="container">
-  <div class="new-coins-header">
-    <h1>
-      New Coins Today
-      <span class="new-today-badge">🆕</span>
-    </h1>
-    <p class="page-description">Discover the latest cryptocurrency tokens added to our platform.</p>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-title-group">
+      <h1>
+        <i class="fas fa-fire" aria-hidden="true"></i>
+        Recent Coins
+        <span class="count-badge" id="total-count" aria-live="polite">{{ coins|count }}</span>
+      </h1>
+      <span class="live-dot" title="Live data" aria-label="Live"></span>
+    </div>
+    <p class="page-description">Cryptocurrency tokens recently added to our tracker.</p>
   </div>
 
   {% if coins %}
-  <div class="coins-table-container">
-    <div class="table-header-row" role="row">
-      <div role="columnheader">Name</div>
-      <div role="columnheader">Symbol</div>
-      <div role="columnheader">Source</div>
-      <div role="columnheader">Added</div>
+
+  <!-- Coin data embedded as JSON -->
+  <script id="coins-data" type="application/json">
+    [{% for coin in coins %}{"n":{{ coin.name | tojson }},"s":{{ coin.symbol | tojson }},"src":{{ coin.source | tojson }},"d":{{ coin.added | tojson }}}{% if not loop.last %},{% endif %}{% endfor %}]
+  </script>
+
+  <!-- Search Bar -->
+  <div class="search-bar-wrapper">
+    <div class="search-bar">
+      <i class="fas fa-search" aria-hidden="true"></i>
+      <input
+        type="search"
+        id="coin-search"
+        placeholder="Search by name, symbol, or source..."
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search coins"
+      />
+      <button class="search-clear" id="search-clear" aria-label="Clear search" title="Clear">
+        <i class="fas fa-times" aria-hidden="true"></i>
+      </button>
+      <span class="search-results-count" id="results-count" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="data-container">
+    <!-- Header Row -->
+    <div class="data-header-row recent-coins-grid" role="row">
+      <div role="columnheader" class="col-name-header">Name</div>
+      <div role="columnheader" class="col-symbol-header">Symbol</div>
+      <div role="columnheader" class="col-source-header">Source</div>
+      <div role="columnheader" class="col-date-header">Added</div>
     </div>
 
-    {% for coin in coins %}
-    <div class="table-row" role="row">
-      <div data-label="Name">
-        <a href="https://google.com/search?q={{ (coin.name ~ ' crypto') | urlencode }}" target="_blank" rel="noopener noreferrer" class="coin-name-link">
-          {{ coin.name }}
-        </a>
-      </div>
-      <div data-label="Symbol">
-        <span class="coin-symbol">{{ coin.symbol }}</span>
-      </div>
-      <div data-label="Source">
-        <span class="coin-source">{{ coin.source }}</span>
-      </div>
-      <div data-label="Added">
-        <span class="coin-date">{{ coin.added }}</span>
-      </div>
+    <!-- Scrollable list (not virtualized — recent coins are typically small) -->
+    <div id="recent-coins-list" role="rowgroup">
+      <!-- Filled by JS -->
     </div>
-    {% endfor %}
+
+    <div class="no-results-msg" id="no-results" role="status">
+      <i class="fas fa-search" style="font-size:1.5rem; color:var(--color-gray-300); display:block; margin-bottom:var(--space-md);"></i>
+      No coins match your search. Try a different keyword.
+    </div>
   </div>
+
   {% else %}
-  <div class="empty-state">
-    <div class="empty-state-icon">⏳</div>
-    <h3>No new coins yet</h3>
-    <p>Check back later to see new cryptocurrency tokens added today.</p>
+  <div class="data-container">
+    <div class="empty-state">
+      <div class="empty-state-icon">
+        <i class="fas fa-clock"></i>
+      </div>
+      <h3>No new coins yet</h3>
+      <p>Check back later to see cryptocurrency tokens recently added to our tracker.</p>
+    </div>
   </div>
   {% endif %}
 </div>
+
+<script>
+(function () {
+  'use strict';
+
+  const rawData     = JSON.parse(document.getElementById('coins-data').textContent);
+  let   filtered    = rawData;
+
+  const listEl      = document.getElementById('recent-coins-list');
+  const searchInput = document.getElementById('coin-search');
+  const searchClear = document.getElementById('search-clear');
+  const resultsCount = document.getElementById('results-count');
+  const noResults   = document.getElementById('no-results');
+  const totalBadge  = document.getElementById('total-count');
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function buildRow(coin) {
+    const searchUrl = 'https://google.com/search?q=' + encodeURIComponent((coin.n || '') + ' crypto');
+    return `<div class="data-row recent-coins-grid" role="row">
+      <div class="col-name-cell" role="cell">
+        <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="coin-name-link" title="Search ${escHtml(coin.n)} on Google">
+          ${escHtml(coin.n)}
+          <i class="fas fa-arrow-up-right-from-square link-icon" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="col-symbol-cell" role="cell"><span class="symbol-badge">${escHtml(coin.s)}</span></div>
+      <div class="col-source-cell" role="cell"><span class="source-badge">${escHtml(coin.src)}</span></div>
+      <div class="col-date-cell"   role="cell"><span class="date-text">${escHtml(coin.d)}</span></div>
+    </div>`;
+  }
+
+  function renderAll() {
+    listEl.innerHTML = filtered.map(buildRow).join('');
+  }
+
+  function applyFilter(query) {
+    const q = query.trim().toLowerCase();
+    filtered = q
+      ? rawData.filter(c =>
+          (c.n   && c.n.toLowerCase().includes(q))  ||
+          (c.s   && c.s.toLowerCase().includes(q))  ||
+          (c.src && c.src.toLowerCase().includes(q))
+        )
+      : rawData;
+
+    const count = filtered.length;
+    totalBadge.textContent = count.toLocaleString();
+
+    if (q) {
+      resultsCount.textContent = count === 0
+        ? 'No results'
+        : `${count.toLocaleString()} result${count === 1 ? '' : 's'}`;
+    } else {
+      resultsCount.textContent = '';
+    }
+
+    noResults.style.display  = count === 0 ? 'block' : 'none';
+    listEl.style.display     = count === 0 ? 'none'  : 'block';
+    searchClear.style.display = q ? 'block' : 'none';
+
+    renderAll();
+  }
+
+  // Initial render
+  applyFilter('');
+
+  // Debounced search
+  let searchTimer;
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => applyFilter(searchInput.value), 120);
+  });
+
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    searchInput.focus();
+    applyFilter('');
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.value = '';
+      applyFilter('');
+    }
+  });
+})();
+</script>
+
 {% endblock %}

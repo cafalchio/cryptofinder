@@ -4,31 +4,31 @@
 
 {% block content %}
 <style>
-  /* ===== Latest Coins Page Styles ===== */
-  .latest-coins-header {
-    margin-bottom: var(--space-3xl);
+  /* ===== Latest Coins Page ===== */
+  .page-header {
+    margin-bottom: var(--space-xl);
   }
 
-  .latest-coins-header h1 {
+  .page-title-group {
     display: flex;
     align-items: center;
     gap: var(--space-md);
     flex-wrap: wrap;
+    margin-bottom: var(--space-sm);
   }
 
-  .latest-badge {
-    background: linear-gradient(135deg, var(--color-accent) 0%, #059669 100%);
-    color: var(--color-white);
-    padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-full);
-    font-size: 0.95rem;
-    font-weight: 600;
-    box-shadow: var(--shadow-md);
+  .page-title-group h1 {
+    margin-bottom: 0;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
   }
 
+  /* ===== Cards Grid ===== */
   .coins-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: var(--space-lg);
   }
 
@@ -37,41 +37,56 @@
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
     display: flex;
     flex-direction: column;
-    height: 100%;
     box-shadow: var(--shadow-sm);
   }
 
   .coin-card:hover {
     box-shadow: var(--shadow-lg);
-    border-color: var(--color-primary);
-    transform: translateY(-8px);
+    border-color: rgba(14, 165, 233, 0.4);
+    transform: translateY(-4px);
   }
 
+  /* ===== Card Image Area ===== */
   .coin-image-container {
     width: 100%;
-    height: 200px;
+    height: 180px;
     background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     position: relative;
+    border-bottom: 1px solid var(--color-gray-100);
   }
 
   .coin-image {
-    width: 100px;
-    height: 100px;
+    width: 88px;
+    height: 88px;
     object-fit: contain;
     transition: transform 0.3s ease;
   }
 
   .coin-card:hover .coin-image {
-    transform: scale(1.1);
+    transform: scale(1.08);
   }
 
+  /* Placeholder when image is missing */
+  .coin-image-placeholder {
+    width: 88px;
+    height: 88px;
+    background: linear-gradient(135deg, var(--color-gray-200) 0%, var(--color-gray-100) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-400);
+    font-size: 2rem;
+  }
+
+  /* ===== Card Body ===== */
   .coin-body {
     padding: var(--space-lg);
     flex: 1;
@@ -79,155 +94,173 @@
     flex-direction: column;
   }
 
-  .coin-header {
-    margin-bottom: var(--space-md);
+  .coin-title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    flex-wrap: wrap;
   }
 
   .coin-title {
     font-family: var(--font-family-display);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--color-dark);
-    margin-bottom: var(--space-xs);
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-sm);
-    flex-wrap: wrap;
+    line-height: 1.3;
+    margin: 0;
   }
 
-  .coin-symbol-badge {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-    color: var(--color-white);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-md);
-    font-weight: 700;
-    font-size: 0.7rem;
-    flex-shrink: 0;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .coin-id {
-    color: var(--color-gray-600);
-    font-size: 0.85rem;
+  .coin-id-row {
+    color: var(--color-gray-400);
+    font-size: 0.78rem;
     margin-bottom: var(--space-md);
+    font-family: 'ui-monospace', 'Cascadia Mono', 'Consolas', monospace;
   }
 
+  /* ===== Categories ===== */
   .coin-categories {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
     margin-bottom: var(--space-md);
   }
 
   .category-tag {
-    background-color: rgba(139, 92, 246, 0.15);
+    background-color: rgba(139, 92, 246, 0.08);
     color: var(--color-secondary);
-    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    padding: 2px var(--space-sm);
     border-radius: var(--radius-full);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 500;
     white-space: nowrap;
   }
 
+  /* ===== Description ===== */
   .coin-description {
     color: var(--color-gray-600);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: var(--space-md);
+    font-size: 0.875rem;
+    line-height: 1.55;
     flex: 1;
+    margin-bottom: 0;
   }
 
   .description-text {
     margin: 0;
   }
 
-  .hidden {
+  .overflow-text {
     display: none;
   }
 
-  .read-more-container {
-    margin-top: var(--space-md);
-    padding-top: var(--space-md);
-    border-top: 1px solid var(--color-gray-200);
-  }
-
-  .read-more-link,
-  .read-less-link {
-    cursor: pointer;
-    color: var(--color-primary);
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-    display: inline-block;
-    padding: var(--space-xs) var(--space-sm);
-    margin-left: -var(--space-sm);
-    border-radius: var(--radius-sm);
-  }
-
-  .read-more-link:hover,
-  .read-less-link:hover {
-    color: var(--color-primary-dark);
-    background-color: rgba(14, 165, 233, 0.1);
-    text-decoration: none;
-  }
-
-  .read-more-link:focus,
-  .read-less-link:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  .show {
+  .overflow-text.expanded {
     display: inline;
   }
 
+  .read-toggle {
+    display: inline-block;
+    margin-top: var(--space-sm);
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-family-sans);
+    transition: color 0.15s ease;
+  }
+
+  .read-toggle:hover {
+    color: var(--color-primary-dark);
+  }
+
+  .read-toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* ===== Card Footer ===== */
   .coin-footer {
-    background-color: var(--color-gray-50);
-    padding: var(--space-md) var(--space-lg);
-    border-top: 1px solid var(--color-gray-200);
-    color: var(--color-gray-600);
-    font-size: 0.85rem;
-    margin-top: auto;
+    padding: var(--space-sm) var(--space-lg);
+    border-top: 1px solid var(--color-gray-100);
+    background: var(--color-gray-50);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
   }
 
   .coin-footer-label {
-    font-weight: 600;
-    color: var(--color-gray-700);
-    display: block;
-    margin-bottom: var(--space-xs);
+    font-size: 0.75rem;
+    color: var(--color-gray-400);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  .empty-state {
-    text-align: center;
-    padding: var(--space-3xl);
+  .coin-footer-date {
+    font-size: 0.8rem;
     color: var(--color-gray-600);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  /* ===== Search ===== */
+  .cards-hidden {
+    display: none !important;
+  }
+
+  /* ===== Empty / No Results ===== */
+  .empty-state-card {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-xl);
+    color: var(--color-gray-500);
     background: var(--color-white);
-    border-radius: var(--radius-lg);
     border: 1px dashed var(--color-gray-200);
+    border-radius: var(--radius-xl);
     grid-column: 1 / -1;
   }
 
-  .empty-state-icon {
-    font-size: 3.5rem;
+  .empty-state-card .empty-state-icon {
+    font-size: 2.5rem;
     margin-bottom: var(--space-lg);
-    opacity: 0.6;
+    color: var(--color-gray-300);
   }
 
-  .empty-state h3 {
-    color: var(--color-gray-700);
-    margin-bottom: var(--space-md);
+  .empty-state-card h3 {
+    color: var(--color-gray-600);
+    font-size: 1.1rem;
+    margin-bottom: var(--space-sm);
   }
 
-  /* Responsive Design */
+  .empty-state-card p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  #no-card-results {
+    display: none;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--color-gray-500);
+    font-size: 0.9rem;
+  }
+
+  /* ===== Responsive ===== */
   @media (max-width: 1024px) {
     .coins-grid {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
   }
 
   @media (max-width: 768px) {
-    .latest-coins-header h1 {
-      font-size: 1.75rem;
+    .page-title-group h1 {
+      font-size: 1.5rem;
     }
 
     .coins-grid {
@@ -236,11 +269,7 @@
     }
 
     .coin-image-container {
-      height: 160px;
-    }
-
-    .coin-title {
-      font-size: 1rem;
+      height: 140px;
     }
 
     .coin-body {
@@ -248,121 +277,221 @@
     }
 
     .coin-footer {
-      padding: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
     }
   }
 </style>
 
 <div class="container">
-  <div class="latest-coins-header">
-    <h1>
-      <i class="fas fa-sparkles"></i> Latest Coins
-      <span class="latest-badge">Hot</span>
-    </h1>
-    <p class="page-description">Explore the most recently added cryptocurrency tokens with detailed information.</p>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-title-group">
+      <h1>
+        <i class="fas fa-star" aria-hidden="true"></i>
+        Latest Coins
+        <span class="count-badge" id="total-count" aria-live="polite">{{ coins|count }}</span>
+      </h1>
+    </div>
+    <p class="page-description">Explore the most recently added cryptocurrency tokens with full details.</p>
   </div>
 
   {% if coins %}
-  <div class="coins-grid">
+
+  <!-- Search Bar -->
+  <div class="search-bar-wrapper">
+    <div class="search-bar">
+      <i class="fas fa-search" aria-hidden="true"></i>
+      <input
+        type="search"
+        id="card-search"
+        placeholder="Search by name, symbol, or category..."
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search coins"
+      />
+      <button class="search-clear" id="search-clear" aria-label="Clear search" title="Clear">
+        <i class="fas fa-times" aria-hidden="true"></i>
+      </button>
+      <span class="search-results-count" id="results-count" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="coins-grid" id="cards-grid">
+
     {% for coin in coins %}
-    <div class="coin-card">
+    <div class="coin-card"
+         data-name="{{ coin['Name'] | lower }}"
+         data-symbol="{{ coin['Symbol'] | lower }}"
+         data-categories="{{ (coin['Categories'] or '') | lower }}">
+
+      <!-- Image / Placeholder -->
       <div class="coin-image-container">
+        {% if coin['Large'] %}
         <img
           src="{{ coin['Large'] }}"
           class="coin-image"
           alt="{{ coin['Name'] }} logo"
           loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
         />
-      </div>
-      <div class="coin-body">
-        <div class="coin-header">
-          <div class="coin-title">
-            {{ coin['Name'] }}
-            <span class="coin-symbol-badge">{{ coin['Symbol'] }}</span>
-          </div>
-          <div class="coin-id">ID: {{ coin['Id'] }}</div>
+        <div class="coin-image-placeholder" style="display:none;" aria-hidden="true">
+          <i class="fas fa-coins"></i>
         </div>
+        {% else %}
+        <div class="coin-image-placeholder" aria-hidden="true">
+          <i class="fas fa-coins"></i>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Body -->
+      <div class="coin-body">
+        <div class="coin-title-row">
+          <span class="coin-title">{{ coin['Name'] }}</span>
+          {% if coin['Symbol'] %}
+          <span class="symbol-badge">{{ coin['Symbol'] }}</span>
+          {% endif %}
+        </div>
+
+        {% if coin['Id'] %}
+        <div class="coin-id-row">ID: {{ coin['Id'] }}</div>
+        {% endif %}
 
         {% if coin['Categories'] %}
         <div class="coin-categories">
           {% for category in coin['Categories'].split(',') %}
+          {% if category.strip() %}
           <span class="category-tag">{{ category.strip() }}</span>
+          {% endif %}
           {% endfor %}
         </div>
         {% endif %}
 
+        {% if coin['Description'] %}
         <div class="coin-description">
-          <p class="description-text" id="desc-{{ loop.index }}">
-            <span id="desc-{{ loop.index }}-main">{{ coin['Description'][:150] }}</span>
-            <span id="desc-{{ loop.index }}-overflow" class="hidden">{{ coin['Description'][150:] }}</span>
+          <p class="description-text">
+            {{ coin['Description'][:180] }}<span
+              class="overflow-text"
+              id="overflow-{{ loop.index }}"
+            >{{ coin['Description'][180:] }}</span>
           </p>
-
-          {% if coin['Description']|length > 150 %}
-          <div class="read-more-container">
-            <a
-              class="read-more-link show"
-              id="desc-{{ loop.index }}-more-link"
-              onclick="toggleDescription('desc-{{ loop.index }}');"
-              tabindex="0"
-              role="button"
-            >
-              Read more
-            </a>
-            <a
-              class="read-less-link hidden"
-              id="desc-{{ loop.index }}-less-link"
-              onclick="toggleDescription('desc-{{ loop.index }}');"
-              tabindex="0"
-              role="button"
-            >
-              Show less
-            </a>
-          </div>
+          {% if coin['Description'] | length > 180 %}
+          <button
+            class="read-toggle"
+            data-target="overflow-{{ loop.index }}"
+            aria-expanded="false"
+          >Read more</button>
           {% endif %}
         </div>
+        {% endif %}
       </div>
 
+      <!-- Footer -->
       <div class="coin-footer">
         <span class="coin-footer-label">Added</span>
-        {{ coin['added'] }}
+        <span class="coin-footer-date">{{ coin['added'] }}</span>
       </div>
     </div>
     {% endfor %}
+
+    <!-- No results placeholder (hidden by default) -->
+    <div id="no-card-results">
+      <i class="fas fa-search" style="font-size:1.5rem; color:var(--color-gray-300); display:block; margin-bottom:var(--space-md);"></i>
+      No coins match your search. Try a different keyword.
+    </div>
   </div>
+
   {% else %}
-  <div class="empty-state">
-    <div class="empty-state-icon">🔍</div>
-    <h3>No coins available</h3>
-    <p>The latest coins data will appear here. Check back soon!</p>
+  <div class="coins-grid">
+    <div class="empty-state-card">
+      <div class="empty-state-icon"><i class="fas fa-search"></i></div>
+      <h3>No coins available</h3>
+      <p>The latest coins data will appear here. Check back soon!</p>
+    </div>
   </div>
   {% endif %}
 </div>
 
 <script>
-  function toggleDescription(id) {
-    const mainText = document.getElementById(id + '-main');
-    const overflowText = document.getElementById(id + '-overflow');
-    const moreLink = document.getElementById(id + '-more-link');
-    const lessLink = document.getElementById(id + '-less-link');
+(function () {
+  'use strict';
 
-    const isExpanded = !overflowText.classList.contains('hidden');
+  // ---- Read More toggle ----
+  document.querySelectorAll('.read-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const targetId  = btn.getAttribute('data-target');
+      const overflow  = document.getElementById(targetId);
+      const expanded  = overflow.classList.contains('expanded');
 
-    if (isExpanded) {
-      // Collapse
-      overflowText.classList.add('hidden');
-      moreLink.classList.remove('hidden');
-      moreLink.classList.add('show');
-      lessLink.classList.add('hidden');
-      lessLink.classList.remove('show');
+      overflow.classList.toggle('expanded', !expanded);
+      btn.textContent      = expanded ? 'Read more' : 'Show less';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+  });
+
+  // ---- Search / filter ----
+  const searchInput  = document.getElementById('card-search');
+  const searchClear  = document.getElementById('search-clear');
+  const resultsCount = document.getElementById('results-count');
+  const totalBadge   = document.getElementById('total-count');
+  const noResults    = document.getElementById('no-card-results');
+  const cards        = Array.from(document.querySelectorAll('.coin-card'));
+
+  if (!searchInput) return;
+
+  function applyFilter(query) {
+    const q = query.trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach(function(card) {
+      const name       = card.getAttribute('data-name')       || '';
+      const symbol     = card.getAttribute('data-symbol')     || '';
+      const categories = card.getAttribute('data-categories') || '';
+
+      const matches = !q
+        || name.includes(q)
+        || symbol.includes(q)
+        || categories.includes(q);
+
+      card.classList.toggle('cards-hidden', !matches);
+      if (matches) visible++;
+    });
+
+    totalBadge.textContent = visible.toLocaleString();
+
+    if (q) {
+      resultsCount.textContent = visible === 0
+        ? 'No results'
+        : `${visible.toLocaleString()} result${visible === 1 ? '' : 's'}`;
     } else {
-      // Expand
-      overflowText.classList.remove('hidden');
-      moreLink.classList.add('hidden');
-      moreLink.classList.remove('show');
-      lessLink.classList.remove('hidden');
-      lessLink.classList.add('show');
+      resultsCount.textContent = '';
     }
+
+    noResults.style.display   = visible === 0 ? 'block' : 'none';
+    searchClear.style.display = q ? 'block' : 'none';
   }
+
+  let searchTimer;
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => applyFilter(searchInput.value), 120);
+  });
+
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    searchInput.focus();
+    applyFilter('');
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.value = '';
+      applyFilter('');
+    }
+  });
+})();
 </script>
 
 {% endblock %}

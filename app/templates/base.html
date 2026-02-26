@@ -16,6 +16,9 @@
   <!-- Google Fonts - Inter for modern, clean typography -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- Proper SVG Favicon - crypto chart diamond theme -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230ea5e9'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='%230f172a'/%3E%3Cpolygon points='32,8 52,24 44,56 20,56 12,24' fill='url(%23g1)' opacity='0.9'/%3E%3Cpolygon points='32,8 52,24 32,28' fill='%2338bdf8' opacity='0.7'/%3E%3Cpolygon points='32,8 12,24 32,28' fill='%230ea5e9' opacity='0.9'/%3E%3Cpolygon points='12,24 20,56 32,28' fill='%230284c7' opacity='0.8'/%3E%3Cpolygon points='52,24 44,56 32,28' fill='%236d28d9' opacity='0.8'/%3E%3Cpolygon points='20,56 44,56 32,28' fill='%238b5cf6' opacity='0.7'/%3E%3C/svg%3E">
+
   <!-- Custom Styles -->
   <style>
     /* ===== Design Tokens ===== */
@@ -38,7 +41,7 @@
       --color-gray-500: #64748b;
       --color-gray-600: #475569;
       --color-gray-700: #334155;
-      --color-gray-800: #1e293b;
+      --color-gray-800: #085e86;
 
       /* Semantic Colors */
       --color-success: #10b981;
@@ -73,7 +76,7 @@
       --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
-    /* ===== Global Styles ===== */
+    /* ===== Global Reset ===== */
     * {
       margin: 0;
       padding: 0;
@@ -92,7 +95,7 @@
       font-size: 1rem;
     }
 
-    /* Typography */
+    /* ===== Typography ===== */
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-family-display);
       font-weight: 700;
@@ -100,34 +103,13 @@
       line-height: 1.2;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: var(--space-xl);
-    }
+    h1 { font-size: 2.5rem; margin-bottom: var(--space-xl); }
+    h2 { font-size: 2rem; margin-bottom: var(--space-lg); }
+    h3 { font-size: 1.5rem; margin-bottom: var(--space-md); }
+    h4 { font-size: 1.25rem; margin-bottom: var(--space-sm); }
+    h5, h6 { font-size: 1rem; margin-bottom: var(--space-sm); }
 
-    h2 {
-      font-size: 2rem;
-      margin-bottom: var(--space-lg);
-    }
-
-    h3 {
-      font-size: 1.5rem;
-      margin-bottom: var(--space-md);
-    }
-
-    h4 {
-      font-size: 1.25rem;
-      margin-bottom: var(--space-sm);
-    }
-
-    h5, h6 {
-      font-size: 1rem;
-      margin-bottom: var(--space-sm);
-    }
-
-    p {
-      margin-bottom: var(--space-md);
-    }
+    p { margin-bottom: var(--space-md); }
 
     a {
       color: var(--color-primary);
@@ -151,50 +133,65 @@
     .navbar-brand {
       font-family: var(--font-family-display);
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 800;
       background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-right: var(--space-xl);
       letter-spacing: -0.5px;
-    }
-
-    .navbar-nav {
-      gap: var(--space-lg);
-    }
-
-    .nav-link {
-      font-weight: 500;
-      color: var(--color-gray-100) !important;
-      position: relative;
-      transition: color 0.2s ease;
       display: flex;
       align-items: center;
       gap: var(--space-sm);
     }
 
-    .nav-link:hover {
-      color: var(--color-primary-light) !important;
+    /* Diamond SVG logo in navbar */
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
     }
 
-    .nav-link::after {
+    .navbar-nav {
+      gap: var(--space-xs);
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--color-gray-300) !important;
+      position: relative;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md) !important;
+      border-radius: var(--radius-md);
+    }
+
+    .nav-link:hover {
+      color: var(--color-white) !important;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    /* Active nav state - set via template block */
+    .nav-link.active {
+      color: var(--color-primary-light) !important;
+      background: rgba(14, 165, 233, 0.12);
+    }
+
+    .nav-link.active::after {
       content: '';
       position: absolute;
-      bottom: -8px;
-      left: 0;
-      width: 0;
+      bottom: 0;
+      left: var(--space-md);
+      right: var(--space-md);
       height: 2px;
       background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
-      transition: width 0.3s ease;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
+      border-radius: var(--radius-full);
     }
 
     .navbar-toggler {
-      border: none;
+      border: 1px solid rgba(255,255,255,0.15);
       padding: var(--space-sm) var(--space-md);
     }
 
@@ -207,90 +204,220 @@
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
 
-    /* ===== Search Bar ===== */
-    .search-container {
-      padding: var(--space-lg) 0;
-      background: var(--color-white);
-      border-bottom: 1px solid var(--color-gray-200);
-      margin-bottom: var(--space-2xl);
-    }
-
-    .search-form {
-      display: flex;
-      gap: var(--space-md);
-      flex-wrap: wrap;
-    }
-
-    .search-form input {
-      flex: 1;
-      min-width: 200px;
-      padding: var(--space-md) var(--space-lg);
-      border: 2px solid var(--color-gray-200);
-      border-radius: var(--radius-lg);
-      font-family: var(--font-family-sans);
-      font-size: 1rem;
-      transition: all 0.2s ease;
-    }
-
-    .search-form input:focus {
-      outline: none;
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-    }
-
-    .search-form button {
-      padding: var(--space-md) var(--space-xl);
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-      color: var(--color-white);
-      border: none;
-      border-radius: var(--radius-lg);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: var(--shadow-md);
-      white-space: nowrap;
-    }
-
-    .search-form button:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-    }
-
-    .search-form button:active {
-      transform: translateY(0);
-    }
-
-    .search-form button:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
-    }
-
     /* ===== Main Content ===== */
     .main-content {
       min-height: 80vh;
       padding: var(--space-2xl) 0;
     }
 
-    .page-header {
-      margin-bottom: var(--space-2xl);
-    }
-
-    .page-header h1 {
-      margin-bottom: var(--space-md);
-    }
-
     .page-description {
+      color: var(--color-gray-500);
+      font-size: 1.05rem;
+      max-width: 600px;
+    }
+
+    /* ===== Shared Table/List Container ===== */
+    .data-container {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-gray-200);
+    }
+
+    .data-header-row {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-md) var(--space-lg);
+      background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-gray-800) 100%);
+      color: var(--color-gray-300);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .data-row {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: 1px solid var(--color-gray-100);
+      align-items: center;
+      transition: background 0.15s ease;
+    }
+
+    .data-row:last-child {
+      border-bottom: none;
+    }
+
+    .data-row:hover {
+      background-color: rgba(14, 165, 233, 0.03);
+    }
+
+    /* ===== Shared Badge Styles ===== */
+    .count-badge {
+      background: rgba(14, 165, 233, 0.15);
+      color: var(--color-primary);
+      border: 1px solid rgba(14, 165, 233, 0.25);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: var(--font-family-sans);
+    }
+
+    .symbol-badge {
+      background-color: rgba(14, 165, 233, 0.1);
+      color: var(--color-primary-dark);
+      padding: 2px var(--space-sm);
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.7rem;
+      display: inline-block;
+      letter-spacing: 0.5px;
+      font-family: 'ui-monospace', 'Cascadia Mono', 'Consolas', monospace;
+    }
+
+    .source-badge {
+      display: inline-block;
+      background-color: rgba(139, 92, 246, 0.1);
+      color: var(--color-secondary);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      padding: 2px var(--space-sm);
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .date-text {
+      color: var(--color-gray-500);
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== Inline Search Bar ===== */
+    .search-bar-wrapper {
+      padding: var(--space-lg) 0 var(--space-md);
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      background: var(--color-white);
+      border: 1.5px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-sm) var(--space-md);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    }
+
+    .search-bar i {
+      color: var(--color-gray-400);
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      font-family: var(--font-family-sans);
+      font-size: 0.95rem;
+      color: var(--color-dark);
+      background: transparent;
+      width: 100%;
+    }
+
+    .search-bar input::placeholder {
+      color: var(--color-gray-400);
+    }
+
+    .search-clear {
+      background: none;
+      border: none;
+      color: var(--color-gray-400);
+      cursor: pointer;
+      padding: 2px;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s ease;
+      display: none;
+      line-height: 1;
+    }
+
+    .search-clear:hover {
+      color: var(--color-gray-700);
+    }
+
+    .search-results-count {
+      font-size: 0.8rem;
+      color: var(--color-gray-500);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== Empty State ===== */
+    .empty-state {
+      text-align: center;
+      padding: var(--space-3xl) var(--space-xl);
+      color: var(--color-gray-500);
+    }
+
+    .empty-state-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-lg);
+      color: var(--color-gray-300);
+    }
+
+    .empty-state h3 {
       color: var(--color-gray-600);
-      font-size: 1.1rem;
+      font-size: 1.125rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    /* No results state (search found nothing) */
+    .no-results-msg {
+      display: none;
+      text-align: center;
+      padding: var(--space-2xl) var(--space-xl);
+      color: var(--color-gray-500);
+      font-size: 0.9rem;
     }
 
     /* ===== Footer ===== */
     footer {
       background: var(--color-dark);
-      color: var(--color-gray-300);
-      padding: var(--space-xl) 0;
+      color: var(--color-gray-400);
+      padding: var(--space-lg) 0;
       margin-top: var(--space-3xl);
-      border-top: 2px solid var(--color-primary);
+      border-top: 1px solid rgba(14, 165, 233, 0.3);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      font-size: 0.85rem;
+    }
+
+    .footer-brand {
+      font-weight: 700;
+      color: var(--color-gray-200);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
     }
 
     footer a {
@@ -301,54 +428,30 @@
       color: var(--color-primary-light);
     }
 
-    .footer-bottom {
-      text-align: center;
-      color: var(--color-gray-400);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: var(--space-md);
-    }
-
-    /* ===== Responsive Design ===== */
+    /* ===== Responsive ===== */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
+      h1 { font-size: 1.75rem; }
+      h2 { font-size: 1.5rem; }
 
       .navbar-brand {
         font-size: 1.25rem;
         margin-right: var(--space-md);
       }
 
-      .search-form {
-        flex-direction: column;
-      }
-
-      .search-form input,
-      .search-form button {
-        width: 100%;
-      }
+      .brand-logo { width: 22px; height: 22px; }
 
       .main-content {
         padding: var(--space-xl) 0;
       }
 
-      .footer-bottom {
+      .footer-inner {
         flex-direction: column;
         text-align: center;
       }
     }
 
     /* ===== Bootstrap Overrides ===== */
-    .container {
-      max-width: 1200px;
-    }
+    .container { max-width: 1200px; }
 
     .container-fluid {
       padding-left: var(--space-lg);
@@ -362,49 +465,35 @@
       }
     }
 
-    /* ===== Utility Classes ===== */
-    .text-muted {
-      color: var(--color-gray-500) !important;
-    }
-
-    .text-primary {
-      color: var(--color-primary) !important;
-    }
-
-    .badge {
-      padding: var(--space-xs) var(--space-md);
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .badge-primary {
-      background-color: rgba(14, 165, 233, 0.15);
-      color: var(--color-primary);
-    }
-
-    .badge-success {
-      background-color: rgba(16, 185, 129, 0.15);
-      color: var(--color-success);
-    }
-
-    .badge-warning {
-      background-color: rgba(245, 158, 11, 0.15);
-      color: var(--color-warning);
-    }
+    /* ===== Utility ===== */
+    .text-muted { color: var(--color-gray-500) !important; }
+    .text-primary { color: var(--color-primary) !important; }
   </style>
-
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
 
   <title>{% block title %}CryptoFinder - Discover Cryptocurrency Tokens{% endblock %}</title>
 </head>
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <i class="fas fa-chart-line"></i> CryptoFinder
+        <!-- Inline diamond SVG logo -->
+        <svg class="brand-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0ea5e9"/>
+              <stop offset="100%" stop-color="#38bdf8"/>
+            </linearGradient>
+          </defs>
+          <polygon points="32,4 56,22 46,60 18,60 8,22" fill="url(#brandGrad)" opacity="0.9"/>
+          <polygon points="32,4 56,22 32,28" fill="#7dd3fc" opacity="0.8"/>
+          <polygon points="32,4 8,22 32,28"  fill="#0ea5e9" opacity="0.95"/>
+          <polygon points="8,22 18,60 32,28"  fill="#0284c7" opacity="0.85"/>
+          <polygon points="56,22 46,60 32,28" fill="#38bdf8" opacity="0.7"/>
+          <polygon points="18,60 46,60 32,28" fill="#0369a1" opacity="0.75"/>
+        </svg>
+        CryptoFinder
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -412,13 +501,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('new_coins_today') }}">
-              <i class="fas fa-rocket"></i> Recent
+            <a class="nav-link {% block nav_recent %}{% endblock %}" href="{{ url_for('new_coins_today') }}">
+              <i class="fas fa-fire" aria-hidden="true"></i> Recent
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('all_coins') }}">
-              <i class="fas fa-coins"></i> All Coins
+            <a class="nav-link {% block nav_all %}{% endblock %}" href="{{ url_for('all_coins') }}">
+              <i class="fas fa-coins" aria-hidden="true"></i> All Coins
             </a>
           </li>
         </ul>
@@ -427,24 +516,31 @@
   </nav>
 
   <!-- Main Content -->
-  <div class="main-content">
+  <main class="main-content" id="main-content">
     {% block content %}{% endblock %}
-  </div>
+  </main>
 
   <!-- Footer -->
-  <footer>
+  <footer role="contentinfo">
     <div class="container">
-      <div class="footer-bottom">
-        <p>
-          <strong>CryptoFinder</strong> - Discover the latest cryptocurrency tokens
-        </p>
-        <p>&copy; 2025 CryptoFinder. All rights reserved.</p>
+      <div class="footer-inner">
+        <span class="footer-brand">
+          <i class="fas fa-gem" aria-hidden="true"></i>
+          CryptoFinder
+        </span>
+        <span>Discover the latest cryptocurrency tokens</span>
+        <span>&copy; <span id="footer-year"></span> CryptoFinder</span>
       </div>
     </div>
   </footer>
 
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Dynamic footer year
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
 </body>
 
 </html>
