@@ -1,119 +1,340 @@
-{% extends 'base.html' %} {% block title %}Latest Coins {% endblock %} {% block
-content %}
+{% extends 'base.html' %}
+
+{% block title %}Latest Coins - CryptoFinder{% endblock %}
+
+{% block content %}
 <style>
+  /* ===== Latest Coins Page Styles ===== */
+  .latest-coins-header {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .latest-coins-header h1 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .latest-badge {
+    background: linear-gradient(135deg, var(--color-warning) 0%, #f97316 100%);
+    color: var(--color-white);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .coins-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+  }
+
   .coin-card {
-    border: 1px solid #e1e1e8;
-    border-radius: 0.5rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
     overflow: hidden;
-    transition: box-shadow 0.3s ease-in-out;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: var(--shadow-sm);
   }
+
   .coin-card:hover {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary-light);
+    transform: translateY(-8px);
   }
+
   .coin-image-container {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .coin-image {
     width: 100px;
     height: 100px;
-    overflow: hidden;
-    margin: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
   }
-  .coin-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+
+  .coin-card:hover .coin-image {
+    transform: scale(1.1);
   }
+
   .coin-body {
-    padding: 1rem;
+    padding: var(--space-lg);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
-  .coin-footer {
-    background-color: #f8f9fa;
-    padding: 0.75rem 1rem;
-    border-top: 1px solid #e1e1e8;
-    color: #6c757d;
+
+  .coin-header {
+    margin-bottom: var(--space-md);
   }
+
+  .coin-title {
+    font-family: var(--font-family-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: var(--space-xs);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+  }
+
+  .coin-symbol-badge {
+    background-color: rgba(99, 102, 241, 0.15);
+    color: var(--color-primary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .coin-id {
+    color: var(--color-gray-600);
+    font-size: 0.85rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .coin-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .category-tag {
+    background-color: rgba(139, 92, 246, 0.1);
+    color: var(--color-secondary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .coin-description {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: var(--space-md);
+    flex: 1;
+  }
+
+  .description-text {
+    margin: 0;
+  }
+
   .hidden {
     display: none;
   }
-  .description {
-    position: relative;
-    overflow: hidden;
+
+  .read-more-container {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-gray-200);
   }
-  .more-link,
-  .less-link {
+
+  .read-more-link,
+  .read-less-link {
     cursor: pointer;
-    color: #007bff;
-    text-decoration: underline;
-    display: none; /* Hidden by default */
-    padding: 0;
-    margin: 0;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    margin-left: -var(--space-sm);
+    border-radius: var(--radius-sm);
   }
+
+  .read-more-link:hover,
+  .read-less-link:hover {
+    color: var(--color-primary-dark);
+    background-color: rgba(99, 102, 241, 0.1);
+  }
+
   .show {
-    display: inline; /* Shown when the text is longer */
+    display: inline;
   }
-  .span,
-  .a {
-    margin: 0;
-    padding: 0;
+
+  .coin-footer {
+    background-color: var(--color-gray-50);
+    padding: var(--space-md) var(--space-lg);
+    border-top: 1px solid var(--color-gray-200);
+    color: var(--color-gray-600);
+    font-size: 0.85rem;
+    margin-top: auto;
+  }
+
+  .coin-footer-label {
+    font-weight: 600;
+    color: var(--color-gray-700);
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-3xl);
+    color: var(--color-gray-600);
+    grid-column: 1 / -1;
+  }
+
+  .empty-state-icon {
+    font-size: 3.5rem;
+    margin-bottom: var(--space-lg);
+    opacity: 0.6;
+  }
+
+  .empty-state h3 {
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-md);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .coins-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .coins-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .coin-image-container {
+      height: 160px;
+    }
+
+    .coin-title {
+      font-size: 1rem;
+    }
+
+    .coin-body {
+      padding: var(--space-md);
+    }
   }
 </style>
 
-<div class="container mt-4">
-  <h2 class="mb-4">Latest Coins</h2>
-  <div class="row g-4">
+<div class="container">
+  <div class="latest-coins-header">
+    <h1>
+      Latest Coins
+      <span class="latest-badge">✨</span>
+    </h1>
+    <p class="page-description">Explore the most recently added cryptocurrency tokens with detailed information.</p>
+  </div>
+
+  {% if coins %}
+  <div class="coins-grid">
     {% for coin in coins %}
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="coin-card">
-        <div class="coin-image-container">
-          <img
-            src="{{ coin['Large'] }}"
-            class="coin-image"
-            alt="{{ coin['Name'] }}"
-          />
-        </div>
-        <div class="coin-body">
-          <h5 class="card-title">{{ coin['Name'] }} ({{ coin['Symbol'] }})</h5>
-          <p><strong>Id:</strong> {{ coin['Id'] }}</p>
-          <p><strong>Categories:</strong> {{ coin['Categories'] }}</p>
-          <div class="description" id="desc-{{ loop.index }}">
-            <span>{{ coin['Description'][:150] }}</span>
-            <span class="hidden" id="desc-{{ loop.index }}-overflow"
-              >{{ coin['Description'][150:] }}</span
-            >
-            {% if coin['Description']|length > 150 %}
-            <a
-              class="more-link show"
-              id="desc-{{ loop.index }}-more-link"
-              onclick="showMore('desc-{{ loop.index }}');"
-              >...more</a
-            >
-            <a
-              class="less-link"
-              id="desc-{{ loop.index }}-less-link"
-              onclick="showLess('desc-{{ loop.index }}');"
-              >less</a
-            >
-            {% endif %}
+    <div class="coin-card">
+      <div class="coin-image-container">
+        <img
+          src="{{ coin['Large'] }}"
+          class="coin-image"
+          alt="{{ coin['Name'] }} logo"
+          loading="lazy"
+        />
+      </div>
+      <div class="coin-body">
+        <div class="coin-header">
+          <div class="coin-title">
+            {{ coin['Name'] }}
+            <span class="coin-symbol-badge">{{ coin['Symbol'] }}</span>
           </div>
+          <div class="coin-id">ID: {{ coin['Id'] }}</div>
         </div>
-        <div class="coin-footer">Added on: {{ coin['added'] }}</div>
+
+        {% if coin['Categories'] %}
+        <div class="coin-categories">
+          {% for category in coin['Categories'].split(',') %}
+          <span class="category-tag">{{ category.strip() }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="coin-description">
+          <p class="description-text" id="desc-{{ loop.index }}">
+            <span id="desc-{{ loop.index }}-main">{{ coin['Description'][:150] }}</span>
+            <span id="desc-{{ loop.index }}-overflow" class="hidden">{{ coin['Description'][150:] }}</span>
+          </p>
+
+          {% if coin['Description']|length > 150 %}
+          <div class="read-more-container">
+            <a
+              class="read-more-link show"
+              id="desc-{{ loop.index }}-more-link"
+              onclick="toggleDescription('desc-{{ loop.index }}');"
+            >
+              Read more
+            </a>
+            <a
+              class="read-less-link hidden"
+              id="desc-{{ loop.index }}-less-link"
+              onclick="toggleDescription('desc-{{ loop.index }}');"
+            >
+              Show less
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="coin-footer">
+        <span class="coin-footer-label">Added</span>
+        {{ coin['added'] }}
       </div>
     </div>
     {% endfor %}
   </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">🔍</div>
+    <h3>No coins available</h3>
+    <p>The latest coins data will appear here. Check back soon!</p>
+  </div>
+  {% endif %}
 </div>
 
 <script>
-  function showMore(id) {
-    document.getElementById(id + "-overflow").classList.remove("hidden");
-    document.getElementById(id + "-more-link").classList.remove("show");
-    document.getElementById(id + "-less-link").classList.add("show");
-    document.getElementById(id).classList.add("full"); // Remove max-height restriction
-  }
+  function toggleDescription(id) {
+    const mainText = document.getElementById(id + '-main');
+    const overflowText = document.getElementById(id + '-overflow');
+    const moreLink = document.getElementById(id + '-more-link');
+    const lessLink = document.getElementById(id + '-less-link');
 
-  function showLess(id) {
-    document.getElementById(id + "-overflow").classList.add("hidden");
-    document.getElementById(id + "-more-link").classList.add("show");
-    document.getElementById(id + "-less-link").classList.remove("show");
-    document.getElementById(id).classList.remove("full"); // Add max-height restriction
+    const isExpanded = !overflowText.classList.contains('hidden');
+
+    if (isExpanded) {
+      // Collapse
+      overflowText.classList.add('hidden');
+      moreLink.classList.remove('hidden');
+      moreLink.classList.add('show');
+      lessLink.classList.add('hidden');
+      lessLink.classList.remove('show');
+    } else {
+      // Expand
+      overflowText.classList.remove('hidden');
+      moreLink.classList.add('hidden');
+      moreLink.classList.remove('show');
+      lessLink.classList.remove('hidden');
+      lessLink.classList.add('show');
+    }
   }
 </script>
 

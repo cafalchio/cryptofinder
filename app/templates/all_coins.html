@@ -1,27 +1,215 @@
-{% extends 'base.html' %} {% block title %}All Coins {{coins|count}}{% endblock
-%} {% block content %}
-<div class="container mt-5">
-  <h2>All Coins</h2>
+{% extends 'base.html' %}
+
+{% block title %}All Coins ({{ coins|count }}) - CryptoFinder{% endblock %}
+
+{% block content %}
+<style>
+  /* ===== All Coins Page Styles ===== */
+  .coins-header {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .coins-header h1 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .coin-count-badge {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-white);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-full);
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .coins-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .coin-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--color-gray-200);
+    align-items: center;
+    transition: all 0.2s ease;
+  }
+
+  .coin-row:last-child {
+    border-bottom: none;
+  }
+
+  .coin-row:hover {
+    background-color: var(--color-gray-50);
+  }
+
+  .coin-header-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+    border-bottom: 2px solid var(--color-gray-200);
+    font-weight: 600;
+    color: var(--color-gray-700);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .coin-name {
+    font-weight: 600;
+    color: var(--color-dark);
+    font-size: 1rem;
+  }
+
+  .coin-symbol {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.75rem;
+    display: inline-block;
+  }
+
+  .coin-source {
+    display: inline-block;
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--color-primary);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .coin-date {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-3xl);
+    color: var(--color-gray-600);
+  }
+
+  .empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-lg);
+    opacity: 0.5;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .coin-row,
+    .coin-header-row {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+
+    .coin-row {
+      padding: var(--space-md);
+    }
+
+    .coin-header-row {
+      padding: var(--space-md);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .coin-row,
+    .coin-header-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .coin-header-row {
+      display: none;
+    }
+
+    .coin-row {
+      padding: var(--space-lg);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-md);
+      background: var(--color-white);
+    }
+
+    .coin-row::before {
+      content: '';
+      display: block;
+    }
+
+    .coin-name {
+      font-size: 1.1rem;
+    }
+
+    .coin-row > * {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .coin-row > *::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: var(--color-gray-600);
+      font-size: 0.75rem;
+      margin-bottom: var(--space-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="coins-header">
+    <h1>
+      All Coins
+      <span class="coin-count-badge">{{ coins|count }}</span>
+    </h1>
+    <p class="page-description">Browse our complete collection of cryptocurrency tokens tracked across multiple sources.</p>
+  </div>
+
   {% if coins %}
-  <table class="table table-bordered">
-    <thead class="table-dark">
-      <tr>
-        <th>Name</th>
-        <th>Symbol</th>
-        <th>Source</th>
-        <th>Added at</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for coin in coins %}
-      <tr>
-        <td>{{ coin.name }}</td>
-        <td>{{ coin.symbol }}</td>
-        <td>{{ coin.source }}</td>
-        <td>{{ coin.added }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% endif %} {% endblock %}
+  <div class="coins-container">
+    <div class="coin-header-row" role="row">
+      <div role="columnheader">Name</div>
+      <div role="columnheader">Symbol</div>
+      <div role="columnheader">Source</div>
+      <div role="columnheader">Added</div>
+    </div>
+
+    {% for coin in coins %}
+    <div class="coin-row" role="row">
+      <div data-label="Name">
+        <span class="coin-name">{{ coin.name }}</span>
+      </div>
+      <div data-label="Symbol">
+        <span class="coin-symbol">{{ coin.symbol }}</span>
+      </div>
+      <div data-label="Source">
+        <span class="coin-source">{{ coin.source }}</span>
+      </div>
+      <div data-label="Added">
+        <span class="coin-date">{{ coin.added }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">📊</div>
+    <h3>No coins found</h3>
+    <p>Check back later for new cryptocurrency tokens.</p>
+  </div>
+  {% endif %}
 </div>
+{% endblock %}

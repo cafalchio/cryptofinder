@@ -5,48 +5,425 @@
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CryptoFinder - Discover the latest cryptocurrency tokens and coins" />
 
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-  <title>{% block title %}My Flask App{% endblock %}</title>
+  <!-- Google Fonts - Inter for modern, clean typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Custom Styles -->
+  <style>
+    /* ===== Design Tokens ===== */
+    :root {
+      /* Color Palette */
+      --color-primary: #6366f1;
+      --color-primary-dark: #4f46e5;
+      --color-primary-light: #818cf8;
+      --color-secondary: #8b5cf6;
+      --color-accent: #ec4899;
+
+      /* Neutrals */
+      --color-white: #ffffff;
+      --color-dark: #0f172a;
+      --color-gray-50: #f8fafc;
+      --color-gray-100: #f1f5f9;
+      --color-gray-200: #e2e8f0;
+      --color-gray-300: #cbd5e1;
+      --color-gray-400: #94a3b8;
+      --color-gray-500: #64748b;
+      --color-gray-600: #475569;
+      --color-gray-700: #334155;
+      --color-gray-800: #1e293b;
+
+      /* Semantic Colors */
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --color-info: #3b82f6;
+
+      /* Spacing Scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+
+      /* Typography */
+      --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-family-display: 'Poppins', var(--font-family-sans);
+
+      /* Border Radius */
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* ===== Global Styles ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-family-sans);
+      color: var(--color-gray-700);
+      background-color: var(--color-white);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-family-display);
+      font-weight: 700;
+      color: var(--color-dark);
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-xl);
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-md);
+    }
+
+    h4 {
+      font-size: 1.25rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    h5, h6 {
+      font-size: 1rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    p {
+      margin-bottom: var(--space-md);
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--color-primary-dark);
+      text-decoration: underline;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      background: linear-gradient(135deg, var(--color-white) 0%, var(--color-gray-50) 100%);
+      border-bottom: 1px solid var(--color-gray-200);
+      padding: var(--space-md) 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .navbar-brand {
+      font-family: var(--font-family-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-right: var(--space-xl);
+    }
+
+    .navbar-nav {
+      gap: var(--space-lg);
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--color-gray-700) !important;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--color-primary) !important;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* ===== Search Bar ===== */
+    .search-container {
+      padding: var(--space-lg) 0;
+      background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-white) 100%);
+      border-bottom: 1px solid var(--color-gray-200);
+      margin-bottom: var(--space-3xl);
+    }
+
+    .search-form {
+      display: flex;
+      gap: var(--space-md);
+      max-width: 500px;
+    }
+
+    .search-form input {
+      flex: 1;
+      padding: var(--space-md) var(--space-lg);
+      border: 2px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-family-sans);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .search-form input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .search-form button {
+      padding: var(--space-md) var(--space-xl);
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      color: var(--color-white);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-md);
+    }
+
+    .search-form button:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .search-form button:active {
+      transform: translateY(0);
+    }
+
+    /* ===== Main Content ===== */
+    .main-content {
+      min-height: 80vh;
+      padding: var(--space-2xl) 0;
+    }
+
+    .page-header {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .page-header h1 {
+      margin-bottom: var(--space-md);
+    }
+
+    .page-description {
+      color: var(--color-gray-600);
+      font-size: 1.1rem;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: var(--color-gray-900, #111827);
+      color: var(--color-gray-300);
+      padding: var(--space-3xl) 0 var(--space-2xl);
+      margin-top: var(--space-3xl);
+      border-top: 1px solid var(--color-gray-700);
+    }
+
+    footer a {
+      color: var(--color-primary);
+    }
+
+    footer a:hover {
+      color: var(--color-primary-light);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-xl);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .footer-section h3 {
+      color: var(--color-white);
+      margin-bottom: var(--space-lg);
+      font-size: 1rem;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section li {
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--color-gray-700);
+      padding-top: var(--space-xl);
+      text-align: center;
+      color: var(--color-gray-400);
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .navbar-brand {
+        font-size: 1.25rem;
+        margin-right: var(--space-md);
+      }
+
+      .search-form {
+        flex-direction: column;
+      }
+
+      .main-content {
+        padding: var(--space-xl) 0;
+      }
+    }
+
+    /* ===== Bootstrap Overrides ===== */
+    .container {
+      max-width: 1200px;
+    }
+
+    .container-fluid {
+      padding-left: var(--space-xl);
+      padding-right: var(--space-xl);
+    }
+
+    /* ===== Utility Classes ===== */
+    .text-muted {
+      color: var(--color-gray-500) !important;
+    }
+
+    .text-primary {
+      color: var(--color-primary) !important;
+    }
+
+    .badge {
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-primary {
+      background-color: rgba(99, 102, 241, 0.1);
+      color: var(--color-primary);
+    }
+
+    .badge-success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--color-success);
+    }
+
+    .badge-warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--color-warning);
+    }
+  </style>
+
+  <title>{% block title %}CryptoFinder - Discover Cryptocurrency Tokens{% endblock %}</title>
 </head>
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">CryptoFinder v0.05</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="/">CryptoFinder</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('all_coins') }}">All Coins</a>
+            <a class="nav-link" href="{{ url_for('new_coins_today') }}">Recent</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('new_coins_today') }}">New Coins Today</a>
+            <a class="nav-link" href="{{ url_for('all_coins') }}">All Coins</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Search Bar -->
-  <div class="container my-3">
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search coins..." aria-label="Search" />
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+  <!-- Main Content -->
+  <div class="main-content">
+    {% block content %}{% endblock %}
   </div>
 
-  <!-- Main Content -->
-  <div class="container">{% block content %} {% endblock %}</div>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>CryptoFinder</h3>
+          <p>Discover the latest cryptocurrency tokens and coins from multiple sources.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Navigation</h3>
+          <ul>
+            <li><a href="{{ url_for('new_coins_today') }}">Recent Coins</a></li>
+            <li><a href="{{ url_for('all_coins') }}">All Coins</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>About</h3>
+          <p>CryptoFinder helps you stay updated with new cryptocurrency tokens and listings across major exchanges and platforms.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 CryptoFinder. Discover crypto opportunities.</p>
+      </div>
+    </div>
+  </footer>
 
   <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
