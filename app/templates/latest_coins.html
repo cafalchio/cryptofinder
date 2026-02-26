@@ -13,15 +13,17 @@
     display: flex;
     align-items: center;
     gap: var(--space-md);
+    flex-wrap: wrap;
   }
 
   .latest-badge {
-    background: linear-gradient(135deg, var(--color-warning) 0%, #f97316 100%);
+    background: linear-gradient(135deg, var(--color-accent) 0%, #059669 100%);
     color: var(--color-white);
     padding: var(--space-sm) var(--space-lg);
     border-radius: var(--radius-full);
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     font-weight: 600;
+    box-shadow: var(--shadow-md);
   }
 
   .coins-grid {
@@ -44,7 +46,7 @@
 
   .coin-card:hover {
     box-shadow: var(--shadow-lg);
-    border-color: var(--color-primary-light);
+    border-color: var(--color-primary);
     transform: translateY(-8px);
   }
 
@@ -90,16 +92,18 @@
     display: flex;
     align-items: baseline;
     gap: var(--space-sm);
+    flex-wrap: wrap;
   }
 
   .coin-symbol-badge {
-    background-color: rgba(99, 102, 241, 0.15);
-    color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--color-white);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-md);
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
   }
 
   .coin-id {
@@ -116,7 +120,7 @@
   }
 
   .category-tag {
-    background-color: rgba(139, 92, 246, 0.1);
+    background-color: rgba(139, 92, 246, 0.15);
     color: var(--color-secondary);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-full);
@@ -163,7 +167,14 @@
   .read-more-link:hover,
   .read-less-link:hover {
     color: var(--color-primary-dark);
-    background-color: rgba(99, 102, 241, 0.1);
+    background-color: rgba(14, 165, 233, 0.1);
+    text-decoration: none;
+  }
+
+  .read-more-link:focus,
+  .read-less-link:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   .show {
@@ -190,6 +201,9 @@
     text-align: center;
     padding: var(--space-3xl);
     color: var(--color-gray-600);
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-gray-200);
     grid-column: 1 / -1;
   }
 
@@ -212,8 +226,13 @@
   }
 
   @media (max-width: 768px) {
+    .latest-coins-header h1 {
+      font-size: 1.75rem;
+    }
+
     .coins-grid {
       grid-template-columns: 1fr;
+      gap: var(--space-md);
     }
 
     .coin-image-container {
@@ -227,14 +246,18 @@
     .coin-body {
       padding: var(--space-md);
     }
+
+    .coin-footer {
+      padding: var(--space-md);
+    }
   }
 </style>
 
 <div class="container">
   <div class="latest-coins-header">
     <h1>
-      Latest Coins
-      <span class="latest-badge">✨</span>
+      <i class="fas fa-sparkles"></i> Latest Coins
+      <span class="latest-badge">Hot</span>
     </h1>
     <p class="page-description">Explore the most recently added cryptocurrency tokens with detailed information.</p>
   </div>
@@ -280,6 +303,8 @@
               class="read-more-link show"
               id="desc-{{ loop.index }}-more-link"
               onclick="toggleDescription('desc-{{ loop.index }}');"
+              tabindex="0"
+              role="button"
             >
               Read more
             </a>
@@ -287,6 +312,8 @@
               class="read-less-link hidden"
               id="desc-{{ loop.index }}-less-link"
               onclick="toggleDescription('desc-{{ loop.index }}');"
+              tabindex="0"
+              role="button"
             >
               Show less
             </a>

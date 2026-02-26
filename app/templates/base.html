@@ -10,6 +10,9 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
   <!-- Google Fonts - Inter for modern, clean typography -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
 
@@ -17,12 +20,12 @@
   <style>
     /* ===== Design Tokens ===== */
     :root {
-      /* Color Palette */
-      --color-primary: #6366f1;
-      --color-primary-dark: #4f46e5;
-      --color-primary-light: #818cf8;
+      /* Color Palette - Modern Crypto Theme */
+      --color-primary: #0ea5e9;
+      --color-primary-dark: #0284c7;
+      --color-primary-light: #38bdf8;
       --color-secondary: #8b5cf6;
-      --color-accent: #ec4899;
+      --color-accent: #10b981;
 
       /* Neutrals */
       --color-white: #ffffff;
@@ -41,7 +44,7 @@
       --color-success: #10b981;
       --color-warning: #f59e0b;
       --color-danger: #ef4444;
-      --color-info: #3b82f6;
+      --color-info: #0ea5e9;
 
       /* Spacing Scale */
       --space-xs: 0.25rem;
@@ -84,7 +87,7 @@
     body {
       font-family: var(--font-family-sans);
       color: var(--color-gray-700);
-      background-color: var(--color-white);
+      background-color: var(--color-gray-50);
       line-height: 1.6;
       font-size: 1rem;
     }
@@ -139,21 +142,22 @@
 
     /* ===== Navbar ===== */
     .navbar {
-      background: linear-gradient(135deg, var(--color-white) 0%, var(--color-gray-50) 100%);
-      border-bottom: 1px solid var(--color-gray-200);
+      background: var(--color-dark);
+      border-bottom: 2px solid var(--color-primary);
       padding: var(--space-md) 0;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
     }
 
     .navbar-brand {
       font-family: var(--font-family-display);
       font-size: 1.5rem;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-right: var(--space-xl);
+      letter-spacing: -0.5px;
     }
 
     .navbar-nav {
@@ -162,23 +166,26 @@
 
     .nav-link {
       font-weight: 500;
-      color: var(--color-gray-700) !important;
+      color: var(--color-gray-100) !important;
       position: relative;
       transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
     }
 
     .nav-link:hover {
-      color: var(--color-primary) !important;
+      color: var(--color-primary-light) !important;
     }
 
     .nav-link::after {
       content: '';
       position: absolute;
-      bottom: -4px;
+      bottom: -8px;
       left: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
       transition: width 0.3s ease;
     }
 
@@ -186,22 +193,37 @@
       width: 100%;
     }
 
+    .navbar-toggler {
+      border: none;
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+      outline: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
     /* ===== Search Bar ===== */
     .search-container {
       padding: var(--space-lg) 0;
-      background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-white) 100%);
+      background: var(--color-white);
       border-bottom: 1px solid var(--color-gray-200);
-      margin-bottom: var(--space-3xl);
+      margin-bottom: var(--space-2xl);
     }
 
     .search-form {
       display: flex;
       gap: var(--space-md);
-      max-width: 500px;
+      flex-wrap: wrap;
     }
 
     .search-form input {
       flex: 1;
+      min-width: 200px;
       padding: var(--space-md) var(--space-lg);
       border: 2px solid var(--color-gray-200);
       border-radius: var(--radius-lg);
@@ -213,7 +235,7 @@
     .search-form input:focus {
       outline: none;
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
     }
 
     .search-form button {
@@ -226,6 +248,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       box-shadow: var(--shadow-md);
+      white-space: nowrap;
     }
 
     .search-form button:hover {
@@ -235,6 +258,11 @@
 
     .search-form button:active {
       transform: translateY(0);
+    }
+
+    .search-form button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
     }
 
     /* ===== Main Content ===== */
@@ -258,11 +286,11 @@
 
     /* ===== Footer ===== */
     footer {
-      background: var(--color-gray-900, #111827);
+      background: var(--color-dark);
       color: var(--color-gray-300);
-      padding: var(--space-3xl) 0 var(--space-2xl);
+      padding: var(--space-xl) 0;
       margin-top: var(--space-3xl);
-      border-top: 1px solid var(--color-gray-700);
+      border-top: 2px solid var(--color-primary);
     }
 
     footer a {
@@ -273,32 +301,14 @@
       color: var(--color-primary-light);
     }
 
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: var(--space-xl);
-      margin-bottom: var(--space-2xl);
-    }
-
-    .footer-section h3 {
-      color: var(--color-white);
-      margin-bottom: var(--space-lg);
-      font-size: 1rem;
-    }
-
-    .footer-section ul {
-      list-style: none;
-    }
-
-    .footer-section li {
-      margin-bottom: var(--space-sm);
-    }
-
     .footer-bottom {
-      border-top: 1px solid var(--color-gray-700);
-      padding-top: var(--space-xl);
       text-align: center;
       color: var(--color-gray-400);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
     }
 
     /* ===== Responsive Design ===== */
@@ -320,8 +330,18 @@
         flex-direction: column;
       }
 
+      .search-form input,
+      .search-form button {
+        width: 100%;
+      }
+
       .main-content {
         padding: var(--space-xl) 0;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
       }
     }
 
@@ -331,8 +351,15 @@
     }
 
     .container-fluid {
-      padding-left: var(--space-xl);
-      padding-right: var(--space-xl);
+      padding-left: var(--space-lg);
+      padding-right: var(--space-lg);
+    }
+
+    @media (max-width: 768px) {
+      .container-fluid {
+        padding-left: var(--space-md);
+        padding-right: var(--space-md);
+      }
     }
 
     /* ===== Utility Classes ===== */
@@ -352,17 +379,17 @@
     }
 
     .badge-primary {
-      background-color: rgba(99, 102, 241, 0.1);
+      background-color: rgba(14, 165, 233, 0.15);
       color: var(--color-primary);
     }
 
     .badge-success {
-      background-color: rgba(16, 185, 129, 0.1);
+      background-color: rgba(16, 185, 129, 0.15);
       color: var(--color-success);
     }
 
     .badge-warning {
-      background-color: rgba(245, 158, 11, 0.1);
+      background-color: rgba(245, 158, 11, 0.15);
       color: var(--color-warning);
     }
   </style>
@@ -374,17 +401,23 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">CryptoFinder</a>
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-chart-line"></i> CryptoFinder
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('new_coins_today') }}">Recent</a>
+            <a class="nav-link" href="{{ url_for('new_coins_today') }}">
+              <i class="fas fa-rocket"></i> Recent
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('all_coins') }}">All Coins</a>
+            <a class="nav-link" href="{{ url_for('all_coins') }}">
+              <i class="fas fa-coins"></i> All Coins
+            </a>
           </li>
         </ul>
       </div>
@@ -399,25 +432,11 @@
   <!-- Footer -->
   <footer>
     <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>CryptoFinder</h3>
-          <p>Discover the latest cryptocurrency tokens and coins from multiple sources.</p>
-        </div>
-        <div class="footer-section">
-          <h3>Navigation</h3>
-          <ul>
-            <li><a href="{{ url_for('new_coins_today') }}">Recent Coins</a></li>
-            <li><a href="{{ url_for('all_coins') }}">All Coins</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3>About</h3>
-          <p>CryptoFinder helps you stay updated with new cryptocurrency tokens and listings across major exchanges and platforms.</p>
-        </div>
-      </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 CryptoFinder. Discover crypto opportunities.</p>
+        <p>
+          <strong>CryptoFinder</strong> - Discover the latest cryptocurrency tokens
+        </p>
+        <p>&copy; 2025 CryptoFinder. All rights reserved.</p>
       </div>
     </div>
   </footer>

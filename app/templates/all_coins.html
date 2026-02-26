@@ -13,23 +13,30 @@
     display: flex;
     align-items: center;
     gap: var(--space-md);
+    flex-wrap: wrap;
   }
 
   .coin-count-badge {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
     color: var(--color-white);
     padding: var(--space-sm) var(--space-lg);
     border-radius: var(--radius-full);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     min-width: 60px;
     text-align: center;
+    box-shadow: var(--shadow-md);
   }
 
   .coins-container {
     display: grid;
     grid-template-columns: 1fr;
     gap: 0;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-gray-200);
   }
 
   .coin-row {
@@ -55,10 +62,10 @@
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
     gap: var(--space-lg);
     padding: var(--space-lg);
-    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     border-bottom: 2px solid var(--color-gray-200);
     font-weight: 600;
-    color: var(--color-gray-700);
+    color: var(--color-white);
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -71,7 +78,7 @@
   }
 
   .coin-symbol {
-    background-color: var(--color-gray-100);
+    background-color: rgba(14, 165, 233, 0.15);
     color: var(--color-primary);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-md);
@@ -82,8 +89,8 @@
 
   .coin-source {
     display: inline-block;
-    background-color: rgba(99, 102, 241, 0.1);
-    color: var(--color-primary);
+    background-color: rgba(139, 92, 246, 0.15);
+    color: var(--color-secondary);
     padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-full);
     font-size: 0.75rem;
@@ -99,6 +106,9 @@
     text-align: center;
     padding: var(--space-3xl);
     color: var(--color-gray-600);
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-gray-200);
   }
 
   .empty-state-icon {
@@ -125,46 +135,51 @@
   }
 
   @media (max-width: 768px) {
-    .coin-row,
-    .coin-header-row {
-      grid-template-columns: 1fr;
-      gap: var(--space-md);
+    .coins-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .coin-count-badge {
+      font-size: 0.85rem;
+      padding: var(--space-xs) var(--space-md);
     }
 
     .coin-header-row {
       display: none;
     }
 
+    /* Compact single-line row: Name | Source | Date */
     .coin-row {
-      padding: var(--space-lg);
-      border: 1px solid var(--color-gray-200);
-      border-radius: var(--radius-lg);
-      margin-bottom: var(--space-md);
-      background: var(--color-white);
+      grid-template-columns: 1fr auto auto;
+      gap: var(--space-sm);
+      padding: 0.6rem var(--space-md);
+      align-items: center;
     }
 
-    .coin-row::before {
-      content: '';
-      display: block;
+    /* Hide Symbol column on mobile */
+    .coin-row [data-label="Symbol"] {
+      display: none;
     }
 
     .coin-name {
-      font-size: 1.1rem;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+      display: block;
     }
 
-    .coin-row > * {
-      display: flex;
-      flex-direction: column;
+    .coin-source {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      white-space: nowrap;
     }
 
-    .coin-row > *::before {
-      content: attr(data-label);
-      font-weight: 600;
-      color: var(--color-gray-600);
+    .coin-date {
       font-size: 0.75rem;
-      margin-bottom: var(--space-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      white-space: nowrap;
+      color: var(--color-gray-500);
     }
   }
 </style>
@@ -172,7 +187,7 @@
 <div class="container">
   <div class="coins-header">
     <h1>
-      All Coins
+      <i class="fas fa-list"></i> All Coins
       <span class="coin-count-badge">{{ coins|count }}</span>
     </h1>
     <p class="page-description">Browse our complete collection of cryptocurrency tokens tracked across multiple sources.</p>
